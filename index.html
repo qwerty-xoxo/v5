@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="/apps/assets/scripts/global.css">
+        <title> Axiom </title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <div id="config" class="dock">
+        </div>
+
+
+    </body>
+    <script>
+
+        function start(){
+           site=document.getElementById("site").value
+           key=document.getElementById("key").value
+           localStorage.setItem("site",site)
+           localStorage.setItem("escape",key)
+           window.location="main.html"
+        }
+
+        function configure(){
+            html = `
+                <center>
+                <div class="dock" style="width: 350px;">
+                    <h3 style="display: inline;"> Welcome to Axiom. </h3>
+                    <br>
+                    <hr>
+                    <div class="dock">
+                        Select a escape key (OPTIONAL)
+                        <!-- one key input -->
+                        <br>
+                        <input class="input" type="text" id="key" placeholder="Esc" style="width: 20px; font-size: 20px;" maxlength="1">
+                        <br>
+                        Select a esacpe site (OPTIONAL)
+                        <br>
+                        <input class="input" type="text" id="site" placeholder="https://google.com" style="width: 90%;">
+                        </div> 
+
+                        <br>
+                        <div class="dock" style="cursor: pointer" onclick="start()">
+                            <h2> Go! </h2>
+                        </div>
+
+                </div>    
+                </center>
+                    `
+
+            document.getElementById("config").innerHTML=html
+        }
+
+        if (localStorage.getItem("config") == true){
+          window.location="main.html"
+        }
+        else{
+          configure()
+        }
+    </script>
+</html>

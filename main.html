@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="/apps/assets/scripts/global.css">
+    <title>Axiom</title>
+
+    <script src="/apps/assets/scripts/global.js"></script>
+    <script src="/apps/assets/scripts/sw.js"></script>
+</head>
+
+<body>
+    <!-- home -->
+    <br>
+    <center>
+        <div class="dock" style="width: 80hv position: absolute;" id="home">
+            <h1>Axiom</h1>
+            <h3>Welcome to Axiom.</h3>
+            <div class="alert" onclick="window.location='apps.html'">Apps</div>
+            <br>
+            <hr>
+            <input class="input" type="text" id="url" placeholder="URL"> 
+            <button style="background-color: green; cursor: pointer" onclick="go()">Go</button> <button style="background-color: red; cursor: pointer" onclick="clear()">Clear</button> 
+            <br>
+            <iframe id="iframe" style="width: 800px; height: 500px;"></iframe>
+        </div>
+    </center>
+
+</body>
+
+<script>
+    site=""
+    function test(){
+        console.log(document.getElementById("iframe").contentDocument.body.innerHTML)
+    }
+    function clear(){
+    site=""
+    }
+    function go() {
+        console.log("Connecting to Ultraviolet...");
+
+        // Use Ultraviolet as a proxy
+        const url = document.getElementById("url").value;
+         const proxy_url = ("https://axiomhub.net/main.php?url=" + url); // Replace with your Ultraviolet server URL
+
+
+        // Fetch through Ultraviolet
+        fetch(proxy_url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                // You can add other headers if needed
+            },
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();  // or response.json() if the content is JSON
+        })
+        .then(data => {
+            // Assuming "iframe" is an iframe element
+            site=url
+            const iframe = document.getElementById("iframe");
+
+const filtered_data = data;
+
+// Set the base URL for the proxy
+const proxyURL = 'https://axiomhub.net/main.php?url=';
+
+// Create a temporary element to hold the HTML content
+const tempElement = document.createElement('div');
+tempElement.innerHTML = filtered_data;
+
+// Function to modify relative URLs
+function modifyRelativeURL(url) {
+  // If the URL is relative, append the URL variable as a prefix
+  if (!url.startsWith('http') && !url.startsWith('//')) {
+    return url; // Assuming `url` is defined elsewhere in your code
+  } else {
+    return proxyURL + encodeURIComponent(url);
+  }
+}
+
+// Modify the href attributes of anchor tags
+tempElement.querySelectorAll('a').forEach(anchor => {
+  let href = anchor.getAttribute('href');
+  anchor.setAttribute('href', modifyRelativeURL(href));
+});
+
+// Modify the src attributes of script tags
+tempElement.querySelectorAll('script').forEach(script => {
+  let src = script.getAttribute('src');
+  if (src) {
+    script.setAttribute('src', modifyRelativeURL(src));
+  }
+});
+
+// Modify the href attributes of link tags for CSS
+tempElement.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
+  let href = link.getAttribute('href');
+  if (href) {
+    link.setAttribute('href', modifyRelativeURL(href));
+  }
+});
+
+// Modify the src attributes of img, script, and link tags
+['img', 'script', 'link'].forEach(tagName => {
+  tempElement.querySelectorAll(tagName).forEach(tag => {
+    let src = tag.getAttribute('src');
+    if (src) {
+      tag.setAttribute('src', modifyRelativeURL(src));
+    }
+  });
+});
+
+// Update the content of the iframe with the modified HTML
+iframe.contentDocument.body.innerHTML = tempElement.innerHTML;
+
+
+        })
+        .catch(error => {
+            console.error('Fetch error:', error);
+        });
+    }
+</script>
+</html>

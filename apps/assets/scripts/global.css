@@ -1,0 +1,39 @@
+body {
+    background-color: #171717;
+    font-family: 'Lexend', sans-serif;
+    color: white;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    overflow: hidden;
+}
+.alert {
+    color: red;
+    border-color: red;
+    border-style: solid;
+    width: min-content;
+    padding: 5px 10px;
+}
+.dock {
+    border-style: solid;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+.dock button {
+    color: white;
+    border-color: azure;
+    border-style: solid;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+.input {
+    border-color: azure;
+    border-style: solid;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+#logo {
+    text-align: center;
+}

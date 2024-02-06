@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@600&display=swap" rel="stylesheet">
+    <title>Axiom</title>
+
+    <script src="apps/assets/scripts/global.js"></script>
+    
+    <link rel="icon" type="image/png" href="apps/assets/imgs/axiom.png"/>
+    <style>
+       body {
+            background-color: #171717;
+            font-family: 'Lexend', sans-serif;
+            color: white;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .alert {
+            color: red;
+            border-color: red;
+            border-style: solid;
+            width: min-content;
+            padding: 5px 10px;
+        }
+        .dock {
+            border-style: solid;
+            border-radius: 5px;
+            padding: 5px 10px;
+        }
+        .dock button {
+            color: white;
+            border-color: azure;
+            border-style: solid;
+            border-radius: 5px;
+            padding: 5px 10px;
+        }
+        .input {
+            border-color: azure;
+            border-style: solid;
+            border-radius: 5px;
+            padding: 5px 10px;
+        }
+        #logo {
+            text-align: center;
+        }
+    </style>
+</head>
+<body onload="configure()">
+    <div id="logo">
+        <img src="axiom.png" alt="Axiom Logo">
+        <h1 style="color: white;">Axiom</h1>
+        <br>
+        <hr style="width: 25%;">
+        <br>
+        <div id="configure"> 
+            
+        </div>
+        <div id="content">
+            <h2> Games/Apps </h2>
+
+
+                <div class="alert"  onclick="window.location.href='apps/discord.html'">Discord</div>
+                <div class="alert" onclick="window.location.href='apps/spotify.html'">Spotify</div>
+                <div class="alert" onclick="window.location.href='apps/retro-bowl.html'">Retro Bowl</div>
+                <div class="alert" onclick="window.location.href='apps/slope.html'">Slope</div>
+                <div class="alert" onclick="window.location.href='apps/reddit.html'">Reddit</div>
+                <div class="alert" onclick="window.location.href='apps/emulator.html'">Emulator</div>
+                <div class="alert" onclick="window.location.href='apps/VSCODE.html'">VSCODE</div>
+    </div>
+    <script>
+        // JavaScript code goes here
+    </script>
+</body>
+</html>
