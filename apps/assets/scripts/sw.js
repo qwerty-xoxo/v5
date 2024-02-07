@@ -1,5 +1,14 @@
 // Service worker code
 
+// Get proxy url from /config.json via fetch GET request
+
+fetch ('/config.json')
+  .then(response => response.json())
+  .then(data => {
+    proxy_url = data.url
+    user = data.caller
+  })
+
 self.addEventListener('fetch', function(event) {
     const request = event.request;
     const url = new URL(request.url);
@@ -14,8 +23,11 @@ self.addEventListener('fetch', function(event) {
   });
   
   async function fetchAndModify(request) {
+
+    
+
     // Modify the request URL to prepend the desired endpoint
-    const modifiedURL = 'https://axiomhub.net/main.php?url=' + request.url;
+    const modifiedURL = proxy_url + request.url;
   
     // Clone the request to avoid mutating the original
     const modifiedRequest = new Request(modifiedURL, {
@@ -36,7 +48,7 @@ self.addEventListener('fetch', function(event) {
       // Check if the response is a redirect
       if (response.redirected) {
         // Construct the redirected URL with the proxy and the original URL
-        const redirectedURL = 'https://axiomhub.net/main.php?url=' + encodeURIComponent(response.url);
+        const redirectedURL = proxy_url + encodeURIComponent(response.url);
         // Create a new response with the redirected URL
         return new Response(null, {
           status: response.status,
@@ -46,6 +58,7 @@ self.addEventListener('fetch', function(event) {
       }
   
       // Return the response
+      console.log("Intercepted call to: " + request.url);
       return response;
     } catch (error) {
       // Handle errors here

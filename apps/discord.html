@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Axiom</title>
+    <script src="assets\scripts\global.js"></script>
+    <link rel="stylesheet" href="assets\scripts\global.css">
+    <!-- Service Worker-->
+    <script src="assets\scripts\sw.js"></script>
+</head>
+<body>
+    <style>
+        body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background-color: #000;
+        color: #fff;
+    }
+    nav {
+        background-color: #111;
+        padding: 20px;
+        text-align: center;
+        position: fixed;
+        width: 100%;
+        top: 0;
+    }
+    nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    nav ul li {
+        display: inline;
+        margin-right: 20px;
+    }
+    nav ul li a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 18px;
+    }
+    nav ul li a:hover {
+        color: #00FF00;
+    }
+    .content {
+        margin-top: 60px; /* Adjust margin top to make space for the fixed navbar */
+    }
+    .avatar {
+        border-radius: 10%;
+        border-color: white;
+        border-style: solid;
+        width: 80px;
+        border-width: 2px;
+        display: inline-table;
+    }
+    .stuff {
+        display: inline-table;
+        position: relative;
+        text-align: center;
+        /* fuck css, we need them next to together */
+
+
+    }
+    .stuff h2 {
+        display: inline-table;
+        position: relative;
+        text-align: center;
+        padding: 20px;
+        bottom: 30px;
+
+    }
+    .dock {
+        width: max-content;
+    }
+    </style>
+    <nav>
+        <img src="../axiom.png" class="icon-nav" style="width: 60px; height: 40px; left: 10px; position: fixed; top: 10px;">
+        <ul>
+            <li><a href="../main.html">Home</a></li>
+            <li><a href="../apps.html">Apps</a></li>
+            <li><a href="../credits.html">Credits</a></li>
+            <li><a href="../index.html">Settings</a></li>
+        </ul>
+    </nav>
+    <div id="content">
+        <widgetbot
+        id = "widget"
+        server="1200803518802571334"
+        channel="1203397751820390417"
+        width="800"
+        height="600"
+    ></widgetbot>
+    <script src="https://cdn.jsdelivr.net/npm/@widgetbot/html-embed"></script>
+    </div>
+
+</body>
+</html>

@@ -9,8 +9,61 @@
      document.head.appendChild(link);
  }
  link.href = 'https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.png';
- },2000)
+ },100)
  
+
+ document.addEventListener("DOMContentLoaded", function() {
+    createSnowflakes();
+    createSnowStyle();
+  });
+  
+  function createSnowflakes() {
+    const body = document.querySelector("body");
+  
+    for (let i = 0; i < 50; i++) {
+      const snowflake = document.createElement("div");
+      snowflake.className = "snowflake";
+      snowflake.style.width = Math.random() * 4 + "px";
+      snowflake.style.height = snowflake.style.width;
+      snowflake.style.backgroundColor = "#fff";
+      snowflake.style.position = "absolute";
+      snowflake.style.top = "-10%";
+      snowflake.style.left = Math.random() * 100 + "%";
+      snowflake.style.animationDuration = Math.random() * 5 + 5 + "s";
+      snowflake.style.animationDelay = Math.random() * 5 + "s";
+      body.appendChild(snowflake);
+    }
+  }
+  
+  function createSnowStyle() {
+    const style = document.createElement("style");
+    style.textContent = `
+      body {
+        overflow: hidden;
+      }
+  
+      .snowflake {
+        position: absolute;
+        background: #fff;
+        z-index: -9999;
+        border-radius: 50%;
+        animation: falling linear infinite;
+      }
+  
+      @keyframes falling {
+        0% {
+          transform: translateY(-10%);
+          opacity: 2;
+        }
+        100% {
+          transform: translateY(150vh);
+          opacity: 0;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
  // define the proxy for all the world to see
  function proxy(url){
              // call the proxy and display the result

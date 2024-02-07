@@ -6,40 +6,119 @@
 
     <script src="/apps/assets/scripts/global.js"></script>
     <script src="/apps/assets/scripts/sw.js"></script>
+    
 </head>
 
 <body>
-    <!-- home -->
+
+  <div class="snow">
+    <div></div>
+  
+
+  </div>
+  <nav>
+    <img src="axiom.png" class="icon-nav" style="width: 60px; height: 40px; left: 10px; position: fixed; top: 10px;">
+      <ul>
+          <li><a href="main.html">Home</a></li>
+          <li><a href="apps.html">Apps</a></li>
+          <li><a href="credits.html">Credits</a></li>
+          <li style="float: right"><a href="index.html">⚙️</a></li>
+      </ul>
+  </nav>
     <br>
     <center>
         <div class="dock" style="width: 80hv position: absolute;" id="home">
             <h1>Axiom</h1>
             <h3>Welcome to Axiom.</h3>
-            <div class="alert" onclick="window.location='apps.html'">Apps</div>
+            <p>Enter an URL to view it in the browser or search Google.</p>
             <br>
             <hr>
             <input class="input" type="text" id="url" placeholder="URL"> 
-            <button style="background-color: green; cursor: pointer" onclick="go()">Go</button> <button style="background-color: red; cursor: pointer" onclick="clear()">Clear</button> 
+            <button style="background-color: green; cursor: pointer" onclick="go()">Go</button> <button style="background-color: red; cursor: pointer" id = "clear">Clear</button> 
             <br>
+            <div id="frame">
             <iframe id="iframe" style="width: 800px; height: 500px;"></iframe>
-        </div>
+          </div>
+          </div>
     </center>
+
+
 
 </body>
 
 <script>
-    site=""
-    function test(){
-        console.log(document.getElementById("iframe").contentDocument.body.innerHTML)
-    }
+
     function clear(){
-    site=""
+      // Remove #iframe then make a new one
+      document.getElementById("iframe").remove();
+
+      const newIframe = document.createElement("iframe");
+      newIframe.setAttribute("id", "iframe");
+      newIframe.setAttribute("style", "width: 800px; height: 500px;");
+      document.getElementById("frame").appendChild(newIframe);
+
+      document.getElementById("url").value = "";
+      newIframe.contentDocument.body.innerHTML = "";
+
     }
+
+    const clearButton = document.getElementById("clear");
+    clearButton.addEventListener("click", clear);
     function go() {
         console.log("Connecting to Ultraviolet...");
+         
+        const html = ` 
+        <style>
+      /* spinner */
+      .spinner {
+        border: 16px solid #f3f3f3;
+        border-top: 16px solid #3498db;
+        border-radius: 50%;
+        postion: absolute;
+        top: 50%;
+        width: 120px;
+        height: 120px;
+        animation: spin 2s linear infinite;
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+    </style>
+    <!-- Spinner of doom -->
+    <center> <!-- Fuck mozilla, yall did my boy <center> dirty. Fuckin deprecated em-->
+      <div class="spinner"></div>
+    </center>
+
+      `;
+
+document.getElementById("iframe").contentDocument.body.innerHTML = html;
+
 
         // Use Ultraviolet as a proxy
-        const url = document.getElementById("url").value;
+        url = document.getElementById("url").value;
+
+        function add_prefix(url) {
+           if (url.includes("https://") || url.includes("http://")) {
+             return url
+           } else {
+            // Check if its meant to be a url or a google search
+            if (url.includes("www.")) {
+              return "https://www." + url
+            }
+            else if (url.includes(".") == false && !url.includes("https://") && !url.includes("http://")) {
+              return "https://www.google.com/search?q=" + url
+              
+            }
+            else{
+             return "https://" + url
+            }
+            }
+        }
+
+        // Add the prefix
+        url = add_prefix(url);
          const proxy_url = ("https://axiomhub.net/main.php?url=" + url); // Replace with your Ultraviolet server URL
 
 
@@ -123,4 +202,5 @@ iframe.contentDocument.body.innerHTML = tempElement.innerHTML;
         });
     }
 </script>
+
 </html>
