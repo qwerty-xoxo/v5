@@ -1,15 +1,18 @@
-// Inject the home script into the page
-
-html = `
-<div onclick="window.location.href = 'main.html'" style="postion: fixed; top: 10px; z-index: 1111; left: 10px; border-radius: 5px; padding: 5px 10px; border-style: solid; border-color: skyblue; color: white; margin-bottom: 5px;">
-    Home
-</div>
-`;
-
-
-// Onload of doucment
-
-window.onload = () => {
-    
-document.body.innerHTML += html
-}
+document.addEventListener("DOMContentLoaded", function() {
+    var homeButton = document.createElement("button");
+    homeButton.innerHTML = "Home";
+    homeButton.style.position = "fixed";
+    homeButton.style.bottom = "20px";
+    homeButton.style.right = "20px";
+    homeButton.style.zIndex = "28523923";
+    homeButton.style.backgroundColor = "blue";
+    homeButton.style.color = "white";
+    homeButton.style.padding = "10px 20px";
+    homeButton.style.border = "none";
+    homeButton.style.borderRadius = "5px";
+    homeButton.style.cursor = "pointer";
+    homeButton.onclick = function() {
+        window.location.href = "../main.html";
+    };
+    document.body.appendChild(homeButton);
+});
