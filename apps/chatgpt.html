@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Axiom</title>
+    <script src="/apps/assets/scripts/global.js"></script>
+</head>
+<body>
+    <style>
+        /* Global Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #fff;
+        }
+
+        /* Navigation Styles */
+        nav {
+            background-color: #111;
+            padding: 20px;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        nav ul li a:hover {
+            color: #00FF00;
+        }
+
+        /* Content Styles */
+        .content {
+            margin-top: 60px; /* Adjust margin top to make space for the fixed navbar */
+        }
+        
+        /* Custom Styles */
+        body {
+            font-family: 'Lexend', sans-serif;
+            color: white;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #logo {
+            text-align: center;
+        }
+        
+        /* Alert Styles */
+        .alert {
+            color: red;
+            border-color: red;
+            border-style: solid;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer; /* Add cursor pointer for better usability */
+            margin-bottom: 5px; /* Add some spacing between alerts */
+        }
+        
+        /* Dock Styles */
+        .dock {
+            border-style: solid;
+            border-radius: 5px;
+            padding: 5px 10px;
+        }
+        .dock button {
+            color: white;
+            border-color: azure;
+            border-style: solid;
+            border-radius: 5px;
+            padding: 5px 10px;
+        }
+        
+        /* Input Styles */
+        .input {
+            border-color: azure;
+            border-style: solid;
+            border-radius: 5px;
+            padding: 5px 10px;
+        }
+
+        .icon {
+            width: 80%;
+            border-radius: 50px;
+        }
+
+        #apps {
+            display:inline-table;
+        }
+
+    </style>
+</head>
+    <nav>
+        <img src="../axiom.png" class="icon-nav" style="width: 60px; height: 40px; left: 10px; position: fixed; top: 10px;">
+        <ul>
+            <li><a href="../main.html">Home</a></li>
+            <li><a href="../apps.html">Apps</a></li>
+            <li><a href="../credits.html">Credits</a></li>
+            <li><a style="float: right" href="index.html">⚙️</a></li>
+        </ul>
+    </nav>
+    <iframe src="https://huggingface.co/chat" height="100%" width="100%" id="iframe"></iframe>
+
+</body>
+</html>
