@@ -117,11 +117,3 @@
    document.head.appendChild(script);
  }
 
-
- const snowImage = document.createElement('img');
- snowImage.src = '/imgs/snow.png';
- snowImage.style.width = '100%';
- snowImage.style.height = '10%';
- snowImage.style.position = 'absolute';
- snowImage.style.bottom = '0';
- document.body.appendChild(snowImage);

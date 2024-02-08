@@ -1,32 +1,29 @@
-
-<link rel="stylesheet" href="/apps/assets/scripts/global.css">
-<script src="/apps/assets/scripts/global.js"></script>
-<script src="/apps/assets/scripts/sw.js"></script>
-<iframe src="index.html" height="100%" width="100%">
-
-</iframe>
-
 <script>
-    // send the user to the shadow realm aka about:blank 
+    // about:blank cloaking
+    alert("Please allow pop ups on this site so axiom can cloak itself");
+    
+    var code = `
+        <style>
+            body {
+                background-color: black;
+            }
+        </style>
 
-    // Determine if the user is in about:blank or not
+        <script src="/apps/assets/scripts/global.js"><\/script>
 
-    function check(){
-        return (window.location.href == "about:blank")
-    }
-
-    if (check() == false){
-    alert("Please allow popups from the site. This allows the axiom to cloak itself in a about:blank.")
-    alert("Please dont allow popups on the about:blank page. Only allow popups from this page.")
-    code = document.documentElement.outerHTML;
-         var win = window.open();
-         win.document.write(code);
-    setTimeout(function(){
-        // Close the current window
-        win.close();
-    }, 15000);    
-    }
-
-
-
-  </script>
+        <link rel="stylesheet" href="/apps/assets/scripts/global.css">
+        
+        <iframe src="main.html" style="height:100%; width:100%;" id="iframe"></iframe>
+    `;
+    
+    var win = window.open();
+    win.document.write(code);
+    
+    // Close the window after the document is completely loaded
+    script = document.createElement('script');
+    script.innerHTML = 'window.location.href = "https://www.example.com";';
+    document.body.appendChild(script);
+</script>
+<body>
+    
+</body>
