@@ -117,3 +117,4 @@
    document.head.appendChild(script);
  }
 
+// Add .large_logo

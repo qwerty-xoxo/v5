@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="apps/assets/scripts/global.css">
     
     <script src="apps/assets/scripts/global.js"></script>
+    <script src="/apps/assets/scripts/sw.js"></script>
     
 </head>
 
@@ -50,6 +51,10 @@
 </body>
 
 <script>
+  function encodeToBase64(str) {
+  return btoa(str);
+}
+
 
     function clear(){
       // Remove #iframe then make a new one
@@ -169,6 +174,8 @@ tempElement.querySelectorAll('a').forEach(anchor => {
   anchor.setAttribute('href', modifyRelativeURL(href));
 });
 
+
+
 // Modify the src attributes of script tags
 tempElement.querySelectorAll('script').forEach(script => {
   let src = script.getAttribute('src');
@@ -177,11 +184,33 @@ tempElement.querySelectorAll('script').forEach(script => {
   }
 });
 
+tempElement.querySelectorAll('img').forEach(script => {
+  let src = script.getAttribute('src');
+  if (src) {
+    script.setAttribute('src', modifyRelativeURL(src));
+  }
+});
+
+
 // Modify the href attributes of link tags for CSS
 tempElement.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
   let href = link.getAttribute('href');
   if (href) {
     link.setAttribute('href', modifyRelativeURL(href));
+  }
+});
+
+tempElement.querySelectorAll('video').forEach(script => {
+  let src = script.getAttribute('src');
+  if (src) {
+    script.setAttribute('src', modifyRelativeURL(src));
+  }
+});
+
+tempElement.querySelectorAll('audio').forEach(script => {
+  let src = script.getAttribute('src');
+  if (src) {
+    script.setAttribute('src', modifyRelativeURL(src));
   }
 });
 
