@@ -15,3 +15,5 @@ Features:
 - In progress non-ultraviolet proxy
 - Work in progress apps
 - Can be deployed on static hosts
+- 
+If you have problems or suggestions for/with the site or deploying then check out our [Discord](https://discord.gg/Ub6zGw4RAC)
