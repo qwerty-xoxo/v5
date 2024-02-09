@@ -1,6 +1,6 @@
 services:
-  - name: static-site
-    env: web
+  - type: web
+    name: Axiom
     buildCommand: yarn build
     publishCommand: cp -r ./* /mnt/render/www
     skipInstall: true
