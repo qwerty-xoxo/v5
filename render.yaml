@@ -1,3 +1,4 @@
 services:
   - name: my-static-website
+    type: web
     env: static
