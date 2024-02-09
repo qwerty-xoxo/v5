@@ -3,4 +3,3 @@ services:
     type: web
     env: static
     buildCommand: none
-    deployCommand: none
