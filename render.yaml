@@ -2,7 +2,7 @@ services:
   - name: Axiom
     type: web
     buildCommand: yarn build
-    publishDir: .
+    publishCommand: cp -r ./* /mnt/render/www
     skipInstall: true
     envVars:
       SKIP_INSTALL_DEPS: "true"
