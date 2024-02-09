@@ -2,4 +2,4 @@ services:
   - name: axiom
     type: web
     env: static
-    publishDir: ./
+    build-command: 
