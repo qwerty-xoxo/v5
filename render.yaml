@@ -5,5 +5,4 @@ services:
     publishCommand: cp -r ./* /mnt/render/www
     skipInstall: true
     envVars:
-      - key: SKIP_INSTALL_DEPS
-        value: "true"
+      SKIP_INSTALL_DEPS: true
