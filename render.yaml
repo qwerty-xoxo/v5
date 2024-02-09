@@ -1,4 +1,5 @@
 services:
-  - name: my-static-website
+  - name: axiom
     type: web
     env: static
+    publishDir: ./
