@@ -1,6 +1,9 @@
 services:
-  - name: axiom
-    type: web
-    env: static
-    buildCommand: none
-    staticPublishPath: ./
+  - name: static-site
+    env: web
+    buildCommand: yarn build
+    publishCommand: cp -r ./* /mnt/render/www
+    skipInstall: true
+    envVars:
+      - key: SKIP_INSTALL_DEPS
+        value: true
