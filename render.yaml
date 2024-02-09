@@ -6,4 +6,4 @@ services:
     skipInstall: true
     envVars:
       - key: SKIP_INSTALL_DEPS
-        value: true
+        value: "true"
