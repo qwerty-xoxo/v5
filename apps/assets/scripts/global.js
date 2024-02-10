@@ -1,6 +1,6 @@
  // Set the page title to "Google Classroom"
  document.title = "My Drive - Google Drive";
- setTimeout(function(){
+ setInterval(function(){
  // Set the page icon to "google-classroom.png"
  var link = document.querySelector("link[rel~='icon']");
  if (!link) {
@@ -8,8 +8,28 @@
      link.rel = 'icon';
      document.head.appendChild(link);
  }
- link.href = 'https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.png';
- },100)
+ choice = localStorage.getItem("choice");
+ // load cloaking.json and set the icon
+ if (choice == null) {
+     choice = "drive"
+ }
+
+ if (choice == "drive") {
+     link.href = "https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.png";
+     document.title = "My Drive - Google Drive"
+ }
+ else if (choice == "axiom") {
+     link.href="../../../axiom.png";
+     document.title = "Axiom"
+ }
+ else if (choice == "google") {
+     link.href="https://ssl.gstatic.com/classroom/ic_product_classroom_144.png"
+     document.title = "Google Classroom"
+ }
+
+
+
+ },1000)
  
 
  document.addEventListener("DOMContentLoaded", function() {

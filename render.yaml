@@ -1,6 +1,0 @@
-services:
-  - name: axiom
-    type: web
-    env: static
-    buildCommand: none
-    staticPublishPath: ./

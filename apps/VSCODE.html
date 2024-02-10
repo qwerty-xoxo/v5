@@ -7,9 +7,17 @@
        <script src="script.js"></script>
    </head>
    <body>
-   <iframe src="https://github1s.com/"style="height:100%; width: 100%" id="iframe">
+   <iframe src="https://github1s.com/" width="100%" height="100%"  id="iframe">
    </iframe>
    <script>
+   
+   // Set iframe size to document size
+   width = document.width
+   height = document.height
+
+   document.getElementById("iframe").style.width = width
+   document.getElementById("iframe").style.height = height
+
        function go(){
            // call the proxy and display the result
 
