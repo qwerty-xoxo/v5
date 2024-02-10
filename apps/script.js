@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function() {
     homeButton.style.borderRadius = "5px";
     homeButton.style.cursor = "pointer";
     homeButton.onclick = function() {
-        window.location.href = "../main.html";
+        window.location.href = "../settings.html";
     };
     document.body.appendChild(homeButton);
 
