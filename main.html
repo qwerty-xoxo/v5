@@ -19,10 +19,28 @@
 
   </div>
   <style>
+ @keyframes glow {
+  0% {
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.5), 0 0 15px rgba(255, 255, 255, 0.5), 0 0 15px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.5);
+  }
+  50% {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 15px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.5), 0 0 25px rgba(255, 255, 255, 0.5);
+  }
+  100% {
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5), 0 0 10px rgba(255, 255, 255, 0.5), 0 0 15px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.5);
+  }
+}
+
     iframe {
       border-color: transparent;
       
     }
+
+    .glow {
+      animation: glow 5s ease-in-out infinite alternate;
+    }
+
+    
   </style>
   <nav>
     <img src="axiom.png" class="icon-nav" style="width: 60px; height: 40px; left: 10px; position: fixed; top: 10px;">
@@ -40,7 +58,7 @@
     <center>
         <div  style="width: 80hv position: absolute;" id="home">
             
-            <h1 style="font-size: 100px;">Axiom</h1>
+            <h1 style="font-size: 100px;" class="glow">Axiom</h1>
             <br>
             <input class="input" style="width: 30%; height: 30px" type="text" id="url" placeholder="Search"> 
             <br>
