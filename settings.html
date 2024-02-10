@@ -41,6 +41,16 @@
     </style>
 </head>
 <body>
+    <nav>
+        <img src="axiom.png" class="icon-nav" style="width: 60px; height: 40px; left: 10px; position: fixed; top: 10px;">
+          <ul>
+              <li><a href="main.html">Home</a></li>
+              <li><a href="apps.html">Apps</a></li>
+              <li><a href="credits.html">Credits</a></li>
+              <li><a href="tabs.html">Tabs</a></li>
+              <li style="float: right"><a href="settings.html">⚙️</a></li>
+          </ul>
+      </nav>
     <div class="dock" id="dock">
         <h3 style="display: inline;">Welcome to Axiom.</h3>
         <br>
@@ -69,8 +79,12 @@
 
         <br>
         <hr>
-        <div class="dock" style="cursor: pointer" onclick="start()">
-            <h2>Go!</h2>
+        <div class="dock">
+            <div style="cursor: pointer;" onclick="experiment()">
+                <center>
+                    <h2 id="toggle"> Toggle Experimental Features </h2>
+                </center>
+            </div>
         </div>
     </div>    
 </body>
@@ -85,6 +99,24 @@
         }
     });
 
+    if (localStorage.getItem("experiment") === "true") {
+        document.getElementById("toggle").innerHTML = "Disable Experimental Features";
+    }
+    else {
+        document.getElementById("toggle").innerHTML = "Enable Experimental Features";
+    }
+
+    function experiment() {
+       if (localStorage.getItem("experiment") === "true") {
+           localStorage.setItem("experiment", "false");
+           document.getElementById("toggle").innerHTML = "Enable Experimental Features";
+       }
+       else {
+           localStorage.setItem("experiment", "true");
+           document.getElementById("toggle").innerHTML = "Disable Experimental Features";
+       }
+    }
+
     function start() {
         var cloaks = document.querySelector("input[name=cloak]:checked");
         var site = document.getElementById("site").value;
@@ -92,7 +124,10 @@
         localStorage.setItem("site", site);
         localStorage.setItem("choice", cloaks ? cloaks.value : "");
         localStorage.setItem("escape", key);
-        window.location = "main.html";
     }
+
+    setInterval(function() {
+        start()
+    }, 100);
 </script>
 </html>

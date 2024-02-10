@@ -33,56 +33,27 @@
  
 
  document.addEventListener("DOMContentLoaded", function() {
-    createSnowflakes();
-    createSnowStyle();
-  });
-  
-  function createSnowflakes() {
-    const body = document.querySelector("body");
-  
-    for (let i = 0; i < 50; i++) {
-      const snowflake = document.createElement("div");
-      snowflake.className = "snowflake";
-      snowflake.style.width = Math.random() * 4 + "px";
-      snowflake.style.height = snowflake.style.width;
-      snowflake.style.backgroundColor = "#fff";
-      snowflake.style.position = "absolute";
-      snowflake.style.top = "-10%";
-      snowflake.style.left = Math.random() * 100 + "%";
-      snowflake.style.animationDuration = Math.random() * 5 + 5 + "s";
-      snowflake.style.animationDelay = Math.random() * 5 + "s";
-      body.appendChild(snowflake);
-    }
+  createStars();
+});
+
+function createStars() {
+  const body = document.querySelector("body");
+  const colors = ['white',"azure","cotton","grey","pink"]
+
+  for (let i = 0; i < 50; i++) {
+    const star = document.createElement("div");
+    star.className = "star";
+    star.style.width = Math.random() * 4 + "px";
+    star.style.height = star.style.width;
+    star.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    star.style.position = "absolute";
+    star.style.top = Math.random() * 100 + "%";
+    star.style.left = Math.random() * 100 + "%";
+    star.style.animation = "twinkling " + (Math.random() * 5 + 5) + "s linear infinite";
+    star.style.animationDelay = Math.random() * 5 + "s";
+    body.appendChild(star);
   }
-  
-  function createSnowStyle() {
-    const style = document.createElement("style");
-    style.textContent = `
-      body {
-        overflow: hidden;
-      }
-  
-      .snowflake {
-        position: absolute;
-        background: #fff;
-        z-index: -9999;
-        border-radius: 50%;
-        animation: falling linear infinite;
-      }
-  
-      @keyframes falling {
-        0% {
-          transform: translateY(-10%);
-          opacity: 2;
-        }
-        100% {
-          transform: translateY(150vh);
-          opacity: 0;
-        }
-      }
-    `;
-    document.head.appendChild(style);
-  }
+}
 
  // define the proxy for all the world to see
  function proxy(url){

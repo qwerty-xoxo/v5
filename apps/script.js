@@ -78,4 +78,9 @@ document.addEventListener("DOMContentLoaded", function() {
     };
     document.body.appendChild(homeButton);
 
+    // Auto hide them 
+
+    $("#option").hide();
+    $("#option1").hide();
+    $("#option2").hide();
 });

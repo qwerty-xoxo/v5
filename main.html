@@ -18,6 +18,12 @@
   
 
   </div>
+  <style>
+    iframe {
+      border-color: transparent;
+      
+    }
+  </style>
   <nav>
     <img src="axiom.png" class="icon-nav" style="width: 60px; height: 40px; left: 10px; position: fixed; top: 10px;">
       <ul>
@@ -32,17 +38,14 @@
   <br>
     <br>
     <center>
-        <div class="dock" style="width: 80hv position: absolute;" id="home">
-            <h1>Axiom</h1>
-            <h3>Welcome to Axiom.</h3>
-            <p>Enter an URL to view it in the browser or search Google.</p>
+        <div  style="width: 80hv position: absolute;" id="home">
+            
+            <h1 style="font-size: 100px;">Axiom</h1>
             <br>
-            <hr>
-            <input class="input" type="text" id="url" placeholder="URL"> 
-            <button style="background-color: green; cursor: pointer" onclick="go()">Go</button> <button style="background-color: red; cursor: pointer" id = "clear">Clear</button> 
+            <input class="input" style="width: 30%; height: 30px" type="text" id="url" placeholder="Search"> 
             <br>
             <div id="frame">
-            <iframe id="iframe" style="width: 800px; height: 500px;"></iframe>
+            <iframe id="iframe" style="border-color: transparent;;width: 800px; height: 500px;"></iframe>
           </div>
           </div>
     </center>
@@ -52,6 +55,16 @@
 </body>
 
 <script>
+
+url_box = document.getElementById("url")
+
+url_box.addEventListener("keydown", function(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    go();
+  }
+});
+
   function encodeToBase64(str) {
   return btoa(str);
 }
@@ -71,11 +84,17 @@
 
     }
 
-    const clearButton = document.getElementById("clear");
-    clearButton.addEventListener("click", clear);
+
     function go() {
-        console.log("Connecting to Ultraviolet...");
+
+        console.log("Connecting to proxy...");
          
+        
+
+
+        url = document.getElementById("url").value;
+        url1 = document.getElementsByClassName("input").value;
+        clear()
         const html = ` 
         <style>
       /* spinner */
@@ -103,23 +122,27 @@
       `;
 
 document.getElementById("iframe").contentDocument.body.innerHTML = html;
-
-
-        // Use Ultraviolet as a proxy
-        url = document.getElementById("url").value;
+        if (url != url1){
+          console.log("What kind of fucking shit is this?")
+          console.log("To help you figure out what the FUCK you did wrong here is debug info")
+          console.log(url)
+          console.log(url1) // Thanks, i figured it out
+        }
+        console.log(url)
 
         function add_prefix(url) {
-           if (url.includes("https://") || url.includes("http://")) {
+           if (url.includes("https://") || url.includes("http://") || url.includes("www.") || url.includes(".com") || url.includes(".net") || url.includes(".org")) {
              return url
            } else {
             // Check if its meant to be a url or a google search
             if (url.includes("www.")) {
               return "https://www." + url
             }
-            else if (url.includes(".") == false && !url.includes("https://") && !url.includes("http://")) {
+            else if (url.includes(".") == false && !url.includes("https://") && !url.includes("http://") && !url.includes("www.") && !url.includes(".com") && !url.includes(".net") && !url.includes(".org")) {
+            
               return "https://www.google.com/search?q=" + url
               
-            }
+            } 
             else{
              return "https://" + url
             }
@@ -169,61 +192,86 @@ function modifyRelativeURL(url) {
   }
 }
 
-// Modify the href attributes of anchor tags
-tempElement.querySelectorAll('a').forEach(anchor => {
-  let href = anchor.getAttribute('href');
-  anchor.setAttribute('href', modifyRelativeURL(href));
-});
+experiments = localStorage.getItem("experiment")
 
+if (experiments === "false" || experiments === null ) {
+  // Modify the href attributes of anchor tags
+  tempElement.querySelectorAll('a').forEach(anchor => {
+    let href = anchor.getAttribute('href');
+    anchor.setAttribute('href', modifyRelativeURL(href));
+  });
 
-
-// Modify the src attributes of script tags
-tempElement.querySelectorAll('script').forEach(script => {
-  let src = script.getAttribute('src');
-  if (src) {
-    script.setAttribute('src', modifyRelativeURL(src));
-  }
-});
-
-tempElement.querySelectorAll('img').forEach(script => {
-  let src = script.getAttribute('src');
-  if (src) {
-    script.setAttribute('src', modifyRelativeURL(src));
-  }
-});
-
-
-// Modify the href attributes of link tags for CSS
-tempElement.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
-  let href = link.getAttribute('href');
-  if (href) {
-    link.setAttribute('href', modifyRelativeURL(href));
-  }
-});
-
-tempElement.querySelectorAll('video').forEach(script => {
-  let src = script.getAttribute('src');
-  if (src) {
-    script.setAttribute('src', modifyRelativeURL(src));
-  }
-});
-
-tempElement.querySelectorAll('audio').forEach(script => {
-  let src = script.getAttribute('src');
-  if (src) {
-    script.setAttribute('src', modifyRelativeURL(src));
-  }
-});
-
-// Modify the src attributes of img, script, and link tags
-['img', 'script', 'link'].forEach(tagName => {
-  tempElement.querySelectorAll(tagName).forEach(tag => {
-    let src = tag.getAttribute('src');
+  // Modify the src attributes of script tags
+  tempElement.querySelectorAll('script').forEach(script => {
+    let src = script.getAttribute('src');
     if (src) {
-      tag.setAttribute('src', modifyRelativeURL(src));
+      script.setAttribute('src', modifyRelativeURL(src));
     }
   });
-});
+
+  // Modify the src attributes of img tags
+  tempElement.querySelectorAll('img').forEach(img => {
+    let src = img.getAttribute('src');
+    if (src) {
+      img.setAttribute('src', modifyRelativeURL(src));
+    }
+  });
+
+  // Modify the href attributes of link tags for CSS
+  tempElement.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
+    let href = link.getAttribute('href');
+    if (href) {
+      link.setAttribute('href', modifyRelativeURL(href));
+    }
+  });
+
+  // Modify the src attributes of video tags
+  tempElement.querySelectorAll('video').forEach(video => {
+    let src = video.getAttribute('src');
+    if (src) {
+      video.setAttribute('src', modifyRelativeURL(src));
+    }
+  });
+
+  // Modify the src attributes of audio tags
+  tempElement.querySelectorAll('audio').forEach(audio => {
+    let src = audio.getAttribute('src');
+    if (src) {
+      audio.setAttribute('src', modifyRelativeURL(src));
+    }
+  });
+} else {
+console.log("Using experiments")
+  // Define an array of tag names and their corresponding attributes to modify
+setInterval(function(){
+  
+
+  const tagsToModify = [
+    { tagName: 'a', attribute: 'href' },
+    { tagName: 'script', attribute: 'src' },
+    { tagName: 'img', attribute: 'src' },
+    { tagName: 'link[rel="stylesheet"]', attribute: 'href' },
+    { tagName: 'video', attribute: 'src' },
+    { tagName: 'audio', attribute: 'src' },
+    { tagName: 'iframe', attribute: 'src' },
+    { tagName: 'object', attribute: 'data' },
+    { tagName: 'embed', attribute: 'src' },
+    { tagName: 'source', attribute: 'src' },
+  ];
+
+  // Loop through each tag type and modify its attribute
+  tagsToModify.forEach(({ tagName, attribute }) => {
+    tempElement.querySelectorAll(tagName).forEach(tag => {
+      let value = tag.getAttribute(attribute);
+      if (value) {
+        tag.setAttribute(attribute, modifyRelativeURL(value));
+      }
+    });
+  });
+
+},100)
+
+}
 
 // Update the content of the iframe with the modified HTML
 iframe.contentDocument.body.innerHTML = tempElement.innerHTML;
