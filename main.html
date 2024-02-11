@@ -45,7 +45,7 @@
   <nav>
     <img src="axiom.png" class="icon-nav" style="width: 60px; height: 40px; left: 10px; position: fixed; top: 10px;">
       <ul>
-          <li><a href="main.html">Home</a></li>
+          <li><a href="main.html">Home</a></li>  
           <li><a href="apps.html">Apps</a></li>
           <li><a href="credits.html">Credits</a></li>
           <li><a href="tabs.html">Tabs</a></li>
@@ -59,7 +59,9 @@
         <div  style="width: 80hv position: absolute;" id="home">
             
             <h1 style="font-size: 100px;" class="glow">Axiom</h1>
+            <h3 style="text-align: center; width: 30%; left: 35%;top: 25%; position: absolute;" id="fun-fact"></h3>
             <br>
+  
             <input class="input" style="width: 30%; height: 30px" type="text" id="url" placeholder="Search"> 
             <br>
             <div id="frame">
@@ -74,13 +76,17 @@
 
 <script>
 
+funfacts = ["Axiom is just interstellars og gui recycled","One dev one keyboard","To use axiom or to not use axiom. That is the question","Axiom is 99% skidded", "Axiom is quality ( Not assured )","Dont sue me!","Help","Axiom on top","BOOST TO HELP US GET DISCORD.GG/AXIOMPROX"];
+                         
+document.getElementById("fun-fact").innerHTML = funfacts[Math.floor(Math.random() * funfacts.length)];
+
 url_box = document.getElementById("url")
 
 url_box.addEventListener("keydown", function(event) {
   if (event.key === "Enter") {
     event.preventDefault();
     go();
-  }
+  }   
 });
 
   function encodeToBase64(str) {

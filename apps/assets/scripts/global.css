@@ -10,6 +10,8 @@ body {
     height: 100vh;
     overflow: hidden;
 }
+
+  
 .logo_large {
     width: 50%;
     height: 50%;
@@ -20,7 +22,7 @@ body {
 }
 .star {
     position: absolute;
-    background: #fff;
+    background: #fff4f4;
     z-index: -9999;
     border-radius: 50%;
     animation: twinkling linear infinite;
@@ -29,10 +31,23 @@ body {
   @keyframes twinkling {
     0% {
         /* rotate star twinkling yes zoom in out yes true factual */
-        transform: scale(0.1) rotate(0deg);
+        transform: scale(0.5) rotate(0deg);
     }
     100% {
         transform: scale(1) rotate(360deg);
+    }
+  }
+  @keyframes shooting-star {
+    0% {
+
+    }
+    50% {
+        left: 50%;
+        top: 50%;
+    }
+    100% {
+        top: 0px;
+        left: 100%;
     }
   }
 .alert {

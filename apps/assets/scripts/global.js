@@ -49,11 +49,11 @@ function createStars() {
     star.style.position = "absolute";
     star.style.top = Math.random() * 100 + "%";
     star.style.left = Math.random() * 100 + "%";
-    star.style.animation = "twinkling " + (Math.random() * 5 + 5) + "s linear infinite";
+    star.style.animation = "twinkling " + (Math.random() * 5) + "s linear infinite alternate";
     star.style.animationDelay = Math.random() * 5 + "s";
     body.appendChild(star);
   }
-}
+
 
  // define the proxy for all the world to see
  function proxy(url){
@@ -108,4 +108,3 @@ function createStars() {
    document.head.appendChild(script);
  }
 
-// Add .large_logo
