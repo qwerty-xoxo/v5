@@ -1,4 +1,5 @@
  // Set the page title to "Google Classroom"
+ stars=1
  document.title = "My Drive - Google Drive";
  setInterval(function(){
  // Set the page icon to "google-classroom.png"
@@ -27,13 +28,56 @@
      document.title = "Google Classroom"
  }
 
-
+try{
+  theme = localStorage.getItem("theme");
+  console.log("theme: " + theme);
+  if (theme != "stars"){
+    stars = 0;
+    var stars = document.querySelectorAll('#star');
+    stars.forEach(function(star) {
+      star.remove();
+    });
+  }
+}
+catch{}
 
  },1000)
- 
 
+
+ // get user ip
+ function getIP(){
+  console.log("Getting IP...")
+   fetch('https://api.ipify.org?format=json')
+   .then(response => response.json())
+   .then(data => {
+     ip = data.ip
+     console.log("IP: " + ip)
+     check(ip)
+   });
+ }
+
+ function check(ip){
+  if (localStorage.getItem("activated")){ 
+  ips=localStorage.getItem("ips").split(",");
+   if (ips.includes(ip)){
+    console.log("You are authorized")
+   }
+   else{
+     // remove them from existance
+     //alert("You arnt authorized")
+     // send them to the shadow realm 
+     // send them to hell ( aka toxic hell )
+     //window.location.href = "https://stackoverflow.com"
+   }
+  }
+ }
+
+ getIP()
+ 
  document.addEventListener("DOMContentLoaded", function() {
+  if (stars == 1){
   createStars();
+}
 });
 
 function createStars() {
@@ -42,6 +86,7 @@ function createStars() {
 
   for (let i = 0; i < 50; i++) {
     const star = document.createElement("div");
+    star.id="star"
     star.className = "star";
     star.style.width = Math.random() * 4 + "px";
     star.style.height = star.style.width;
@@ -107,4 +152,5 @@ function createStars() {
    
    document.head.appendChild(script);
  }
+}
 
