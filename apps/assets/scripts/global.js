@@ -64,10 +64,10 @@ catch{}
    }
    else{
      // remove them from existance
-     //alert("You arnt authorized")
+     // alert("You arnt authorized")
      // send them to the shadow realm 
      // send them to hell ( aka toxic hell )
-     //window.location.href = "https://stackoverflow.com"
+     // window.location.href = "https://stackoverflow.com"
    }
   }
  }
@@ -154,3 +154,16 @@ function createStars() {
  }
 }
 
+
+// Add and register service worker from sw.js 
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+        navigator.serviceWorker.register('sw.js')
+            .then(function(registration) {
+                console.log('Service Worker registered with scope:', registration.scope);
+            })
+            .catch(function(error) {
+                console.error('Service Worker registration failed:', error);
+            });
+    });
+}
