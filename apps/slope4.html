@@ -1,0 +1,148 @@
+<!-- jquery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+     proxy_url = 'https://axiomhub.net/main.php?url=';
+url = "https://slopegame.online/slope-3//slope-3.embed"
+
+fetch(proxy_url, {
+    method: 'GET',
+    headers: {
+        'Content-Type': 'application/json',
+        // You can add other headers if needed
+    },
+})
+.then(response => {
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+    return response.text();  // or response.json() if the content is JSON
+})
+.then(data => {
+    // Assuming "iframe" is an iframe element
+    site=url
+    const iframe = document.getElementById("iframe");
+
+const filtered_data = data;
+
+
+// Set the base URL for the proxy
+proxyURL = 'https://axiomhub.net/main.php?url=';
+
+// Create a temporary element to hold the HTML content
+const tempElement = document.createElement('div');
+tempElement.innerHTML = filtered_data;
+
+// Function to modify relative URLs
+function modifyRelativeURL(url) {
+// If the URL is relative, append the URL variable as a prefix
+if (!url.startsWith('http') && !url.startsWith('//')) {
+return url; // Assuming `url` is defined elsewhere in your code
+} else {
+return proxyURL + encodeURIComponent(url);
+}
+}
+
+experiments = localStorage.getItem("experiment")
+
+if (experiments === "false" || experiments === null ) {
+// Modify the href attributes of anchor tags
+tempElement.querySelectorAll('a').forEach(anchor => {
+let href = anchor.getAttribute('href');
+anchor.setAttribute('href', modifyRelativeURL(href));
+});
+
+// Modify the src attributes of script tags
+tempElement.querySelectorAll('script').forEach(script => {
+let src = script.getAttribute('src');
+if (src && !src.startsWith('http://') && !src.startsWith('https://')) {
+script.setAttribute('src', modifyRelativeURL(src));
+}
+});
+
+// Modify the src attributes of img tags
+tempElement.querySelectorAll('img').forEach(img => {
+let src = img.getAttribute('src');
+if (src && !src.startsWith('http://') && !src.startsWith('https://')) {
+img.setAttribute('src', modifyRelativeURL(src));
+}
+});
+
+// Modify the href attributes of link tags for CSS
+tempElement.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
+let href = link.getAttribute('href');
+if (href && !href.startsWith('http://') && !href.startsWith('https://')) {
+link.setAttribute('href', modifyRelativeURL(href));
+}
+});
+
+// Modify the src attributes of video tags
+tempElement.querySelectorAll('video').forEach(video => {
+let src = video.getAttribute('src');
+if (src && !src.startsWith('http://') && !src.startsWith('https://')) {
+video.setAttribute('src', modifyRelativeURL(src));
+}
+});
+
+// Modify the src attributes of audio tags
+tempElement.querySelectorAll('audio').forEach(audio => {
+let src = audio.getAttribute('src');
+if (src && !src.startsWith('http://') && !src.startsWith('https://')) {
+audio.setAttribute('src', modifyRelativeURL(src));
+}
+});
+
+} else {
+console.log("Using experiments")
+// Define an array of tag names and their corresponding attributes to modify
+setInterval(function(){
+
+
+const tagsToModify = [
+{ tagName: 'a', attribute: 'href' },
+{ tagName: 'script', attribute: 'src' },
+{ tagName: 'img', attribute: 'src' },
+{ tagName: 'link[rel="stylesheet"]', attribute: 'href' },
+{ tagName: 'video', attribute: 'src' },
+{ tagName: 'audio', attribute: 'src' },
+{ tagName: 'iframe', attribute: 'src' },
+{ tagName: 'object', attribute: 'data' },
+{ tagName: 'embed', attribute: 'src' },
+{ tagName: 'source', attribute: 'src' },
+];
+
+// Loop through each tag type and modify its attribute
+tagsToModify.forEach(({ tagName, attribute }) => {
+tempElement.querySelectorAll(tagName).forEach(tag => {
+let value = tag.getAttribute(attribute);
+if (value) {
+tag.setAttribute(attribute, modifyRelativeURL(value));
+}
+});
+});
+
+},100)
+
+}
+
+// Update the content of the iframe with the modified HTML
+iframe.contentDocument.body.innerHTML = tempElement.innerHTML;
+
+
+})
+.catch(error => {
+    console.error('Fetch error:', error);
+});
+
+</script>
+<style>
+    body {
+        background-color: black;
+    }
+</style>
+<iframe id="iframe" style="height:100%; width:100%;"></iframe>
+
+<script src="script.js"></script>
+<script>
+    // load
+
+</script>

@@ -222,49 +222,50 @@ experiments = localStorage.getItem("experiment")
 if (experiments === "false" || experiments === null ) {
   // Modify the href attributes of anchor tags
   tempElement.querySelectorAll('a').forEach(anchor => {
-    let href = anchor.getAttribute('href');
-    anchor.setAttribute('href', modifyRelativeURL(href));
-  });
+  let href = anchor.getAttribute('href');
+  anchor.setAttribute('href', modifyRelativeURL(href));
+});
 
-  // Modify the src attributes of script tags
-  tempElement.querySelectorAll('script').forEach(script => {
-    let src = script.getAttribute('src');
-    if (src) {
-      script.setAttribute('src', modifyRelativeURL(src));
-    }
-  });
+// Modify the src attributes of script tags
+tempElement.querySelectorAll('script').forEach(script => {
+  let src = script.getAttribute('src');
+  if (src && !src.startsWith('http://') && !src.startsWith('https://')) {
+    script.setAttribute('src', modifyRelativeURL(src));
+  }
+});
 
-  // Modify the src attributes of img tags
-  tempElement.querySelectorAll('img').forEach(img => {
-    let src = img.getAttribute('src');
-    if (src) {
-      img.setAttribute('src', modifyRelativeURL(src));
-    }
-  });
+// Modify the src attributes of img tags
+tempElement.querySelectorAll('img').forEach(img => {
+  let src = img.getAttribute('src');
+  if (src && !src.startsWith('http://') && !src.startsWith('https://')) {
+    img.setAttribute('src', modifyRelativeURL(src));
+  }
+});
 
-  // Modify the href attributes of link tags for CSS
-  tempElement.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
-    let href = link.getAttribute('href');
-    if (href) {
-      link.setAttribute('href', modifyRelativeURL(href));
-    }
-  });
+// Modify the href attributes of link tags for CSS
+tempElement.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
+  let href = link.getAttribute('href');
+  if (href && !href.startsWith('http://') && !href.startsWith('https://')) {
+    link.setAttribute('href', modifyRelativeURL(href));
+  }
+});
 
-  // Modify the src attributes of video tags
-  tempElement.querySelectorAll('video').forEach(video => {
-    let src = video.getAttribute('src');
-    if (src) {
-      video.setAttribute('src', modifyRelativeURL(src));
-    }
-  });
+// Modify the src attributes of video tags
+tempElement.querySelectorAll('video').forEach(video => {
+  let src = video.getAttribute('src');
+  if (src && !src.startsWith('http://') && !src.startsWith('https://')) {
+    video.setAttribute('src', modifyRelativeURL(src));
+  }
+});
 
-  // Modify the src attributes of audio tags
-  tempElement.querySelectorAll('audio').forEach(audio => {
-    let src = audio.getAttribute('src');
-    if (src) {
-      audio.setAttribute('src', modifyRelativeURL(src));
-    }
-  });
+// Modify the src attributes of audio tags
+tempElement.querySelectorAll('audio').forEach(audio => {
+  let src = audio.getAttribute('src');
+  if (src && !src.startsWith('http://') && !src.startsWith('https://')) {
+    audio.setAttribute('src', modifyRelativeURL(src));
+  }
+});
+
 } else {
 console.log("Using experiments")
   // Define an array of tag names and their corresponding attributes to modify

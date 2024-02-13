@@ -23,7 +23,7 @@
     alert("Please allow pop ups on this site so axiom can cloak itself");
     console.log(authorized_users)
                 localStorage.setItem("ips", authorized_users.join(","));
-                console.log(authorized_users)
+                // console.log(authorized_users)
                 localStorage.setItem("ips", authorized_users.join(","));
                 console.log(authorized_users)
                 localStorage.setItem("ips", authorized_users.join(","));
@@ -32,13 +32,17 @@
                 console.log(authorized_users)
                 localStorage.setItem("ips", authorized_users.join(","));
     
+
+    // load /apps/assets/scripts/global.js and inject into code
+
+
     var code = `
         <style>
             body {
                 background-color: black;
             }
         </style>
-
+        
         <script src="/apps/assets/scripts/global.js"><\/script>
 
         <link rel="stylesheet" href="/apps/assets/scripts/global.css">
@@ -48,11 +52,14 @@
     
     var win = window.open();
     win.document.write(code);
+
+
     
     // Close the window after the document is completely loaded
-    script = document.createElement('script');
-    script.innerHTML = 'window.location.href = "https://www.example.com";';
-    document.body.appendChild(script);
+
+    // if current window is loaded, close it
+
+    
 </script>
 <body>
 
