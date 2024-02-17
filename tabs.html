@@ -75,6 +75,7 @@
 </style>
 <script>
     $(document).ready(function() {
+        document.getElementById('new-tab').click()
     $('.tabs').on('click', 'a', function(e) {
         e.preventDefault();
         var $tab = $(this).closest('li');
@@ -99,18 +100,40 @@
         var $tabContent = $('.tab-content');
 
         var tabIndex = $tabs.find('li').length + 1;
-        var tabTitle = 'Axiom ' + tabIndex;
+        var tabTitle = 'Glitch ' + tabIndex;
         var randomURL = "main.html";
         $tabs.find('li:last-child').before('<li><a>' + tabTitle + '</a><button class="delete-tab">X</button></li>');
         $tabContent.append('<div class="tab-pane"><iframe id="iframe" src="' + randomURL + '" frameborder="0"></iframe></div>');;
     });
+
+    $('.add-tab-browse').on('click', function() {
+    var $tabs = $('.tabs');
+    var $tabContent = $('.tab-content');
+
+    var tabIndex = $tabs.find('li').length + 1;
+    var tabTitle = 'Tab ' + tabIndex;
+    var randomURL = "new.html";
+
+    $tabs.find('li:last-child').before('<li><a class="tab-title">' + tabTitle + '</a><button class="delete-tab">X</button></li>');
+    $tabContent.append('<div class="tab-pane"><iframe class="tab-iframe" src="' + randomURL + '" frameborder="0"></iframe></div>');
+
+    var $newTabTitle = $('.tab-title').last();
+    var $newIFrame = $('.tab-iframe').last();
+
+    setInterval(function(){
+        $newTabTitle.text($newIFrame.contents().find('title').text());
+    }, 1000);
 });
+
+});
+
+
 
 </script>
 </head>
 <body>
     <nav>
-        <img src="axiom.png" class="icon-nav" style="width: 60px; height: 40px; left: 10px; position: fixed; top: 10px;">
+        <img src="axiom.png" class="icon-nav" style="width: 40px; height: 40px; left: 10px; position: fixed; top: 10px;">
           <ul>
               <li><a href="main.html">Home</a></li>
               <li><a href="apps.html">Apps</a></li>
@@ -121,8 +144,12 @@
       </nav>
 <div class="tab-container">
     <ul class="tabs">
-        <li><a href="#">Axiom 1</a><button class="delete-tab">X</button></li>
-        <li><button class="add-tab" style="background-color: #333232; color: white; border-color: transparent;">+</button></li>
+        <li><a href="#" id="new-tab">Glitch 1</a><button class="delete-tab">X</button></li>
+        
+        <li><button class="add-tab" style="background-color: #333232; color: white; border-color: transparent;">G+</button>
+            <button class="add-tab-browse" style="background-color: #333232; color: white; border-color: transparent;">S+</button>
+    </li>
+    
     </ul>
     <div class="tab-content">
         <div class="tab-pane">
@@ -130,6 +157,7 @@
         </div>
     </div>
 </div>
+
 
 
 </body>

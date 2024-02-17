@@ -30,7 +30,7 @@
 
 try{
   theme = localStorage.getItem("theme");
-  console.log("theme: " + theme);
+  //console.log("theme: " + theme);
   if (theme != "stars"){
     stars = 0;
     var stars = document.querySelectorAll('#star');
