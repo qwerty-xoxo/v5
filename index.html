@@ -1,23 +1,29 @@
 <script src="config.txt"></script>
 <script>
-    localStorage.setItem("theme","stars")
+    localStorage.setItem("theme", "stars");
 
-    // get config
+// Assuming key is defined elsewhere
+if (key.length === 0) {
+    localStorage.setItem("activated", "false");
+}
+else{
+if (key === "none" || key[0] === undefined) {
+    // do nothing
+    localStorage.setItem("activated", "false");
+} else {
+    const keys = ['notakey12412', '896789ug', 'aloi243'];
+    console.log(key)
+    const isKeyValid = keys.includes(key[0]);
 
-    if ( key == "none" ) {
-        // do nothing
+    if (!isKeyValid) {
+        // Key is not valid, handle accordingly
+    } else {
+        localStorage.setItem("activated", "true");
+        console.log(authorized_users);
+        localStorage.setItem("ips", authorized_users.join(","));
     }
-    else{
-            keys = ['notakey12412', '896789ug', 'aloi243'];  isKeyValid = keys.includes(key);  // One-liner to check if 'key' is in the list of keys
-            if (!isKeyValid) {
-
-            }
-            else {
-                localStorage.setItem("activated", "true");
-                console.log(authorized_users)
-                localStorage.setItem("ips", authorized_users.join(","));
-            }
-        }
+}
+}
 
     // about:blank cloaking
     alert("Please allow pop ups on this site so axiom can cloak itself");
@@ -41,7 +47,40 @@
             body {
                 background-color: black;
             }
+            iframe {
+                border: 0;
+            }
         </style>
+
+        <script>
+            // onload
+            window.onload = function(){
+                setInterval(function(){
+                    // Set document title and favicon to match the iframe's content
+                    var iframe = document.getElementById("iframe");
+                    iframe.addEventListener('load', function() {
+                        var iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+                        // Check if the iframe's document is available
+                        if (iframeDocument) {
+                            // Set the title of the main document to the title of the iframe's document
+                            document.title = iframeDocument.title;
+                            
+                            // Set favicon
+                            var iframeFavicon = iframeDocument.querySelector("link[rel~='icon']");
+                            if (iframeFavicon) {
+                                var mainDocumentFavicon = document.querySelector("link[rel~='icon']");
+                                if (!mainDocumentFavicon) {
+                                    mainDocumentFavicon = document.createElement('link');
+                                    mainDocumentFavicon.rel = 'icon';
+                                    document.head.appendChild(mainDocumentFavicon);
+                                }
+                                mainDocumentFavicon.href = iframeFavicon.href;
+                            }
+                        }
+                    });
+                },100)
+            }
+        <\/script>
         
         <script src="/apps/assets/scripts/global.js"><\/script>
 
@@ -58,6 +97,12 @@
     // Close the window after the document is completely loaded
 
     // if current window is loaded, close it
+
+    
+    
+        window.onload = function() {
+            window.location.href = "https://www.nasa.gov";
+        };
 
     
 </script>

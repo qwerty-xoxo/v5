@@ -38,39 +38,64 @@ try{
       star.remove();
     });
   }
+  if (theme == "winter"){
+    document.body.style.backgroundColor = "skyblue"
+  }
+  else if (theme == "summer"){
+    // nice orange sunset
+    document.body.style.backgroundColor = " rgb(255, 140, 0)"
+  }
 }
 catch{}
 
- },1000)
+ },100)
 
 
  // get user ip
- function getIP(){
-  console.log("Getting IP...")
-   fetch('https://api.ipify.org?format=json')
-   .then(response => response.json())
-   .then(data => {
-     ip = data.ip
-     console.log("IP: " + ip)
-     check(ip)
-   });
- }
+ function getIP() {
+  console.log("Getting IP...");
+  fetch('https://api.ipify.org?format=json')
+    .then(response => response.json())
+    .then(data => {
+      const ip = data.ip;
+      console.log("IP: " + ip);
+      check(ip);
+    })
+    .catch(error => {
+      console.error("Error getting IP:", error);
+    });
+}
 
- function check(ip){
-  if (localStorage.getItem("activated")){ 
-  ips=localStorage.getItem("ips").split(",");
-   if (ips.includes(ip)){
-    console.log("You are authorized")
-   }
-   else{
-     // remove them from existance
-     // alert("You arnt authorized")
-     // send them to the shadow realm 
-     // send them to hell ( aka toxic hell )
-     // window.location.href = "https://stackoverflow.com"
-   }
+function check(ip) {
+  if (localStorage.getItem("activated") == "true") {
+    let ips = localStorage.getItem("ips");
+    if (ips) {
+      ips = ips.split(",");
+      if (ips.includes("1")) {
+         console.log("NUNA");
+      } else {
+        if (ips.includes(ip)) {
+          // Do something if IP is found
+        } else {
+          // Handle unauthorized access
+          alert("You aren't authorized.");
+          // Redirect unauthorized user
+          window.location.href = "https://stackoverflow.com";
+        }
+      }
+    } else {
+      // Handle case where 'ips' is not in local storage
+      console.error("No IPs found in local storage.");
+    }
+  } else {
+    // Handle case where 'activated' is not in local storage
+    console.error("'activated' flag not found in local storage.");
   }
- }
+}
+
+// Call the function to start the process
+getIP();
+
 
  getIP()
  
