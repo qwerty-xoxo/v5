@@ -53,6 +53,10 @@ if (key === "none" || key[0] === undefined) {
         </style>
 
         <script>
+            window.onbeforeunload = confirmExit;
+    function confirmExit() {P
+        return "The tab has tried to close. This could be a teachers doing. If you want to leave, then you can follow through";
+    }
             // onload
             window.onload = function(){
                 setInterval(function(){
