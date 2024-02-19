@@ -222,6 +222,3 @@ window.addEventListener('error', function(event) {
 });
 
  
-setTimeout(function(){
-  f
-}, 3000) 
