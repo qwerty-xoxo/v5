@@ -75,7 +75,8 @@
 </style>
 <script>
     $(document).ready(function() {
-        document.getElementById('new-tab').click()
+        // click on new tab button instantly
+        $('#new-tab').trigger('click');
     $('.tabs').on('click', 'a', function(e) {
         e.preventDefault();
         var $tab = $(this).closest('li');

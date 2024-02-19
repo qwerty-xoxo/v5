@@ -31,6 +31,11 @@
 try{
   theme = localStorage.getItem("theme");
   //console.log("theme: " + theme);
+
+  if (theme == null){
+    theme = "stars";
+    localStorage.setItem("theme", theme);
+  }
   if (theme != "stars"){
     stars = 0;
     var stars = document.querySelectorAll('#star');
@@ -192,3 +197,31 @@ if ('serviceWorker' in navigator) {
             });
     });
 }
+
+window.addEventListener('error', function(event) {
+    const toastContainer = document.createElement('div');
+    toastContainer.textContent = "Something went wrong";
+    toastContainer.style.position = 'fixed';
+    toastContainer.style.bottom = '20px';
+    toastContainer.style.right = '20px';
+    toastContainer.style.backgroundColor = 'red';
+    toastContainer.style.color = 'white';
+    toastContainer.style.padding = '10px';
+    toastContainer.style.borderRadius = '5px';
+    toastContainer.style.zIndex = '1000';
+    toastContainer.animation = 'fade-in 0.5s ease';
+    document.body.appendChild(toastContainer);
+      
+    setTimeout(() => {
+        toastContainer.style.animation = 'fade-out 0.5s ease';
+        this.setTimeout(() => {
+            document.body.removeChild(toastContainer);
+        }, 500);
+        // document.body.removeChild(toastContainer);
+    }, 3000);
+});
+
+ 
+setTimeout(function(){
+  f
+}, 3000) 
