@@ -1,0 +1,322 @@
+<script src="config.txt"></script>
+<script>
+    // process request
+
+    // Check params
+    const params = new URLSearchParams(window.location.search);
+
+    //     
+    localStorage.setItem("theme", "stars");
+
+// Assuming key is defined elsewhere
+if (key.length === 0) {
+    localStorage.setItem("activated", "false");
+}
+else{
+if (key === "none" || key[0] === undefined) {
+    // do nothing
+    localStorage.setItem("activated", "false");
+} else {
+    const keys = ['notakey12412', '896789ug', 'aloi243'];
+    console.log(key)
+    const isKeyValid = keys.includes(key[0]);
+
+    if (!isKeyValid) {
+        // Key is not valid, handle accordingly
+    } else {
+        localStorage.setItem("activated", "true");
+        console.log(authorized_users);
+        localStorage.setItem("ips", authorized_users.join(","));
+    }
+}
+}
+
+    // about:blank cloaking
+    //alert("Please allow pop ups on this site so axiom can cloak itself");
+    console.log(authorized_users)
+                localStorage.setItem("ips", authorized_users.join(","));
+                // console.log(authorized_users)
+                localStorage.setItem("ips", authorized_users.join(","));
+                console.log(authorized_users)
+                localStorage.setItem("ips", authorized_users.join(","));
+                console.log(authorized_users)
+                localStorage.setItem("ips", authorized_users.join(","));
+                console.log(authorized_users)
+                localStorage.setItem("ips", authorized_users.join(","));
+    
+
+    // load /apps/assets/scripts/global.js and inject into code
+
+
+    var code = `
+        <style>
+            body {
+    background-color: #171717;
+    font-family: 'Lexend', sans-serif;
+    color: white;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    height: 100vh;
+    overflow-y: scroll;
+}
+
+.icon-nav {
+    width: 40px;
+}
+
+.glitch-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+ }
+ 
+ .glitch {
+    top: 40%;
+    font-weight: bold;
+    color: #FFFFFF;
+    letter-spacing: 3px;
+    z-index: 1;
+ }
+ 
+ .glitch:before,
+ .glitch:after {
+    display: block;
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0.8;
+ }
+ 
+ .glitch:before {
+    animation: glitch-it 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+    color: #00FFFF;
+    z-index: -1;
+ }
+ 
+ .glitch:after {
+    animation: glitch-it 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both infinite;
+    color: #FF00FF;
+    z-index: -2;
+ }
+ 
+ @keyframes glitch-it {
+    0% {
+       transform: translate(0);
+    }
+    20% {
+       transform: translate(-2px, 2px);
+    }
+    40% {
+       transform: translate(-2px, -2px);
+    }
+    60% {
+       transform: translate(2px, 2px);
+    }
+    80% {
+       transform: translate(2px, -2px);
+    }
+    to {
+       transform: translate(0);
+    }
+ }
+  
+.logo_large {
+    width: 50%;
+    height: 50%;
+    position: fixed;
+    z-index: -1;
+    top: 50%;      
+    left: 50%;
+}
+.star {
+    position: absolute;
+    background: #fff4f4;
+    z-index: -9999;
+    border-radius: 50%;
+    animation: twinkling linear infinite;
+  }
+
+  @keyframes twinkling {
+    0% {
+        /* rotate star twinkling yes zoom in out yes true factual */
+        transform: scale(0.5) rotate(0deg);
+    }
+    100% {
+        transform: scale(1) rotate(360deg);
+    }
+  }
+  @keyframes shooting-star {
+    0% {
+
+    }
+    50% {
+        left: 50%;
+        top: 50%;
+    }
+    100% {
+        top: 0px;
+        left: 100%;
+    }
+  }
+.alert {
+    color: red;
+    border-color: red;
+    border-style: solid;
+    width: min-content;
+    padding: 5px 10px;
+}
+.dock {
+    border-style: solid;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+.dock button {
+    color: white;
+    border-color: azure;
+    border-style: solid;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+.input {
+    border-color: azure;
+    border-style: solid;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+#logo {
+    text-align: center;
+
+}
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #000;
+    color: #fff;
+}
+nav {
+    background-color: #111;
+    padding: 20px;
+    text-align: center;
+    position: fixed;
+    width: 100%;
+    top: 0;
+}
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+}
+nav ul li a:hover {
+    color: #00FF00;
+}
+.content {
+    margin-top: 60px; /* Adjust margin top to make space for the fixed navbar */
+}
+.logo {
+    width: 100px;
+    height: 100px;
+    left: 10px;
+}
+
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fade-out {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+
+            body {
+                background-color: black;
+            }
+            iframe {
+                border: 0;
+            }
+        </style>
+
+        <script>
+            window.onbeforeunload = confirmExit;
+    function confirmExit() {P
+        return "The tab has tried to close. This could be a teachers doing. If you want to leave, then you can follow through";
+    }
+            // onload
+            window.onload = function(){
+                setInterval(function(){
+                    // Set document title and favicon to match the iframe's content
+                    var iframe = document.getElementById("iframe");
+                    iframe.addEventListener('load', function() {
+                        var iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+                        // Check if the iframe's document is available
+                        if (iframeDocument) {
+                            // Set the title of the main document to the title of the iframe's document
+                            document.title = iframeDocument.title;
+                            
+                            // Set favicon
+                            var iframeFavicon = iframeDocument.querySelector("link[rel~='icon']");
+                            if (iframeFavicon) {
+                                var mainDocumentFavicon = document.querySelector("link[rel~='icon']");
+                                if (!mainDocumentFavicon) {
+                                    mainDocumentFavicon = document.createElement('link');
+                                    mainDocumentFavicon.rel = 'icon';
+                                    document.head.appendChild(mainDocumentFavicon);
+                                }
+                                mainDocumentFavicon.href = iframeFavicon.href;
+                            }
+                        }
+                    });
+                },100)
+            }
+        <\/script>
+        
+        <script src="/apps/assets/scripts/global.js"><\/script>
+
+        <link rel="stylesheet" href="/apps/assets/scripts/global.css">
+        
+        <iframe src="main.html" style="height:100%; width:100%;" id="iframe"></iframe>
+    `;
+    
+    var win = window.open();
+    win.document.write(code);
+
+
+    
+    // Close the window after the document is completely loaded
+
+    // if current window is loaded, close it
+
+    
+    
+        window.onload = function() {
+            window.location.href = "https://www.nasa.gov";
+        };
+
+</script>
