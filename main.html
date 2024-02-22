@@ -212,6 +212,12 @@ tempElement.innerHTML = filtered_data;
 
 // Function to modify relative URLs
 function modifyRelativeURL(url) {
+  cdns = ["cloudflare", "cdnjs.cloudflare.com", "cdn.jsdelivr.net"];
+  for (const cdn of cdns) {
+    if (url.includes(cdn)) {
+      return url;
+    }
+  }
   // If the URL is relative, append the URL variable as a prefix
   if (!url.startsWith('http') && !url.startsWith('//')) {
     return url; // Assuming `url` is defined elsewhere in your code
@@ -302,8 +308,22 @@ setInterval(function(){
 
 }
 
-// Update the content of the iframe with the modified HTML
-iframe.contentDocument.body.innerHTML = tempElement.innerHTML;
+// Create a temporary element to hold the modified HTML
+var modifiedContent = document.createElement('div');
+modifiedContent.innerHTML = iframe.contentDocument.body.innerHTML;
+
+// Modify the HTML content
+modifiedContent.innerHTML = modifiedContent.innerHTML.replace(/https/g, "https://axiomhub.net/main.php?url=https");
+modifiedContent.innerHTML = modifiedContent.innerHTML.replace(window.location.href, "https://axiomhub.net/main.php?url=");
+
+// Clear the existing content of the iframe's body
+iframe.contentDocument.body.innerHTML = '';
+
+// Append the modified content to the iframe's body
+while (modifiedContent.firstChild) {
+    iframe.contentDocument.body.appendChild(modifiedContent.firstChild);
+}
+
 
 
         })
