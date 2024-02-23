@@ -3,7 +3,8 @@
 
 self.addEventListener('fetch', event => {
   // if request comes from this origin, dont intercept it. if it goes to other origins, intercept it.
-  if (event.request.url.startsWith(location.origin)) {
+  url = window.location.href
+  if (event.request.url.startsWith(url.split("/")[0])) {
     return;
   }
   console.log('Intercepting  request for:', event.request.url);
