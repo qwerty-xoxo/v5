@@ -84,8 +84,239 @@
         </ul>
     </nav>
 
-    <iframe src="https://e.widgetbot.io/channels/1200803518802571334/1203397751820390417" allow="clipboard-write; fullscreen" height="100%" width="100%"></iframe>
+    <iframe iframe="iframe" allow="clipboard-write; fullscreen" height="100%" width="100%"></iframe>
+<script>
+    // https://e.widgetbot.io/channels/1200803518802571334/1203397751820390417
+    function encodeToBase64(str) {
+        return btoa(str);
+      }
+      
+      
+          function clear(){
+            /*
+            // Remove #iframe then make a new one
+            document.getElementById("iframe").remove();
+      
+            const newIframe = document.createElement("iframe");
+            newIframe.setAttribute("id", "iframe");
+            newIframe.setAttribute("style", "width: 800px; height: 500px;");
+            document.getElementById("frame").appendChild(newIframe);
+      
+            document.getElementById("url").value = "";
+            newIframe.contentDocument.body.innerHTML = "";
+            newIframe.style.backgroundColor = "transparent"
+      */
+          }
+      
+      
+          function go() {
+      
+              console.log("Connecting to proxy...");
+               
+              
+      
+      
+              url = "https://e.widgetbot.io/channels/1200803518802571334/1203397751820390417"
+              
+              url1 = "https://e.widgetbot.io/channels/1200803518802571334/1203397751820390417"
+              clear()
+              const html = ` 
+              <style>
+            /* spinner */
+            .spinner {
+              border: 16px solid #f3f3f3;
+              border-top: 16px solid #3498db;
+              border-radius: 50%;
+              postion: absolute;
+              top: 50%;
+              width: 120px;
+              height: 120px;
+              animation: spin 2s linear infinite;
+            }
+      
+            @keyframes spin {
+              0% { transform: rotate(0deg); }
+              100% { transform: rotate(360deg); }
+            }
+          </style>
+          <!-- Spinner of doom -->
+          <center> <!-- Fuck mozilla, yall did my boy <center> dirty. Fuckin deprecated em-->
+            <div class="spinner"></div>
+          </center>
+      
+            `;
+      
+      document.getElementById("iframe").contentDocument.body.innerHTML = html;
+              if (url != url1){
+                console.log("What kind of fucking shit is this?")
+                console.log("To help you figure out what the FUCK you did wrong here is debug info")
+                console.log(url)
+                console.log(url1) // Thanks, i figured it out
+              }
+              console.log(url)
+      
+              function add_prefix(url) {
+    if (url.includes("https://") || url.includes("http://") || url.includes("www.") || url.includes(".com") || url.includes(".net") || url.includes(".org")) {
+        return url;
+    } else {
+        // Check if it's meant to be a URL or a Google search
+        if (url.includes(".")) {
+            return "https://" + url;
+        } else {
+            return "https://www.google.com/search?q=" + url;
+        }
+    }
+}
 
+      
+              // Add the prefix
+              url = add_prefix(url);
+               const proxy_url = ("https://axiomhub.net/main.php?url=" + url); // Replace with your Ultraviolet server URL
+      
+      
+              // Fetch through Ultraviolet
+              fetch(proxy_url, {
+                  method: 'GET',
+                  headers: {
+                      'Content-Type': 'application/json',
+                      // You can add other headers if needed
+                  },
+              })
+              .then(response => {
+                  if (!response.ok) {
+                      throw new Error('Network response was not ok');
+                  }
+                  return response.text();  // or response.json() if the content is JSON
+              })
+              .then(data => {
+                  // Assuming "iframe" is an iframe element
+                  site=url
+                  const iframe = document.getElementById("iframe");
+      iframe.style.backgroundColor="white"
+      const filtered_data = data;
+      
+      // Set the base URL for the proxy
+      const proxyURL = 'https://axiomhub.net/main.php?url=';
+      
+      // Create a temporary element to hold the HTML content
+      const tempElement = document.createElement('div');
+      tempElement.innerHTML = filtered_data;
+      
+      
+      // Function to modify relative URLs
+      function modifyRelativeURL(url) {
+        // If the URL is relative, append the URL variable as a prefix
+        if (!url.startsWith('http') && !url.startsWith('//')) {
+          return url; // Assuming `url` is defined elsewhere in your code
+        } else {
+          return proxyURL + encodeURIComponent(url);
+        }
+      }
+      
+      experiments = localStorage.getItem("experiment")
+      
+      if (experiments === "false" || experiments === null ) {
+        // Modify the href attributes of anchor tags
+      
+      setInterval(function(){
+        
+      
+        tempElement.querySelectorAll('a').forEach(anchor => {
+        let href = anchor.getAttribute('href');
+        anchor.setAttribute('href', modifyRelativeURL(href));
+      });
+      
+      // Modify the src attributes of script tags
+      tempElement.querySelectorAll('script').forEach(script => {
+        let src = script.getAttribute('src');
+        if (src && !src.startsWith('http://') && !src.startsWith('https://')) {
+          script.setAttribute('src', modifyRelativeURL(src));
+        }
+      });
+      
+      // Modify the src attributes of img tags
+      tempElement.querySelectorAll('img').forEach(img => {
+        let src = img.getAttribute('src');
+        if (src && !src.startsWith('http://') && !src.startsWith('https://')) {
+          img.setAttribute('src', modifyRelativeURL(src));
+        }
+      });
+      
+      // Modify the href attributes of link tags for CSS
+      tempElement.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
+        let href = link.getAttribute('href');
+        if (href && !href.startsWith('http://') && !href.startsWith('https://')) {
+          link.setAttribute('href', modifyRelativeURL(href));
+        }
+      });
+      
+      // Modify the src attributes of video tags
+      tempElement.querySelectorAll('video').forEach(video => {
+        let src = video.getAttribute('src');
+        if (src && !src.startsWith('http://') && !src.startsWith('https://')) {
+          video.setAttribute('src', modifyRelativeURL(src));
+        }
+      });
+      
+      // Modify the src attributes of audio tags
+      tempElement.querySelectorAll('audio').forEach(audio => {
+        let src = audio.getAttribute('src');
+        if (src && !src.startsWith('http://') && !src.startsWith('https://')) {
+          audio.setAttribute('src', modifyRelativeURL(src));
+        }
+      });
+    }, 1000)
+
+      } else {
+      console.log("Using experiments")
+        // Define an array of tag names and their corresponding attributes to modify
+      setInterval(function(){
+        
+      
+        const tagsToModify = [
+          { tagName: 'a', attribute: 'href' },
+          { tagName: 'script', attribute: 'src' },
+          { tagName: 'img', attribute: 'src' },
+          { tagName: 'link[rel="stylesheet"]', attribute: 'href' },
+          { tagName: 'video', attribute: 'src' },
+          { tagName: 'audio', attribute: 'src' },
+          { tagName: 'iframe', attribute: 'src' },
+          { tagName: 'object', attribute: 'data' },
+          { tagName: 'embed', attribute: 'src' },
+          { tagName: 'source', attribute: 'src' },
+        ];
+      
+        // Loop through each tag type and modify its attribute
+        tagsToModify.forEach(({ tagName, attribute }) => {
+          tempElement.querySelectorAll(tagName).forEach(tag => {
+            let value = tag.getAttribute(attribute);
+            if (value) {
+              tag.setAttribute(attribute, modifyRelativeURL(value));
+            }
+          });
+        });
+      
+      },100)
+      
+      }
+      
+      // Update the content of the iframe with the modified HTML
+      
+
+      iframe.contentDocument.body.innerHTML = tempElement.innerHTML;
+      iframe.style.zIndex="99"
+      iframe.style.width="100%"
+      iframe.style.height="100%"
+      document.title=iframe.contentDocument.title 
+      
+
+    })
+        .catch(error => {
+            console.error('Fetch error:', error);
+        });
+    }
+    go()
+</script>
 </body>
 </html>
       

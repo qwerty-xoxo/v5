@@ -1,5 +1,87 @@
-<script src="config.txt"></script>
+<!DOCTYPE html>
+<!-- this small bit is so skidded :skull: -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Math Education Hub</title>
+  <script src="config.txt"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+    body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+nav {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+}
+
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li {
+  display: inline;
+  margin-right: 20px;
+}
+
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+}
+
+header {
+  background-color: #f2f2f2;
+  padding: 50px 20px;
+  text-align: center;
+}
+
+section {
+  padding: 20px;
+}
+
+h1, h2 {
+  color: #333;
+}
+
+ul {
+  list-style-type: none;
+}
+
+</style>
 <script>
+    // script.js
+function appendToDisplay(value) {
+    document.getElementById('calc-display').value += value;
+}
+
+function clearDisplay() {
+    document.getElementById('calc-display').value = '';
+}
+
+function calculate() {
+    try {
+        let result = eval(document.getElementById('calc-display').value);
+        document.getElementById('calc-display').value = result;
+    } catch (error) {
+        document.getElementById('calc-display').value = 'Error';
+    }
+}
+
+function cloak() {
+    // process request
+
+    // Check params
+    const params = new URLSearchParams(window.location.search);
+
+    //     
     localStorage.setItem("theme", "stars");
 
 // Assuming key is defined elsewhere
@@ -26,7 +108,7 @@ if (key === "none" || key[0] === undefined) {
 }
 
     // about:blank cloaking
-    alert("Please allow pop ups on this site so axiom can cloak itself");
+    //alert("Please allow pop ups on this site so axiom can cloak itself");
     console.log(authorized_users)
                 localStorage.setItem("ips", authorized_users.join(","));
                 // console.log(authorized_users)
@@ -309,18 +391,89 @@ nav ul li a:hover {
 
     
     
-        window.onload = function() {
             window.location.href = "https://www.nasa.gov";
-        };
 
-    
+
+
+}
+
+function solveQuadratic() {
+    let a = parseFloat(document.getElementById('a').value);
+    let b = parseFloat(document.getElementById('b').value);
+    let c = parseFloat(document.getElementById('c').value);
+
+    let discriminant = b * b - 4 * a * c;
+
+    if (discriminant > 0) {
+        let x1 = (-b + Math.sqrt(discriminant)) / (2 * a);
+        let x2 = (-b - Math.sqrt(discriminant)) / (2 * a);
+        document.getElementById('quadratic-results').innerText = `Roots are: ${x1.toFixed(2)} and ${x2.toFixed(2)}`;
+    } else if (discriminant === 0) {
+        let x = -b / (2 * a);
+        document.getElementById('quadratic-results').innerText = `Root is: ${x.toFixed(2)}`;
+    } else {
+        document.getElementById('quadratic-results').innerText = 'No real roots';
+    }
+}
+
+const mathFacts = [
+    "Zero is the only number which can be divided by 2 and not 2.",
+    "111,111,111 x 111,111,111 = 12,345,678,987,654,321.",
+    "A 'googol' is a number (1 followed by 100 zeros).",
+    "There are 206 bones in the adult human body.",
+    "The largest prime number discovered has 17,425,170 digits."
+];
+
+function generateRandomFact() {
+    let randomIndex = Math.floor(Math.random() * mathFacts.length);
+    document.getElementById('fact').innerText = mathFacts[randomIndex];
+}
 </script>
 <body>
+  <nav>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#algebra">Algebra</a></li>
+      <li><a href="#geometry">Geometry</a></li>
+      <li><a href="#calculus">Calculus</a></li>
+       <li><a href="#glitch">Glitch</a></li>
+    </ul>
+  </nav>
+  <header>
+    <h1>Welcome to Math Education Hub</h1>
+    <p>Explore the wonderful world of mathematics!</p>
+  </header>
+  <section id="algebra">
+    <h2>Algebra</h2>
+    <p>Algebra is the branch of mathematics dealing with symbols and the rules for manipulating those symbols.</p>
+    <p>Topics include:</p>
+    <ul>
+      <li>Linear Equations</li>
+      <li>Quadratic Equations</li>
+      <li>Polynomials</li>
+    </ul>
+  </section>
+  <section id="geometry">
+    <h2>Geometry</h2>
+    <p>Geometry deals with shapes, sizes, relative positions of figures, and the properties of space.</p>
+    <p>Topics include:</p>
+    <ul>
+      <li>Basic Shapes</li>
+      <li>Angles</li>
+      <li>Triangles</li>
+    </ul>
+  </section>
+  <section id="glitch" style="cursor: pointer;" onclick="cloak()">
+    <h2>Calculus</h2>
+    <p>Calculus is the mathematical study of continuous change.</p>
+    <p>Topics include:</p>
+    <ul>
+      <li>Differentiation</li>
+      <li>Integration</li>
+      <li>Applications of Calculus</li>
+    </ul>
+  </section>
 
-<center>
-    <h2>
-        After allowing popups, you will need to refresh the page to go to Glitch
-    </h2>
-</center>
-    
+  <script src="script.js"></script>
 </body>
+</html>
