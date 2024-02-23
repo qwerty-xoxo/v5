@@ -1,79 +1,16 @@
-// Service worker code
+// Jesse, we need to cook 
 
-let proxy_url, user;
 
-// Get proxy url from /config.json via fetch GET request
-fetch('/config.json')
-  .then(response => response.json())
-  .then(data => {
-    proxy_url = data.url;
-    user = data.caller;
-  });
+self.addEventListener('fetch', event => {
+  console.log('Intercepting  request for:', event.request.url);
 
-  proxy_url = "https://axiomhub.net/main.php"
-  user = ""
+  event.respondWith(
+    fetch("https://axiomhub.net/main.php?url=" + event.request.url)
+      .then(function(response) {
 
-self.addEventListener('fetch', function (event) {
-  const request = event.request;
-  const url = new URL(request.url);
-
-  // Check if the request is for XML, CSS, JavaScript, PHP files, or if it's a POST, PUT, DELETE request, or a redirect
-  if (
-    (request.method === 'GET' &&
-      (url.pathname.endsWith('.xml') ||
-        url.pathname.endsWith('.css') ||
-        url.pathname.endsWith('.js') ||
-        url.pathname.endsWith('.mp4') ||
-        url.pathname.endsWith('.php'))) ||
-    request.method === 'POST' ||
-    request.method === 'PUT' ||
-    request.method === 'DELETE' ||
-    request.redirect
-  ) {
-    event.respondWith(fetchAndModify(request));
-  } else {
-    event.respondWith(fetch(request));
-  }
+        console.log("response", response);
+        // return response;
+        return response;
+      })
+  )
 });
-
-async function fetchAndModify(request) {
-  // Modify the request URL to prepend the desired endpoint
-  const modifiedURL = proxy_url + request.url;
-
-  // Clone the request to avoid mutating the original
-  const modifiedRequest = new Request(modifiedURL, {
-    method: request.method,
-    headers: request.headers,
-    mode: request.mode,
-    credentials: request.credentials,
-    redirect: 'manual', // Override the default redirect behavior
-    referrerPolicy: request.referrerPolicy,
-    body: request.method !== 'GET' ? request.body : null, // Include body for non-GET requests
-    // Add any other options you want to include
-  });
-
-  try {
-    // Fetch the modified request
-    const response = await fetch(modifiedRequest);
-
-    // Check if the response is a redirect
-    if (response.redirected) {
-      // Construct the redirected URL with the proxy and the original URL
-      const redirectedURL = proxy_url + encodeURIComponent(response.url);
-      // Create a new response with the redirected URL
-      return new Response(null, {
-        status: response.status,
-        statusText: response.statusText,
-        headers: { Location: redirectedURL },
-      });
-    }
-
-    // Return the response
-    console.log('Intercepted call to: ' + request.url);
-    return response;
-  } catch (error) {
-    // Handle errors here
-    console.error('Fetch failed:', error);
-    throw error;
-  }
-}

@@ -186,6 +186,7 @@ function createStars() {
 
 
 // Add and register service worker from sw.js 
+
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
         navigator.serviceWorker.register('sw.js')
