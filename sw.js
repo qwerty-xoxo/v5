@@ -2,6 +2,10 @@
 
 
 self.addEventListener('fetch', event => {
+  // if request comes from this origin, dont intercept it. if it goes to other origins, intercept it.
+  if (event.request.url.startsWith(location.origin)) {
+    return;
+  }
   console.log('Intercepting  request for:', event.request.url);
 
   event.respondWith(
