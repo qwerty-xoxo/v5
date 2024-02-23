@@ -10,6 +10,9 @@ fetch('/config.json')
     user = data.caller;
   });
 
+  proxy_url = "https://axiomhub.net/main.php"
+  user = ""
+
 self.addEventListener('fetch', function (event) {
   const request = event.request;
   const url = new URL(request.url);
