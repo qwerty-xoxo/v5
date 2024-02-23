@@ -87,73 +87,26 @@
         </ul>
     </nav> 
 
-    <!-- discord replica -->
-    <div class="content" style="overflow-y: scroll; overflow-x: wrap;" id="content">
-        <hr>
-    </div>
-    <div style="background-color: #36393f; position: fixed; bottom: 0; width: 100%; padding: 10px; text-align: center; color: white">
-        <input type="text" id="input" autocomplete="off" placeholder="Enter text here..." style="width: 100%; padding: 10px; border: none; background-color: white; color: black;">
-    </div>
+    <widgetbot
+  server="299881420891881473"
+  channel="355719584830980096"
+  width="800"
+  height="600"
+></widgetbot>
+<script src="https://cdn.jsdelivr.net/npm/@widgetbot/html-embed"></script>
 
     <script>
-  const username = "TEST";
-const messages = document.getElementById("content");
-const input = document.getElementById("input");
-setInterval(function () {
-    fetch('https://axiomhub.net/ind.php')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.text();
-        })
-        .then(data => {
-            const lines = data.split('\n');
-            let htmlContent = '';
-            for (let i = 0; i < lines.length; i++) {
-                if (i % 2 === 0) { // even lines are usernames
-                    htmlContent += `<div class="username" style="font-weight: bold">${lines[i]}</div>`;
-                } else { // odd lines are messages
-                    htmlContent += `<div class="message">${lines[i]}</div>`;
-                }
-            }
-            messages.innerHTML = htmlContent;
-        })
-        .catch(error => {
-            console.error('Fetch error:', error);
-        });
-
-}, 1000);
-
-
-        input.addEventListener('keypress', function (event) {
-            if (event.key === 'Enter') {
-                event.preventDefault();
-                const message = input.value;
-                if (message.trim() === '') {
-                    return;
-                }
-                fetch('https://axiomhub.net/send.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: `msg=${encodeURIComponent(message)}&username=${encodeURIComponent(username)}`
-                })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.text();
-                    })
-                    .then(data => {
-                        input.value = '';
-                    })
-                    .catch(error => {
-                        console.error('Fetch error:', error);
-                    });
-            }
-        });
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+        navigator.serviceWorker.register('sw.js')
+            .then(function(registration) {
+                console.log('Service Worker registered with scope:', registration.scope);
+            })
+            .catch(function(error) {
+                console.error('Service Worker registration failed:', error);
+            });
+    });
+}
     </script>
 </body>
 </html>
