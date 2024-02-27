@@ -1,5 +1,6 @@
 try{
 self.addEventListener('fetch', event => {
+  try {
   // if request comes from this origin, dont intercept it. if it goes to other origins, intercept it.
   url = window.location.href
   if (event.request.url.startsWith(url.split("/")[0])) {
@@ -16,11 +17,18 @@ self.addEventListener('fetch', event => {
         return response;
       })
   )
+}
+catch{
+  // let the request go through
+  event.respondWith(
+    fetch(event.request)
+  )
+}
 });
 }
 catch{
 
-console.warn("Using alternative method...")
+
 self.addEventListener('fetch', event => {
   // Get the origin of the service worker script
   const origin = self.origin;
