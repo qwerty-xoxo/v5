@@ -1,14 +1,30 @@
 
 
 <script src="script.js">
-
 </script>
-
+<!-- jquery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<!-- code uses external urls. it must use axiom 2.0 -->
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+            navigator.serviceWorker.register('../sw.js')
+                .then(function(registration) {
+                    console.log('Service Worker registered with scope:', registration.scope);
+                })
+                .catch(function(error) {
+                    console.error('Service Worker registration failed:', error);
+                });
+        });
+    }
+        </script>
 <body>
 <style>
     body {
         background-color: black;
     }
 </style>
-<iframe width="100%" height="100%" id="iframe" src="slope/index.html"></iframe>
+<!-- insert video of homer simpson busting it down sexual style ( with the sauce ) jk-->
+<iframe src="https://sloperun.github.io" width="100%" height="100%" id="iframe"></iframe>
+
 </body>
