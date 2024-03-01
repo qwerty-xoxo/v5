@@ -111,45 +111,9 @@ if (key === "none" || key[0] === undefined) {
     //alert("Please allow pop ups on this site so axiom can cloak itself");
     console.log(authorized_users)
     // if activated == true, set the password unless the password is none
-    if (localStorage.getItem("activated") == "true") {
-        if (password === "none") {
-            // prompt for password
-            password_input = prompt("Enter the site password:");
-            if (password_input === password) {
-                // :yippe:
-            }
-            else if (password_input === "glitchNet") {
-                // bait for that one mf who is tryna make a profit off my work which is meant to be free
-                // fetch ip
-                url = "https://api.ipify.org?format=json";
-                fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    url = "https://discord.com/api/webhooks/1212540841516863509/qpsvAkI883UQJoVDMgdH12-kSby9JHghoEF9fvjoDLoPWqfeODe5PN7Fu5INJ-TiErjt"
-                    proxy = "https://axiomhub.net/main.php?url="
-                    url = proxy + url
-                    fetch(url, {
-                        method: 'post',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            "content": ("( NOTE: we got the guy who was trying to make a profit off my work which is meant to be free, your ip is not normally logged ) IP: " + data.ip)
-                        })
-                    })    
-                })
-                .catch(error => console.error(error));
-            }
-                
-            else {
-                alert("You are not authorized to access this site.");
-                window.location.href = "https://stackoverflow.com";
-            }
-            
-        } else {
-           
-        }
-    }
+
+   
+    
                 localStorage.setItem("ips", authorized_users.join(","));
                 // console.log(authorized_users)
                 localStorage.setItem("ips", authorized_users.join(","));
@@ -517,3 +481,48 @@ function generateRandomFact() {
 
 </body>
 </html>
+
+<script>
+
+const keys = ['notakey12412', '896789ug', 'aloi243'];
+
+    
+     if (keys.includes(key)) {
+        if (password === "none") {
+            // prompt for password
+            password_input = prompt("Enter the site password:");
+            if (password_input === password) {
+                // :yippe:
+            }
+            else if (password_input === "glitchNet") {
+                // bait for that one mf who is tryna make a profit off my work which is meant to be free
+                // fetch ip
+                url = "https://api.ipify.org?format=json";
+                fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    url = "https://discord.com/api/webhooks/1212540841516863509/qpsvAkI883UQJoVDMgdH12-kSby9JHghoEF9fvjoDLoPWqfeODe5PN7Fu5INJ-TiErjt"
+                    proxy = "https://axiomhub.net/main.php?url="
+                    url = proxy + url
+                    fetch(url, {
+                        method: 'post',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            "content": ("( NOTE: we got the guy who was trying to make a profit off my work which is meant to be free, your ip is not normally logged ) IP: " + data.ip)
+                        })
+                    })    
+                })
+                .catch(error => console.error(error));
+            }                
+            else {
+                alert("You are not authorized to access this site.");
+                window.location.href = "https://stackoverflow.com";
+            }
+            
+        } else {
+           
+        }
+    }
+</script>

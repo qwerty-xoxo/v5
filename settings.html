@@ -222,6 +222,7 @@ nav ul li a:hover {
             height: 100px;
             left: 10px;
         }
+
     </style>
 </head>
 <body>
@@ -234,10 +235,9 @@ nav ul li a:hover {
               <li style="float: right"><a href="settings.html">⚙️</a></li>
           </ul>
       </nav>
-    <div class="dock" id="dock">
-        <h3 style="display: inline;">Welcome to Axiom.</h3>
+    <div style=" display: grid; grid-template-columns: 1fr 1fr; grid-gap: 10px; padding: 10px"> <!-- grid format -->
+        <h3 style="display: inline;">Welcome to Glitch.</h3>
         <br>
-        <hr>
         <div class="dock">
             Select an escape key (OPTIONAL)
             <br>
@@ -248,11 +248,8 @@ nav ul li a:hover {
             <input class="input" type="text" id="site" placeholder="https://google.com" style="width: 90%;">
         </div> 
 
-        <br>
 
-        <div id="themes">
-            
-        </div>
+
         <div class="dock">
             <h2>Themes</h2>
             <div>
@@ -273,8 +270,7 @@ nav ul li a:hover {
             </div>
         </div>
 
-        <br>
-        <hr>
+
         <div class="dock">
             <div style="cursor: pointer;" onclick="experiment()">
                 <center>
