@@ -1,4 +1,4 @@
 key="none"
 authorized_users=["1"]
 
-password="none" // add this later
+password="none" 

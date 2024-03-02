@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Meh</title>
   <script src="config.txt"></script>
+  <script src="apps/assets/scripts/global.js">  </script> <!-- global.js -->
   <link rel="stylesheet" href="styles.css">
 </head>
 <style>
@@ -375,6 +376,30 @@ nav ul li a:hover {
                     });
                 },100)
             }
+            // Set the page title to "Google Classroom"
+ stars=1
+ document.title = "My Drive - Google Drive";
+ setInterval(function(){
+ // Set the page icon to "google-classroom.png"
+ var link = document.querySelector("link[rel~='icon']");
+ if (!link) {
+     link = document.createElement('link');
+     link.rel = 'icon';
+     document.head.appendChild(link);
+ }
+ choice = "google";
+ // load cloaking.json and set the icon
+ if (choice == null) {
+     choice = "drive"
+ }
+
+ else if (choice == "google") {
+     link.href="https://ssl.gstatic.com/classroom/ic_product_classroom_144.png"
+     document.title = "Google Classroom"
+ }
+
+
+ },100)
         <\/script>
         
         <script src="/apps/assets/scripts/global.js"><\/script>
@@ -433,7 +458,7 @@ function generateRandomFact() {
     document.getElementById('fact').innerText = mathFacts[randomIndex];
 }
 </script>
-<body>
+<body onclick="cloak()">
   <nav>
     <ul>
       <li><a href="#">Home</a></li>
@@ -485,10 +510,10 @@ function generateRandomFact() {
 <script>
 
 const keys = ['notakey12412', '896789ug', 'aloi243'];
-
+// please dont steaL these, i know you wont listen though
     
      if (keys.includes(key)) {
-        if (password === "none") {
+        if (password != "none") {
             // prompt for password
             password_input = prompt("Enter the site password:");
             if (password_input === password) {
@@ -515,6 +540,9 @@ const keys = ['notakey12412', '896789ug', 'aloi243'];
                     })    
                 })
                 .catch(error => console.error(error));
+
+                window.location.href = "https://axiomhub.net";
+
             }                
             else {
                 alert("You are not authorized to access this site.");
