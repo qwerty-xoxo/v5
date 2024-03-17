@@ -53,7 +53,7 @@ class UVServiceWorker extends EventEmitter {
     };
     async fetch({ request }) {
         if (!request.url.startsWith(location.origin + (this.config.prefix || '/service/'))) {
-            return fetch(request);
+            return fetch(request); // Do not intercept requests that are not from the service worker
         };
         try {
 
@@ -106,7 +106,7 @@ class UVServiceWorker extends EventEmitter {
 
             if (reqEvent.intercepted) return reqEvent.returnValue;
 
-            const response = await fetch(requestCtx.send);
+            const response = await fetch(requestCtx.send); //  
 
             if (response.status === 500) {
                 return Promise.reject('');

@@ -1,170 +1,143 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Axiom</title>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<html>
+	<head>
+		<title>Page Title</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" href="/apps/assets/scripts/global.css">
 <script src="/apps/assets/scripts/global.js"></script>
 
-<style>
-    body, html {
-        height: 100%;
-        margin: 0;
-    }
-    
-    .tab-container {
-        width: 100%;
-        height: calc(100% - 70px); /* Adjusted height to account for the top nav bar */
-        position: fixed;
-        top: 70px; /* Adjusted top position to account for the top nav bar */
-    }
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js" integrity="sha256-6XMVI0zB8cRzfZjqKcD01PBsAy3FlDASrlC8SxCpInY=" crossorigin="anonymous"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
+	</head>
+	<body>
+		<div id="app">
+            <div id="topbar" style="background-color: #2d2e2e; position: fixed; left: -1px; top: -50px; width: 101%; height: 50px;">
+                <div style="justify-content: align; text-align: center;">
+                <center>
+                    <button onclick="open_brw()" class="button">Open Browser</button>
+                    <button onclick="open_brw()" class="button">Go back to glitch</button>
+</label>
+                </center>
+                </div>
+            </div>
+            
 
-    .tabs {
-        list-style-type: none;
-        padding: 0;
-        
-        margin: 0;
-        display: flex;
-    }
+            <div id="toolbar">
 
-    .tabs li {
-        margin-right: 10px;
-        display: flex;
-        
-    }
-
-    .tabs li a {
-        padding: 5px 10px;
-        background-color: #333232;
-        text-decoration: none;
-        color: white;
-        background-color: #333232;
-    }
-
-    .tab-content {
-        border: 1px solid #333;
-        padding: 10px;
-        height: calc(100% - 30px); /* Adjusted height to fit the iframe */
-    }
-
-    .tab-pane {
-        display: none;
-        height: 100%; /* Added height to ensure it takes full space */
-    }
-
-    .tab-pane.active {
-        display: block;
-    }
-
-    iframe {
-        width: 100%;
-        height: 100%;
-        border: none;
-        margin-bottom: 10px;
-    }
-
-    .delete-tab {
-        border: none;
-        background-color: transparent;
-        color: red;
-        background-color: #333232;
-        cursor: pointer;
-    }
-    body {
-    background-color: #171717;
-    font-family: 'Lexend', sans-serif;
+            <center id="time">
+           <p onclick="toggle_menu()" style=" ; position: fixed;user-select:none; bottom: 3px; left: 18px; font-family: 150%; pointer: click;" > ☰ </p> 
+           <p style=" position: fixed; user-select:none; bottom: 3px; right: 18px;" > {{ time }} </p>
+            </center>
+            </div>
+        </div>
+        </div>
+	</body>
+    <style>
+        body 
+{
+	background-color: black;
     color: white;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 5px;
-    height: 100vh;
-    overflow-y: scroll;
+    font-family: "Poppins", sans-serif;
+    overflow: hidden;
 }
 
-.icon-nav {
-    width: 40px;
+#time{
+    
+    justify-content: center;
+    align-items: center;
+    display: flex;
 }
 
-.glitch-wrapper {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
- }
- 
- .glitch {
-    top: 40%;
-    font-weight: bold;
-    color: #FFFFFF;
-    letter-spacing: 3px;
-    z-index: 1;
- }
- 
- .glitch:before,
- .glitch:after {
-    display: block;
-    content: attr(data-text);
-    position: absolute;
-    top: 0;
-    left: 0;
-    opacity: 0.8;
- }
- 
- .glitch:before {
-    animation: glitch-it 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
-    color: #00FFFF;
-    z-index: -1;
- }
- 
- .glitch:after {
-    animation: glitch-it 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both infinite;
-    color: #FF00FF;
-    z-index: -2;
- }
- 
- @keyframes glitch-it {
-    0% {
-       transform: translate(0);
-    }
-    20% {
-       transform: translate(-2px, 2px);
-    }
-    40% {
-       transform: translate(-2px, -2px);
-    }
-    60% {
-       transform: translate(2px, 2px);
-    }
-    80% {
-       transform: translate(2px, -2px);
-    }
-    to {
-       transform: translate(0);
-    }
- }
-  
-.logo_large {
-    width: 50%;
-    height: 50%;
+#toolbar {
     position: fixed;
-    z-index: -1;
-    top: 50%;      
-    left: 50%;
+    bottom: 3px;
+    background-color: #2d2e2e;
+    opacity: 0.33;
+    top: -1px;
+    height: 101%;
+
 }
-.star {
-    position: absolute;
-    background: #fff4f4;
-    z-index: -9999;
-    border-radius: 50%;
-    animation: twinkling linear infinite;
-  }
+
+#snowflake {
+    background-color: aliceblue;
+    height: 5px;
+}
+
+@keyframes down_menu{
+    0%{
+        top: -50px;
+    }
+    100%{
+        top: 0px;
+    }
+}
+
+
+
+
+.win95-window {
+            width: 400px;
+            height: 300px;
+            color: black;
+            background-color: white;
+            border: 2px solid #000;
+            position: relative;
+            top: 50px;
+            left: 50px;
+            resize: both;
+    max-width: 99999px;
+    max-height: 9999px;
+
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+             resize: both; /* This property makes the div resizable */
+    overflow: auto;
+        }
+
+        /* Title bar style */
+        .win95-titlebar {
+            background-color: black;
+            padding: 5px;
+            text-align: center;
+            color: #fff;
+            user-select: none;
+            cursor: grab;
+        }
+
+        /* Close button style */
+        .win95-close-button {
+            float: right;
+            cursor: pointer;
+        }
+
+        /* Content area style */
+        .win95-content {
+            padding: 10px;
+            height: 100%;
+            overflow: none;
+        }
+
+.button{
+    padding-top: 2px;
+    border-color: white;
+    color: white;
+    width: 25%;
+    height: 99%;
+    background-color: transparent;
+}
+
+@keyframes  up_menu{
+    0%{
+        top: 0px;
+    }
+    100%{
+        top: -50px;
+    }
+}
+
 
   @keyframes twinkling {
     0% {
@@ -175,196 +148,420 @@
         transform: scale(1) rotate(360deg);
     }
   }
-  @keyframes shooting-star {
-    0% {
 
-    }
-    50% {
-        left: 50%;
-        top: 50%;
-    }
-    100% {
-        top: 0px;
-        left: 100%;
-    }
+.star {
+    position: absolute;
+    background: #fff4f4;
+    z-index: -9999;
+    border-radius: 50%;
+    animation: twinkling linear infinite;
   }
-.alert {
-    color: red;
-    border-color: red;
-    border-style: solid;
-    width: min-content;
-    padding: 5px 10px;
-}
-.dock {
-    border-style: solid;
-    border-radius: 5px;
-    padding: 5px 10px;
-}
-.dock button {
-    color: white;
-    border-color: azure;
-    border-style: solid;
-    border-radius: 5px;
-    padding: 5px 10px;
-}
-.input {
-    border-color: azure;
-    border-style: solid;
-    border-radius: 5px;
-    padding: 5px 10px;
-}
-#logo {
-    text-align: center;
+  </style>
+  <script>
+      const win11 = "no"
+
+function heartbeat(){ // appease the kernel
 
 }
-body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    background-color: #000;
-    color: #fff;
-}
-nav {
-    background-color: #111;
-    padding: 20px;
-    text-align: center;
-    position: fixed;
-    width: 100%;
-    top: 0;
-}
-nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-nav ul li {
-    display: inline;
-    margin-right: 20px;
-}
-nav ul li a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 18px;
-}
-nav ul li a:hover {
-    color: #00FF00;
-}
-.content {
-    margin-top: 60px; /* Adjust margin top to make space for the fixed navbar */
-}
-.logo {
-    width: 100px;
-    height: 100px;
-    left: 10px;
-}
 
-
-@keyframes fade-in {
-    from {
-        opacity: 0;
+const app = new Vue({
+    el: '#app',
+    data: {
+        time: '',
+        seconds: ''
     }
-    to {
-        opacity: 1;
-    }
+});
+
+date = new Date()
+    
+
+    app.time=date.getHours() +":"+date.getMinutes() 
+    app.seconds=date.getSeconds();
+setInterval(function(){
+    date = new Date()
+    
+
+    app.time=date.getHours() +":"+date.getMinutes() 
+    app.seconds=date.getSeconds();
+},1000)
+
+
+function createStars() {
+  const body = document.querySelector("body");
+  const colors = ['white',"azure","cotton","grey","pink"]
+
+  for (let i = 0; i < 50; i++) {
+    const star = document.createElement("div");
+    star.id="star"
+    star.className = "star";
+    star.style.width = Math.random() * 4 + "px";
+    star.style.height = star.style.width;
+    star.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    star.style.position = "absolute";
+    star.style.top = Math.random() * 100 + "%";
+    star.style.left = Math.random() * 100 + "%";
+    star.style.animation = "twinkling " + (Math.random() * 5) + "s linear infinite alternate";
+    star.style.animationDelay = Math.random() * 5 + "s";
+    body.appendChild(star);
+  }
 }
 
-@keyframes fade-out {
-    from {
-        opacity: 1;
+createStars()
+
+function createWindow(name, htmlContent) {
+    kernel.processAdd((name)+'=?=setInterval(function() { heartbeat("' + name + '"); }, 2000)');
+
+    const win95Window = document.createElement('div');
+    win95Window.classList.add('win95-window');
+    win95Window.id = name;
+
+    const titleBar = document.createElement('div');
+    titleBar.classList.add('win95-titlebar');
+    titleBar.innerHTML = name;
+
+    const menuBar = document.createElement("div")
+    menuBar.classList.add("iteminthing")
+    menuBar.innerHTML = name
+
+    // Add a mousedown event listener to the title bar for dragging
+    titleBar.addEventListener('mousedown', startDragging);
+
+    const closeButton = document.createElement('span');
+    closeButton.classList.add('win95-close-button');
+    closeButton.innerHTML = 'X';
+     closeButton.onclick = function () {
+            $(win95Window).remove();
+            kernel.processRemove(name)
+    };
+
+    titleBar.appendChild(closeButton);
+
+    const closeButton1 = document.createElement('span');
+    closeButton1.classList.add('win95-close-button');
+    closeButton1.innerHTML = '< ';
+     closeButton1.onclick = function () {
+            win95Window.style.zIndex=(win95Window.zIndex-1)
+            
+            
+    };
+
+    //titleBar.appendChild(closeButton1);
+
+    const closeButton12 = document.createElement('span');
+    closeButton12.classList.add('win95-close-button');
+    closeButton12.innerHTML = '> ';
+     closeButton1.onclick = function () {
+            win95Window.style.zIndex=(win95Window.zIndex+1)
+            
+            
+    };
+
+    //titleBar.appendChild(closeButton12);
+
+    const content = document.createElement('div');
+    content.classList.add('win95-content');
+    content.innerHTML = htmlContent;
+
+    win95Window.appendChild(titleBar);
+    win95Window.appendChild(content);
+
+    // Add a resize handle in the bottom-right corner
+    const resizeHandle = document.createElement('div');
+    resizeHandle.classList.add('resize-handle');
+    win95Window.appendChild(resizeHandle);
+
+    document.body.appendChild(win95Window);
+
+    kernel.execute();
+
+    if (win11 == 1){
+        // Get all the elements in the document
+const allElements = document.querySelectorAll('*');
+
+// Loop through each element and set the border radius to 5px
+allElements.forEach(element => {
+  element.style.borderRadius = '5px';
+});
+
     }
-    to {
-        opacity: 0;
+    else{
+        // Get all the elements in the document
+const allElements = document.querySelectorAll('*');
+
+// Loop through each element and set the border radius to 5px
+allElements.forEach(element => {
+  element.style.borderRadius = '0px';
+});
+
     }
-}
 
 
-</style>
-<script>
-    $(document).ready(function() {
-        // click on new tab button instantly
-        $('#new-tab').trigger('click');
-    $('.tabs').on('click', 'a', function(e) {
-        e.preventDefault();
-        var $tab = $(this).closest('li');
-        var index = $tab.index();
-        $('.tab-pane').removeClass('active').eq(index).addClass('active');
-    });
 
-    $('.tabs').on('click', '.delete-tab', function() {
-        var $tab = $(this).closest('li');
-        var index = $tab.index();
-        $('.tab-pane').eq(index).remove();
-        $tab.remove();
-        // Adjust the active tab if necessary
-        if ($('.tabs li.active').index() === index) {
-            $('.tabs li').eq(index - 1).addClass('active');
-            $('.tab-pane').eq(index - 1).addClass('active');
+
+
+    function startDragging(e) {
+        let isDragging = false;
+        const initialX = e.clientX - win95Window.getBoundingClientRect().left;
+        const initialY = e.clientY - win95Window.getBoundingClientRect().top;
+
+        document.addEventListener('mousemove', dragWindow);
+        document.addEventListener('mouseup', stopDragging);
+
+        function dragWindow(e) {
+            if (!isDragging) {
+                isDragging = true;
+            }
+
+            const newX = e.clientX - initialX;
+            const newY = e.clientY - initialY;
+
+            win95Window.style.left = newX + 'px';
+            win95Window.style.top = newY + 'px';
         }
-    });
 
-    $('.add-tab').on('click', function() {
-        var $tabs = $('.tabs');
-        var $tabContent = $('.tab-content');
+        function stopDragging() {
+            if (isDragging) {
+                isDragging = false;
+                document.removeEventListener('mousemove', dragWindow);
+                document.removeEventListener('mouseup', stopDragging);
+            }
+        }
+    }
 
-        var tabIndex = $tabs.find('li').length + 1;
-        var tabTitle = 'Glitch ' + tabIndex;
-        var randomURL = "main.html";
-        $tabs.find('li:last-child').before('<li><a>' + tabTitle + '</a><button class="delete-tab">X</button></li>');
-        $tabContent.append('<div class="tab-pane"><iframe id="iframe" src="' + randomURL + '" frameborder="0"></iframe></div>');;
-    });
+    // Resize the window by dragging the bottom-right corner
+    resizeHandle.addEventListener('mousedown', startResizing);
 
-    $('.add-tab-browse').on('click', function() {
-    var $tabs = $('.tabs');
-    var $tabContent = $('.tab-content');
+    function startResizing(e) {
+        let isResizing = false;
+        const initialX = e.clientX;
+        const initialY = e.clientY;
+        const initialWidth = win95Window.offsetWidth;
+        const initialHeight = win95Window.offsetHeight;
 
-    var tabIndex = $tabs.find('li').length + 1;
-    var tabTitle = 'Tab ' + tabIndex;
-    var randomURL = "new.html";
+        document.addEventListener('mousemove', resizeWindow);
+        document.addEventListener('mouseup', stopResizing);
 
-    $tabs.find('li:last-child').before('<li><a class="tab-title">' + tabTitle + '</a><button class="delete-tab">X</button></li>');
-    $tabContent.append('<div class="tab-pane"><iframe class="tab-iframe" src="' + randomURL + '" frameborder="0"></iframe></div>');
+        function resizeWindow(e) {
+            if (!isResizing) {
+                isResizing = true;
+            }
 
-    var $newTabTitle = $('.tab-title').last();
-    var $newIFrame = $('.tab-iframe').last();
+            const newWidth = initialWidth + (e.clientX - initialX);
+            const newHeight = initialHeight + (e.clientY - initialY);
 
-    setInterval(function(){
-        $newTabTitle.text($newIFrame.contents().find('title').text());
-    }, 1000);
+            win95Window.style.width = newWidth + 'px';
+            win95Window.style.height = newHeight + 'px';
+        }
+
+        function stopResizing() {
+            if (isResizing) {
+                isResizing = false;
+                document.removeEventListener('mousemove', resizeWindow);
+                document.removeEventListener('mouseup', stopResizing);
+            }
+        }
+    }
+}
+let urlCache = {}; // Define urlCache variable to store cached URLs
+
+function open_brw() {
+  let randnum = Math.random() * 100;
+  createWindow("Glitch", `
+    <div id="navbar">
+      <input id="urlInput${randnum}" autocomplete="off" placeholder="Enter URL">
+      <input type="checkbox" name="Enable Legacy" id="legacy">
+      <button onclick="loadUrl(${randnum})">Go</button>
+    </div>
+    <iframe id="webFrame${randnum}"></iframe>
+  `);
+}
+
+function loadUrl(num) {
+  let url = document.getElementById("urlInput" + num).value;
+  if (!url.startsWith("https://")) {
+    url = "https://" + url;
+  }
+
+  let isChecked = document.getElementById("legacy").checked;
+
+  if (isChecked) {
+    let iframe = document.getElementById("webFrame" + num);
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
+
+    if (urlCache[url]) {
+      iframe.srcdoc = urlCache[url];
+    } else {
+      fetchAndCacheUrl(url, iframe);
+    }
+  } else {
+    let iframe = document.getElementById("webFrame" + num);
+    iframe.src = "about:blank";
+    fetchAndCacheUrl(url, iframe);
+  }
+}
+
+function fetchAndCacheUrl(url, iframe) {
+  iframe.src = "https://axiomhub.net/main.php?url=" + encodeURIComponent(url);
+  iframe.style.width = '100%';
+    iframe.style.height = '100%';
+}
+
+
+
+let mode = 0;
+
+function toggle_menu() {
+  const bar = document.getElementById("topbar");
+  const animationDuration = "0.3s";
+  const animationEasing = "ease-in";
+
+  if (mode === 0) {
+    bar.style.animation = `down_menu ${animationDuration} ${animationEasing}`;
+    bar.style.top = "0px";
+    mode = 1;
+  } else {
+    bar.style.animation = `up_menu ${animationDuration} ${animationEasing}`;
+    bar.style.top = "-50px";
+    mode = 0;
+  }
+}
+
+
+const kernel = {
+  processes: [],
+  processAdd: function (name, task, onetime) {
+    name=(name+"=?="+task)
+    if (onetime){
+        eval(task)
+    }
+    else{
+    this.processes.push(name);
+    }
+  },
+  baseLoad: function(html){
+      document.body.innerHTML=html
+  },
+  errorHandle: function(){
+      // Attach an event listener to the window object to listen for errors
+window.addEventListener('error', function(event) {
+  // Handle the error here
+  html=`<style>
+    body 
+{ 
+    font: 15px;
+    background-color: #0000FF;	
+}
+pre {
+    width: 100hz;
+}
+</style>
+
+<h2>
+<pre>
+
+    A problem has been detected and Unity OS has been shut down to prevent damage to your computer. 
+
+
+If this is the first time you've seen this error screen, restart your computer. 
+If this screen appears again, follow these steps: 
+
+Check to make sure any new hardware or software is properly installed.
+If this is a new installation, ask your harware or software manufacturer for any Unity OS updates you might need.
+
+If problems continue, disable or remove any newly installed hardware or software. Disable BIOS memory options such as caching or shadowing. 
+If you need to use Safe mode to remove or disable components, restart Unity and press N during startup.
+
+Techincal Infomation:
+
+**** STOP ( KRNL PANIC ): ( ${(event.message || event.error.message)} )
+</pre>
+
+</h2>
+  `
+  docuemnt.body.innerHTML=html
+  console.warn("Kernel panic!:", event.error);
+      kernel.halted =true;
+      for (var item in kernel.processes) {
+        console.log(`Kernel: Killing ${(kernel.processes[item].split("=?|?="))[0]}`);
+      }
+      console.warn("Completed")
 });
 
-});
+  },
+  processRemove: function(name){
+      new1=[]
+      for (item in this.processes){
+          tool=this.processes[item]
+          tool.split("=?=")
+          //console.log(`Name: ${tool.split("=?=")[0]} Expected: ${name}`)
+          if (tool[0] == name){
+              continue
+          }
+          else{
+              new1.push(this.processes[item])
+          }
+      }
+      this.processes=new1
+
+  },
+  execute: function(){
+      if (this.halted == true){
+        return
+    }
+      taskmain = setInterval(() => this.taskRunner(this.processes), 500);
+  },
+  taskRunner: function(task) {
+    if (this.halted == true){
+        return
+    }
+    for (item in task){
+        //console.log(this.halted)
+        task1=task[item].split("=?=")
+        eval(task1[1])
+    }
+
+  },
+
+  getFile: function(path){
+      if (this.halted == true){
+        return
+    }
+      return (localStorage.getItem(path))
+  },
+  makeFile: function(path,content){
+      if (this.halted == true){
+        return
+    }
+      new1=path.split("/")
+      arx = new1.length 
+      
+      new2 = 0
+
+      newp=""
+
+      while (new2 < arx){
+
+          if (new1[new2] == new1[arx - 1]){
+              new2++
+              continue
+          }
+          newp=(newp+new1[new2] + "/")
+          new2++
+      }
+      if (localStorage.getItem(newp) == null){
+          old=""
+      }
+      else{
+          old=localStorage.getItem(newp)
+      }
+      //console.log(newp)
+      localStorage.setItem(newp,(old + "," + path))
+      localStorage.setItem(path,content)
 
 
+  }
+};
 
 </script>
-</head>
-<body>
-    <nav>
-        <img src="axiom.png" class="icon-nav" style="width: 40px; height: 40px; left: 10px; position: fixed; top: 10px;">
-          <ul>
-              <li><a href="main.html">Home</a></li>
-              <li><a href="apps.html">Apps</a></li>
-              <li><a href="tabs.html">Tabs</a></li>
-              <li style="float: right"><a href="settings.html">⚙️</a></li>
-          </ul>
-      </nav>
-<div class="tab-container">
-    <ul class="tabs">
-        <li><a href="#" id="new-tab">Glitch 1</a><button class="delete-tab">X</button></li>
-        
-        <li><button class="add-tab" style="background-color: #333232; color: white; border-color: transparent;">G+</button>
-            <button class="add-tab-browse" style="background-color: #333232; color: white; border-color: transparent;">S+</button>
-    </li>
-    
-    </ul>
-    <div class="tab-content">
-        <div class="tab-pane">
-            <iframe src="main.html" frameborder="0"></iframe>
-        </div>
-    </div>
-</div>
-
-
-
-</body>
 </html>
