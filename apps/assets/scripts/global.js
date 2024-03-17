@@ -379,10 +379,12 @@ window.addEventListener('error', function(event) {
 if (window.location.protocol === "file:") {
   console.warn("File protocol detected. Use may not work.");
 }
+/*
 if (window.self === window.top && window.location.protocol !== "file:") { // if not in iframe and not file://
   window.location.href = "https://www.google.com";
 }
 
+*/
 
 
 // get ip
