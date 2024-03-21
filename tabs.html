@@ -1,97 +1,378 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Page Title</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<link rel="stylesheet" href="/apps/assets/scripts/global.css">
-<script src="/apps/assets/scripts/global.js"></script>
-
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js" integrity="sha256-6XMVI0zB8cRzfZjqKcD01PBsAy3FlDASrlC8SxCpInY=" crossorigin="anonymous"></script>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
-	</head>
-	<body>
-		<div id="app">
-            <div id="topbar" style="background-color: #2d2e2e; position: fixed; left: -1px; top: -50px; width: 101%; height: 50px;">
-                <div style="justify-content: align; text-align: center;">
-                <center>
-                    <button onclick="open_brw()" class="button">Open Browser</button>
-                    <button onclick="open_brw()" class="button">Go back to glitch</button>
-</label>
-                </center>
-                </div>
-            </div>
-            
-
-            <div id="toolbar">
-
-            <center id="time">
-           <p onclick="toggle_menu()" style=" ; position: fixed;user-select:none; bottom: 3px; left: 18px; font-family: 150%; pointer: click;" > ☰ </p> 
-           <p style=" position: fixed; user-select:none; bottom: 3px; right: 18px;" > {{ time }} </p>
-            </center>
-            </div>
-        </div>
-        </div>
-	</body>
+<head>
+    <title>Unity</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Tahoma" rel="stylesheet">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/http-proxy-middleware@2.0.6/dist/config-factory.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/express@4.18.2/index.min.js"></script>
     <style>
-        body 
-{
-	background-color: black;
-    color: white;
-    font-family: "Poppins", sans-serif;
+        /* Add CSS styles for the Start Menu here */
+        #start-menu {
+            display: none;
+            position: absolute;
+            width: 200px;
+            background-color: #c0c0c0;
+            border: 2px solid #000;
+            padding: 10px;
+            z-index: 1;
+        }
+
+        #start-button:hover + #start-menu {
+            display: block;
+        }
+    </style>
+</head>
+<body onload="init()">
+    <div id="shell-container"></div>
+    <div id="login">
+        <center>
+            <h2 style="color: white;" id="username"></h2>
+            <br>
+            <input placeholder="Input your password" id="blackmen" oninput="checkpassword()" type="password">
+        </center>
+    </div>
+    <div class="gui" id="gui">
+        <div id="desktop">
+        <div id="desktop1">
+        
+        </div>
+        </div>
+        <div id="taskbar">
+            <div onclick="toggletools('start-menu')" style="color:white; padding-left: 5px; font-size: 20px;">
+              ☰
+            </div> 
+            <img src="">
+            <br>
+            <div id="itembar">
+            </div>
+            </div>
+     <div class="notificationbox" style="color: white;" id="not">
+       <ul> Notifications </ul>
+       <hr>
+    </div>
+    <div class="notification-center">
+                <!-- Add your notification center icon here -->
+                <img onclick="$('.notificationbox').toggle()" class="notification" src="data:image/png;base64,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" alt="Notifications">
+            </div>
+            <div id="time" class="clock">
+                    <p id="time"></p> 
+                </div>
+
+        <div class="start-menu-alt" id="start-menu" style="background-color: black;">
+            <!-- Add Start Menu items here -->
+            <ul>
+                <h2 class="turned"> Unity OS </h2>
+                <li><a onclick="terminal()">Terminal</a></li>
+                <li><a onclick="taskmgr()" </a> Task Manager</li>
+                <li><a onclick="explorer()">Internet Explorer</a></li>
+                <li><a onclick="explorer1()"> Explorer </a></li>
+                <!-- Add more items as needed -->
+                <br>
+                <li><a onclick="window.location.href='main.html'"> Shutdown and go back to Glitch </a></li>
+            </ul>
+        </div>
+        </div>
+    </div>
+    
+</body>
+<style>
+      body {
+    background-color: black; /* Desktop background color */
+    margin: 0;
+    padding: 0;
     overflow: hidden;
+    color: black;
 }
+
+/* Style the textarea with a monospace font and rounded corners */
+#editor {
+    display: block;
+    width: 100%;
+    min-height: 200px;
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Center the buttons horizontally and give them some padding */
+.buttons {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+    appearance: none;
+    border: none;
+    outline: none;
+    color: white;
+    background-image: linear-gradient(to right, #ff6b6b, #fda7df);
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    /* Change the button color when the mouse hovers over it */
+    background-image: linear-gradient(to right, #fa7ea8, #ef4e7b);
+}
+
+@font-face {
+  font-family: 'Tahoma';
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://fonts.gstatic.com/l/font?kit=HTxtL2QoJDuBh5RMBMDg&skey=9d22fae1754942f6&v=v17) format('woff2');
+  unicode-range: U+0E01-0E5B, U+200C-200D, U+25CC;
+}
+
+#desktop {
+    background-color: #212121;
+    font-family: 'Tahoma', sans-serif;
+    overflow: hidden;
+    background-size: cover;
+background-repeat: no-repeat;
+    height: 100vh; /* Full viewport height */
+    position: relative;
+}
+
+#desktop1{
+    position: absolute;
+    top: 10px;
+}
+
+
+#niko{
+    width: 150px;
+    height: 100px;
+    left: 50%;
+    top: 50%;
+    z-index: 99999;
+}
+
+
+#taskbar {
+    background-color: #000;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    padding: 0;
+    z-index: 987;
+    display: flex;
+    justify-content: space-between;
+    
+    color: white; /* Taskbar text color */
+    height: 30px;
+}
+
+.start-menu-alt {
+    display: none;
+    position: absolute;
+     /* Position it above the taskbar */
+    width: 200px;
+
+    color: black;
+    background-color: black;
+    border: 2px solid #000;
+    padding: 10px;
+    z-index: 1;
+    font-size: 12px; /* Adjust font size as needed */
+}
+
+.start-menu-alt ul {
+    list-style: none;
+    padding: 0;
+}
+
+.start-menu-alt li {
+    margin: 5px 0;
+}
+
+.start-menu-alt a {
+    text-decoration: none;
+    color: #000; /* Start menu item text color */
+}
+
+.start-menu-alt a:hover {
+    text-decoration: underline;
+}
+
+#taskbar {
+    background-color: white;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    text-align: center;
+    left: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    
+    color: black; /* Taskbar text color */
+    height: 30px;
+}
+
+#taskbar-ubuntu {
+     background-color: #000;
+    width: 30px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    
+    color: white; /* Taskbar text color */
+    height: 100%;
+    
+}
+
+#start-button {
+
+    color: #000; /* Start button text color */
+    width: 30px;
+    height: 30px;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    font-weight: bold;
+    cursor: pointer;
+
+   
+}
+
+#start-button:hover {
+    background-color: #818181;
+}
+
+#notification-area {
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+}
+
+#time {
+    color: white; /* Taskbar time text color */
+    font-weight: bold;
+    font-size: 16px;
+    background-color: black;
+    margin-right: 10px;
+    user-select: none;
+}
+
+.start-menu a {
+    text-decoration: none;
+    color: white; /* Set the default color for the link */
+    filter: invert(1); /* Invert the color of the link */
+}
+
+.start-menu a:hover {
+    text-decoration: underline;
+    filter: invert(0); /* Remove the invert effect on hover */
+}
+
+iframe{
+    resize: both;
+    max-width: 99999px;
+    max-height: 9999px;
+}
+
+
+
+ body {
+      font-family: Arial, sans-serif;
+    }
+    #navbar {
+      background-color: #333;
+      color: white;
+      padding: 10px;
+      text-align: center;
+    }
+    #content {
+      padding: 20px;
+    }
+    #urlInput {
+      width: 70%;
+    }
+    #goButton {
+      background-color: #4CAF50;
+      color: white;
+    }
+    #goButton:hover {
+      background-color: #45a049;
+    }
 
 #time{
-    
-    justify-content: center;
-    align-items: center;
-    display: flex;
-}
-
-#toolbar {
     position: fixed;
-    bottom: 3px;
-    background-color: #2d2e2e;
-    opacity: 0.33;
-    top: -1px;
-    height: 101%;
-
+    right: 0px;
 }
 
-#snowflake {
-    background-color: aliceblue;
-    height: 5px;
+.iteminthing{
+    position: absolute;
 }
 
-@keyframes down_menu{
-    0%{
-        top: -50px;
-    }
-    100%{
-        top: 0px;
-    }
+#textarea{
+    height: 100%;
+    width: 100%;
+}
+
+#blackmen{
+    position: fixed;
+    bottom: 50%;
+    width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    left: 0%;
+    z-index: 9234;
 }
 
 
+
+.notificationbox {
+  display: none;
+  position: fixed;
+  right: 20px;
+  z-index: 999;
+  bottom: 50px;
+  background-color: #1e1e1e;
+  border: 1px solid #fff;
+  padding: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+
+.notificationbox ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.notificationbox li {
+  padding: 8px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.notificationbox li:hover {
+  background-color: #444;
+}
 
 
 .win95-window {
             width: 400px;
             height: 300px;
             color: black;
+            border: none;
             background-color: white;
-            border: 2px solid #000;
-            position: relative;
+            position: absolute;
             top: 50px;
             left: 50px;
-            resize: both;
-    max-width: 99999px;
-    max-height: 9999px;
-
+            
             box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
              resize: both; /* This property makes the div resizable */
     overflow: auto;
@@ -99,7 +380,7 @@
 
         /* Title bar style */
         .win95-titlebar {
-            background-color: black;
+            background-color: #3e3f40;
             padding: 5px;
             text-align: center;
             color: #fff;
@@ -118,315 +399,203 @@
             padding: 10px;
             height: 100%;
             overflow: none;
-        }
+     
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+}
+.win95-content::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+}
+.clock {
+  font-family: Arial, sans-serif;
+  font-size: 2rem;
+  color: #ffffff;
+  background-color: #000000;
+  padding: 0.5rem;
+}
 
-.button{
-    padding-top: 2px;
-    border-color: white;
+#time{
+    right: 20px;
+}
+.clock span {
+   display:inline-block; 
+   min-width:1.25em; /* adjust this value to change the width of each digit */
+   text-align:center;
+}
+
+body {
+  background-color: #000;
+  color: #fff;
+}
+
+
+
+#shell-container {
+  width: 600px;
+  height: auto;
+  
+  margin: auto;
+  
+  padding:10px;
+  
+    font-family:'Courier New', Courier, monospace ;
+    
+    overflow-y:auto;   
+    border-radius:5px; 
+    box-shadow:#333333 -2px -2px;
+
+}
+
+.start-menu {
+    display: none;
+    position: absolute;
+    bottom: 30px; /* Position it above the taskbar */
+    width: 200px;
     color: white;
-    width: 25%;
-    height: 99%;
-    background-color: transparent;
+    background-color: black;
+    border: 2px solid #000;
+    padding: 10px;
+    z-index: 1;
+    font-size: 12px; /* Adjust font size as needed */
 }
 
-@keyframes  up_menu{
-    0%{
-        top: 0px;
-    }
-    100%{
-        top: -50px;
-    }
+#start-menu h2 {
+  font-size: 1.5em;
+  margin: 0;
+  padding: 10px;
+  color: white;
+  font-weight: bold;
+  text-align: center;
 }
 
+#start-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  color: white;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
 
-  @keyframes twinkling {
+#start-menu li {
+  margin: 0 10px;
+  padding: 10px;
+  font-size: 1.2em;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#start-menu li:hover {
+  background-color: #444;
+  color: #fff;
+}
+
+#start-menu li a {
+  text-decoration: none;
+  color: white;
+
+}
+
+#start-menu li a:hover {
+    color: white;
+  text-decoration: underline;
+
+}
+
+#start-menu li:hover {
+  background-color: #444;
+  color: #fff;
+}
+
+#start-menu li:hover a {
+  text-decoration: none;
+  color: #fff;
+}
+
+@keyframes winopen {
+  0% {
+    bottom: -290px;
+  }
+  100% {
+    bottom: 30px;
+  }
+}
+@keyframes winclose {
+  0% {
+    bottom: 30px;
+  }
+  100% {
+    bottom: -290px;
+  }
+}
+@keyframes winclosewin {
+  0% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  100% {
+      opacity: 0;
+      transform: scale(0.5);
+      height: 0px;
+      width: 0px;
+    }
+}
+@keyframes winshutdown {
     0% {
-        /* rotate star twinkling yes zoom in out yes true factual */
-        transform: scale(0.5) rotate(0deg);
+        left: 0px;
     }
     100% {
-        transform: scale(1) rotate(360deg);
+        left: -10000px
     }
-  }
-
-.star {
-    position: absolute;
-    background: #fff4f4;
-    z-index: -9999;
-    border-radius: 50%;
-    animation: twinkling linear infinite;
-  }
-  </style>
-  <script>
-      const win11 = "no"
-
-function heartbeat(){ // appease the kernel
-
 }
 
-const app = new Vue({
-    el: '#app',
-    data: {
-        time: '',
-        seconds: ''
-    }
-});
 
-date = new Date()
+</style>
+<script>
     
-
-    app.time=date.getHours() +":"+date.getMinutes() 
-    app.seconds=date.getSeconds();
-setInterval(function(){
-    date = new Date()
-    
-
-    app.time=date.getHours() +":"+date.getMinutes() 
-    app.seconds=date.getSeconds();
-},1000)
+// Default password is " default "
 
 
-function createStars() {
-  const body = document.querySelector("body");
-  const colors = ['white',"azure","cotton","grey","pink"]
 
-  for (let i = 0; i < 50; i++) {
-    const star = document.createElement("div");
-    star.id="star"
-    star.className = "star";
-    star.style.width = Math.random() * 4 + "px";
-    star.style.height = star.style.width;
-    star.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-    star.style.position = "absolute";
-    star.style.top = Math.random() * 100 + "%";
-    star.style.left = Math.random() * 100 + "%";
-    star.style.animation = "twinkling " + (Math.random() * 5) + "s linear infinite alternate";
-    star.style.animationDelay = Math.random() * 5 + "s";
-    body.appendChild(star);
-  }
-}
+// If you enjoy this then considor leaving a like
 
-createStars()
+// Unity OS Updates:
 
-function createWindow(name, htmlContent) {
-    kernel.processAdd((name)+'=?=setInterval(function() { heartbeat("' + name + '"); }, 2000)');
+// Messed up default theme, automaticly using win11 theme now
 
-    const win95Window = document.createElement('div');
-    win95Window.classList.add('win95-window');
-    win95Window.id = name;
+// Swaped completly to SRV Kernel, some problems might occur due to some applications ( such as taskManager having a dependency on the original kernel )
 
-    const titleBar = document.createElement('div');
-    titleBar.classList.add('win95-titlebar');
-    titleBar.innerHTML = name;
+// Fixed the menu opening animation
 
-    const menuBar = document.createElement("div")
-    menuBar.classList.add("iteminthing")
-    menuBar.innerHTML = name
+// Planned for Unity OS:
 
-    // Add a mousedown event listener to the title bar for dragging
-    titleBar.addEventListener('mousedown', startDragging);
+// Fixed Notepad 
 
-    const closeButton = document.createElement('span');
-    closeButton.classList.add('win95-close-button');
-    closeButton.innerHTML = 'X';
-     closeButton.onclick = function () {
-            $(win95Window).remove();
-            kernel.processRemove(name)
-    };
+// Unity Assistant
 
-    titleBar.appendChild(closeButton);
+// Removing KRNL, current kernel and file direcotry service
 
-    const closeButton1 = document.createElement('span');
-    closeButton1.classList.add('win95-close-button');
-    closeButton1.innerHTML = '< ';
-     closeButton1.onclick = function () {
-            win95Window.style.zIndex=(win95Window.zIndex-1)
-            
-            
-    };
+//localStorage.clear()
 
-    //titleBar.appendChild(closeButton1);
-
-    const closeButton12 = document.createElement('span');
-    closeButton12.classList.add('win95-close-button');
-    closeButton12.innerHTML = '> ';
-     closeButton1.onclick = function () {
-            win95Window.style.zIndex=(win95Window.zIndex+1)
-            
-            
-    };
-
-    //titleBar.appendChild(closeButton12);
-
-    const content = document.createElement('div');
-    content.classList.add('win95-content');
-    content.innerHTML = htmlContent;
-
-    win95Window.appendChild(titleBar);
-    win95Window.appendChild(content);
-
-    // Add a resize handle in the bottom-right corner
-    const resizeHandle = document.createElement('div');
-    resizeHandle.classList.add('resize-handle');
-    win95Window.appendChild(resizeHandle);
-
-    document.body.appendChild(win95Window);
-
-    kernel.execute();
-
-    if (win11 == 1){
-        // Get all the elements in the document
-const allElements = document.querySelectorAll('*');
-
-// Loop through each element and set the border radius to 5px
-allElements.forEach(element => {
-  element.style.borderRadius = '5px';
-});
-
+function kill_switch(){
+    for (x=0;x<100;x++){
+        explorer()
     }
-    else{
-        // Get all the elements in the document
-const allElements = document.querySelectorAll('*');
+    localStorage.setItem("root/bin/boot/kernel.bin","")
 
-// Loop through each element and set the border radius to 5px
-allElements.forEach(element => {
-  element.style.borderRadius = '0px';
-});
-
-    }
-
-
-
-
-
-    function startDragging(e) {
-        let isDragging = false;
-        const initialX = e.clientX - win95Window.getBoundingClientRect().left;
-        const initialY = e.clientY - win95Window.getBoundingClientRect().top;
-
-        document.addEventListener('mousemove', dragWindow);
-        document.addEventListener('mouseup', stopDragging);
-
-        function dragWindow(e) {
-            if (!isDragging) {
-                isDragging = true;
-            }
-
-            const newX = e.clientX - initialX;
-            const newY = e.clientY - initialY;
-
-            win95Window.style.left = newX + 'px';
-            win95Window.style.top = newY + 'px';
-        }
-
-        function stopDragging() {
-            if (isDragging) {
-                isDragging = false;
-                document.removeEventListener('mousemove', dragWindow);
-                document.removeEventListener('mouseup', stopDragging);
-            }
-        }
-    }
-
-    // Resize the window by dragging the bottom-right corner
-    resizeHandle.addEventListener('mousedown', startResizing);
-
-    function startResizing(e) {
-        let isResizing = false;
-        const initialX = e.clientX;
-        const initialY = e.clientY;
-        const initialWidth = win95Window.offsetWidth;
-        const initialHeight = win95Window.offsetHeight;
-
-        document.addEventListener('mousemove', resizeWindow);
-        document.addEventListener('mouseup', stopResizing);
-
-        function resizeWindow(e) {
-            if (!isResizing) {
-                isResizing = true;
-            }
-
-            const newWidth = initialWidth + (e.clientX - initialX);
-            const newHeight = initialHeight + (e.clientY - initialY);
-
-            win95Window.style.width = newWidth + 'px';
-            win95Window.style.height = newHeight + 'px';
-        }
-
-        function stopResizing() {
-            if (isResizing) {
-                isResizing = false;
-                document.removeEventListener('mousemove', resizeWindow);
-                document.removeEventListener('mouseup', stopResizing);
-            }
-        }
-    }
-}
-let urlCache = {}; // Define urlCache variable to store cached URLs
-
-function open_brw() {
-  let randnum = Math.random() * 100;
-  createWindow("Glitch", `
-    <div id="navbar">
-      <input id="urlInput${randnum}" autocomplete="off" placeholder="Enter URL">
-      <input type="checkbox" name="Enable Legacy" id="legacy">
-      <button onclick="loadUrl(${randnum})">Go</button>
-    </div>
-    <iframe id="webFrame${randnum}"></iframe>
-  `);
-}
-
-function loadUrl(num) {
-  let url = document.getElementById("urlInput" + num).value;
-  if (!url.startsWith("https://")) {
-    url = "https://" + url;
-  }
-
-  let isChecked = document.getElementById("legacy").checked;
-
-  if (isChecked) {
-    let iframe = document.getElementById("webFrame" + num);
-    iframe.style.width = '100%';
-    iframe.style.height = '100%';
-
-    if (urlCache[url]) {
-      iframe.srcdoc = urlCache[url];
-    } else {
-      fetchAndCacheUrl(url, iframe);
-    }
-  } else {
-    let iframe = document.getElementById("webFrame" + num);
-    iframe.src = "about:blank";
-    fetchAndCacheUrl(url, iframe);
-  }
-}
-
-function fetchAndCacheUrl(url, iframe) {
-  iframe.src = "https://axiomhub.net/main.php?url=" + encodeURIComponent(url);
-  iframe.style.width = '100%';
-    iframe.style.height = '100%';
 }
 
 
 
-let mode = 0;
+const storage=5020
+try{
+neofetch=''
+document.getElementById("taskbar").style.backgroundColor="black"
 
-function toggle_menu() {
-  const bar = document.getElementById("topbar");
-  const animationDuration = "0.3s";
-  const animationEasing = "ease-in";
 
-  if (mode === 0) {
-    bar.style.animation = `down_menu ${animationDuration} ${animationEasing}`;
-    bar.style.top = "0px";
-    mode = 1;
-  } else {
-    bar.style.animation = `up_menu ${animationDuration} ${animationEasing}`;
-    bar.style.top = "-50px";
-    mode = 0;
-  }
-}
-
+// KERNAL
 
 const kernel = {
   processes: [],
@@ -562,6 +731,2393 @@ Techincal Infomation:
 
   }
 };
+
+
+
+element=document.getElementById("start-menu")
+
+element.style.bottom = '-290px';
+
+if (localStorage.getItem("root/etc/config.ini") == null){
+      localStorage.setItem("root","")
+   kernel.makeFile("root/home","")
+   kernel.makeFile("root/home/welcome.txt","Hi")
+   kernel.makeFile("root/packages","")
+kernel.makeFile("root/home/user", "")
+kernel.makeFile("root/var", "")
+kernel.makeFile("root/var/www", "")
+kernel.makeFile("root/var/log", "")
+kernel.makeFile("root/etc", "")
+kernel.makeFile("root/etc/startup","")
+kernel.makeFile("root/etc/config.ini","user1_=_default")
+kernel.makeFile("root/usr", "")
+kernel.makeFile("root/usr/bin", "")
+kernel.makeFile("root/usr/lib", "")
+kernel.makeFile("root/etc","")
+kernel.makeFile("root/etc/packages","")
+kernel.makeFile("root/etc/packages/index.bin","none")
+kernel.makeFile("root/etc/packages/neofetch.bin",neofetch)
+kernel.makeFile("root/bin","")
+kernel.makeFile("root/bin/boot","")
+kernel.makeFile("root/bin/boot/kernel.bin",`
+const kernel={processes:[],processAdd:function(n,t,o){n=(n+"=?|?="+t),this.processes.push(n)},baseLoad:function(e){document.getElementById("body").innerHTML=e},errorHandle:function(){window.addEventListener("error",function(e){document.getElementById("body").innerHTML="Kernal Panic!",document.getElementById("body").style.backgroundColor="black",document.getElementById("body").style.color="white",console.warn("Kernel panic!:",e.error),kernel.halted=!0,kernel.processes.forEach(function(e){console.log("Kernel: Killing "+(e.split("=?|?="))[0])}),console.warn("Completed")})},processRemove:function(n){new1=[];for(item in this.processes){tool=this.processes[item],tool.split("=?|?="),tool[0]==n?void 0:new1.push(this.processes[item])}this.processes=new1},execute:function(){this.halted!=0&&setTimeout(()=>this.taskRunner(this.processes),500)},taskRunner:function(t){this.halted!=0&&t.forEach(function(t){console.log(kernel.halted),t1=t.split("=?|?="),eval(t1[1])})},getFile:function(n){return this.halted!=0?void 0:localStorage.getItem(n)},makeFile:function(n,e){if(this.halted!=0)return;new1=n.split("/"),arx=new1.length,new2=0,newp="";while(new2<arx)new1[new2]==new1[arx-1]?new2++:newp=(newp+new1[new2]+"/"),new2++;localStorage.getItem(newp)==null?old="":old=localStorage.getItem(newp),localStorage.setItem(newp,old+","+n),localStorage.setItem(n,e)}};
+`)
+kernel.makeFile("root/bin/boot/terminal.bin", start.toString())
+kernel.makeFile("root/bin/boot/assembler.bin",`
+
+krnl=document.createElement("script")
+krnl.innerHTML=(localStorage.getItem("root/bin/boot/kernel.bin"))
+document.getElementById("body").appendChild(krnl)
+
+
+jquery=document.createElement("div")
+jquery.innerHTML="https://code.jquery.com/jquery-3.6.4.min.js"
+
+
+terminal=document.createElement("script")
+terminal.innerHTML=(localStorage.getItem("root/bin/boot/terminal.bin"))
+
+
+document.getElementById("body").appendChild(terminal)
+
+
+try{
+setTimeout(function(){
+   start()
+},500)
+}
+catch{
+   recovery=localStorage.getItem("root/bin/boot/recovery.bin")
+   localStorage.setItem("root/bin/boot/terminal.bin",recovery)
+}
+
+`)
+
+}
+
+
+if (localStorage.getItem("drive")){
+    alert("Thank you for using Windows Infinite and changing to the new Unity! ( PS: Apparently local storage is the same for ALL OVER SOLOLEARN, so dont input passwords here )")
+    localStorage.clear()
+}
+
+
+// Jquery stuff 
+
+$("#login").hide()
+$('.gui').hide()
+$('#shell-container').hide()
+
+
+function initFileSystem() {
+  localStorage.setItem('root', JSON.stringify({}));
+}
+
+// Function to create a directory
+function createDirectory(path) {
+  const directories = JSON.parse(localStorage.getItem('root'));
+  const parts = path.split('/');
+  let current = directories;
+
+  for (const part of parts) {
+    if (!current[part]) {
+      current[part] = {};
+    }
+    current = current[part];
+  }
+
+  localStorage.setItem('root', JSON.stringify(directories));
+}
+
+// Function to create a file with content
+function createFile(path, content, extension) {
+  const directories = JSON.parse(localStorage.getItem('root'));
+  const parts = path.split('/');
+  const fileName = parts.pop();
+  let current = directories;
+
+  for (const part of parts) {
+    if (!current[part]) {
+      current[part] = {};
+    }
+    current = current[part];
+  }
+
+  if (!current[fileName]) {
+    current[fileName] = {
+      content: content,
+      extension: extension || 'txt',
+    };
+  }
+
+  localStorage.setItem('root', JSON.stringify(directories));
+}
+
+// Function to list the contents of a directory
+function listDirectoryContents(path) {
+  const directories = JSON.parse(localStorage.getItem('root'));
+  const parts = path.split('/');
+  let current = directories;
+
+  for (const part of parts) {
+    if (current[part]) {
+      current = current[part];
+    } else {
+      console.log('Directory not found.');
+      return;
+    }
+  }
+
+  if (typeof current === 'object') {
+    const contents = Object.keys(current);
+    console.log(contents);
+  }
+}
+
+// Function to get the content or extension of a file
+function getFileContentOrExtension(path, choice) {
+  const directories = JSON.parse(localStorage.getItem('root'));
+  const parts = path.split('/');
+  const fileName = parts.pop();
+  let current = directories;
+
+  for (const part of parts) {
+    if (current[part]) {
+      current = current[part];
+    } else {
+      console.log('Directory not found.');
+      return;
+    }
+  }
+
+  if (current[fileName] && current[fileName][choice]) {
+    return current[fileName][choice];
+  } else {
+    console.log('File not found or choice invalid.');
+  }
+}
+
+// Function to create a directory if it doesn't already exist
+function createDirectory(path) {
+  const directories = JSON.parse(localStorage.getItem('root'));
+  const parts = path.split('/');
+  let current = directories;
+
+  for (const part of parts) {
+    if (!current[part]) {
+      current[part] = {};
+    }
+    current = current[part];
+  }
+
+  localStorage.setItem('root', JSON.stringify(directories));
+}
+
+
+function init(){
+
+ifexist=(localStorage.getItem("root/documents"))
+if (ifexist == "" && ifexist == null){
+    
+
+initFileSystem();
+createDirectory('root/documents');
+listDirectoryContents('root/documents');
+
+boot()
+
+}
+else{
+    boot()
+    return
+
+}
+}
+
+function terminalwrite(text) {
+  const body = document.body;
+  const newText = document.createTextNode(text);
+  const newParagraph = document.createElement("p");
+  newParagraph.style.color = "white"; // Set text color to white
+  newParagraph.appendChild(newText);
+  body.appendChild(newParagraph);
+}
+
+
+function boot(arg){
+
+
+
+    $('.gui').hide()
+$('#shell-container').hide()
+    try{
+
+    files=localStorage.getItem("root/etc/startup").split(",")
+    for (item in files){
+        //console.log(file[item])
+        //eval(localStorage.getItem("root/etc/startup/"+files[item]))
+    }
+
+    $(window).on("beforeunload", function () {
+    return "To prevent losing unsaved data you should save before leaving";
+});
+    terminalwrite("[ KRNL ] Starting SystemMGR")
+    kernel.processAdd('system=?=setTimeout(function(){ addkrnl() },3000)',1);
+
+kernel.execute()
+
+function beep() {
+  (new
+	Audio(
+	"data:audio/wav;base64,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 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////VEFHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAU291bmRib3kuZGUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMjAwNGh0dHA6Ly93d3cuc291bmRib3kuZGUAAAAAAAAAACU="
+	)).play();
+}
+
+//beep()
+
+terminalwrite("[ KRNL ] Started KRNL from KRNL loader")
+terminalwrite("[ KRNL ] Starting GUI")
+x = document.addEventListener("keydown",function(){
+    if (event.code == "n" || event.code=="N"){
+        beep()
+        function start(){
+    js_mode=0
+    document.body.style.backgroundColor="black"
+
+    function terminalwrite(msg){
+        msg1 = document.createElement("p")
+        msg1.style.color="white"
+        msg1.innerHTML=msg 
+        document.body.appendChild(msg1)
+    }
+
+    function terminalInput(){
+        msg1 = document.createElement("p")
+        msg1.style.color="white"
+        msg1.id = "input"
+        document.body.appendChild(msg1)
+    }
+
+    terminalwrite("SK v1")
+    terminalwrite("=== READY ===")
+    terminalwrite("Use help or use a command")
+
+    terminalInput()
+
+    outputElement = document.getElementById('input');
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key == "Enter"){
+          query = outputElement.textContent;
+
+          if (js_mode == 1){
+              result = eval(query)
+              terminalwrite(result)
+          }
+
+          
+
+          if (query == "help"){
+              terminalwrite("HELP | Commands: \n loadurl('url-goes-here') Loads a HTML document | loadjs  Loads JS")
+          }
+          if (query == "loadjs"){
+             terminalwrite("Making terminal run off JS")
+             js_mode=1    
+          }
+
+          if (query.startsWith("loadurl(\"")){
+              query=query.replace("loadurl(\"","")
+              query.replace("\")")
+              document.body.style.height = '100%';
+document.documentElement.style.height = '100%';
+
+document.body.innerHTML = `<iframe style="height: 100%; width: 100%;" src="${query}"></iframe>`;
+
+          }
+
+          outputElement.id=""
+          outputElement=null
+
+          terminalInput()
+          outputElement = document.getElementById('input');
+          
+      }
+      if (event.key === "Backspace") {
+        // Remove the last character when Backspace is pressed
+        outputElement.innerHTML = outputElement.textContent.slice(0, -1);
+      } else if (event.key.length === 1) {
+        // Append printable characters to the output
+        outputElement.innerHTML += event.key;
+      }
+    });
+
+}
+start()
+
+    }
+})
+
+gui_load()
+x.removeEventListener()
+    }
+
+    catch(error){
+        
+            
+
+    }
+}
+
+info=0
+function addkrnl(){
+if (info == 1){
+    return
+}
+else{
+    info=1
+}
+let bsodErrorCount = 0; // For snapshot-related errors
+let maxBSODErrorCount = 20;
+let errorCount = 0;
+const maxErrorCount = 5;
+const errorHistory = [];
+let snapshot_try = 0;
+let maxSnapshots = 10; // Maximum number of snapshots to keep
+let snapshots = [];
+
+// Initialize the notification system
+function notify(message) {
+    
+}
+
+function krnl_logEvent(message) {
+    console.log("[KRNL] " + message);
+    notify("[KRNL] " +message);
+}
+
+
+
+function shell(){
+    $("#gui").hide()
+    $("#shell-container").show()
+    // Create shell container element
+const container = document.getElementById('shell-container');
+
+// Create input prompt element
+const prompt = document.createElement('span');
+prompt.className = 'prompt';
+prompt.textContent = '> ';
+
+container.appendChild(prompt);
+
+// Create command output area element
+const outputArea = document.createElement('pre');
+outputArea.id = 'command-output';
+
+container.appendChild(outputArea);
+
+// Handle user input on Entr key press event
+document.addEventListener('keydown', function(event) {
+   if (event.key === 'Enter') {
+       const commandInput = prompt.nextSibling.textContent.trim();
+       
+       // Execute command based on user input here...
+       
+       // Clear input after execution or display error message if invalid command.
+       prompt.nextSibling.textContent = '';
+   }
+});
+}
+window.addEventListener("error", function (event) {
+    errorCount++;
+    const error = event.error;
+
+    errorHistory.push(error);
+
+    if (errorCount >= maxErrorCount) {
+        snapshot_try++;
+        krnl_logEvent(`Snapshot attempt #${snapshot_try}`);
+
+        if (snapshot_try > 5) {
+            shell()
+            return;
+        }
+
+        if (snapshots.length > 0) {
+            const lastSnapshot = snapshots[snapshots.length - 1];
+            document.body.outerHTML = lastSnapshot.html;
+            krnl_logEvent(`Loaded last snapshot taken at ${lastSnapshot.time}`);
+            errorCount = 0;
+        } else {
+            krnl_logEvent("Cannot find a snapshot to load");
+        }
+    }
+
+    if (error instanceof ReferenceError) {
+        krnl_handleReferenceError(event);
+    }
+    if (error instanceof SyntaxError) {
+        krnl_handleSyntaxError(event);
+
+        // Increment the BSOD error count on syntax errors
+        bsodErrorCount++;
+    }
+
+    // Reset the BSOD error count if we're not continuously getting snapshot-related errors
+    if (errorCount < maxErrorCount) {
+        bsodErrorCount = 0;
+    }
+});
+
+function krnl_handleSyntaxError(event) {
+    const error = event.error;
+    krnl_logEvent(`Syntax error: ${error.message}`);
+    krnl_logEvent("Cannot resolve syntax-related errors.");
+}
+
+function krnl_handleReferenceError(event) {
+    const error = event.error;
+    const variableName = error.message.split(" is not defined")[0];
+    krnl_logEvent(`Handling ReferenceError: '${variableName}' is not defined.`);
+
+    const codeToRerun = event.target.outerHTML;
+
+    window[variableName] = undefined;
+    krnl_logEvent(`Defined '${variableName}' as undefined.`);
+
+    const codeLines = codeToRerun.split('\n');
+    for (let i = 0; i < codeLines.length; i++) {
+        try {
+            eval(codeLines[i]);
+        } catch (rerunError) {
+            krnl_logEvent("Error while rerunning the line: " + rerunError);
+        }
+    }
+}
+
+function displayBSOD() {
+    document.body.innerHTML = '<div style="height: 100%; width: 100%; background-color: #0078d4; color: #fff; text-align: center; padding: 20px; font-family: Arial, sans-serif;"> [ KRNL ] Snapshot limit reached <br> [ KRNL ] Failure threshold reached </div>';
+}
+
+function takeSnapshot() {
+    const snapshotTime = new Date();
+    const snapshotData = {
+        time: snapshotTime,
+        html: document.body.outerHTML
+    };
+
+    // Remove old snapshots if we exceed the maximum
+    if (snapshots.length >= maxSnapshots) {
+        snapshots.shift(); // Remove the oldest snapshot
+    }
+
+    snapshots.push(snapshotData);
+    krnl_logEvent(`Snapshot taken at ${snapshotTime}`);
+}
+
+function loadSnapshot(snapshotIndex) {
+    if (snapshotIndex >= 0 && snapshotIndex < snapshots.length) {
+        const snapshotData = snapshots[snapshotIndex];
+        document.body.outerHTML = snapshotData.html;
+        krnl_logEvent(`Loaded snapshot taken at ${snapshotData.time}`);
+    } else {
+        krnl_logEvent("Invalid snapshot index");
+    }
+}
+
+function clearSnapshots() {
+    snapshots.length = 0;
+    krnl_logEvent("Snapshots cleared");
+}
+
+function clearErrorHistory() {
+    errorHistory.length = 0;
+    krnl_logEvent("Error history cleared");
+}
+
+krnl_logEvent("Snapshot subsystem initialized");
+takeSnapshot(); // Initial snapshot when the system is initialized
+
+}
+
+
+
+function gui_load(){
+    
+    setTimeout(function(){
+    $("p").remove()
+    $("#login").show()
+    $("#desktop").show()
+    $("#gui").show()
+    $(
+        "#taskbar"
+    ).hide()
+    checkpassword()
+    const config = localStorage.getItem("root/etc/config.ini");
+  password = config
+  password=password.split("_=_")
+  username=password[0]
+
+    document.getElementById("username").innerHTML=username
+
+
+ date = new Date()
+    currentTime  = date.getHours() + ":" + date.getMinutes()
+    document.getElementById("time").innerHTML=currentTime
+setInterval(function(){
+    date = new Date()
+    currentTime  = date.getHours() + ":" + date.getMinutes()
+    document.getElementById("time").innerHTML=currentTime
+},5000)
+
+// Get all elements with the id "para"
+var elements = document.querySelectorAll('#para');
+
+// Remove each element with the id "para"
+elements.forEach(function(element) {
+  element.parentNode.removeChild(element);
+});
+
+
+    // Set background 
+
+    try{
+        //document.body.style.backgroundImage ="data:image/jpeg;base64,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"
+    }
+    catch{
+
+    }
+
+    // none of that worked tbh
+
+    // well lets at lets test whatever
+   
+
+
+
+    },300)
+    // make bg #008080
+
+}
+
+// Load all files in the /documents 
+
+// Prevent accidental leaving 
+
+
+
+// Now that all that system stuff is out of the way
+
+// Context menu go fire 
+
+
+// Function to create a menu item
+function createMenuItem(text) {
+  var li = document.createElement('li');
+  li.innerText = text;
+  return li;
+}
+
+
+
+function createWindow(name, htmlContent) {
+    kernel.processAdd((name)+'=?=setInterval(function() { heartbeat("' + name + '"); }, 2000)');
+
+    const win95Window = document.createElement('div');
+    win95Window.classList.add('win95-window');
+    win95Window.id = name;
+
+
+    const titleBar = document.createElement('div');
+    titleBar.classList.add('win95-titlebar');
+    titleBar.innerHTML = name;
+
+    const menuBar = document.createElement("div")
+    menuBar.classList.add("iteminthing")
+    menuBar.innerHTML = name
+
+    // Add a mousedown event listener to the title bar for dragging
+    titleBar.addEventListener('mousedown', startDragging);
+
+    const closeButton = document.createElement('span');
+    closeButton.classList.add('win95-close-button');
+    closeButton.innerHTML = 'X';
+     closeButton.onclick = function () {
+            $(win95Window).remove();
+            kernel.processRemove(name)
+    };
+
+    titleBar.appendChild(closeButton);
+
+    const closeButton1 = document.createElement('span');
+    //closeButton1.classList.add('win95-close-button');
+    closeButton1.innerHTML = "🗖";
+    closeButton.style=+"padding-right: 5px;"
+     closeButton1.onclick = function () {
+         console.log("F")
+         win95Window.style=+"height: 100%; width: 100%;"
+            
+            
+    };
+
+    // titleBar.appendChild(closeButton1);
+
+    const closeButton12 = document.createElement('span');
+    closeButton12.classList.add('win95-close-button');
+    closeButton12.innerHTML = '> ';
+     closeButton1.onclick = function () {
+            win95Window.style.zIndex=(win95Window.zIndex+1)
+            
+            
+    };
+
+    //titleBar.appendChild(closeButton12);
+
+    const content = document.createElement('div');
+    content.classList.add('win95-content');
+    content.innerHTML = htmlContent;
+
+    win95Window.appendChild(titleBar);
+    win95Window.appendChild(content);
+
+    // Add a resize handle in the bottom-right corner
+    const resizeHandle = document.createElement('div');
+    resizeHandle.classList.add('resize-handle');
+    win95Window.appendChild(resizeHandle);
+
+    document.body.appendChild(win95Window);
+
+    kernel.execute();
+
+    if (win11 == 1){
+        // Get all the elements in the document
+const allElements = document.querySelectorAll('*');
+
+// Loop through each element and set the border radius to 5px
+allElements.forEach(element => {
+  element.style.borderRadius = '5px';
+});
+
+    }
+    else{
+        // Get all the elements in the document
+const allElements = document.querySelectorAll('*');
+
+// Loop through each element and set the border radius to 5px
+allElements.forEach(element => {
+  element.style.borderRadius = '0px';
+});
+
+    }
+
+
+
+
+
+    function startDragging(e) {
+        let isDragging = false;
+        const initialX = e.clientX - win95Window.getBoundingClientRect().left;
+        const initialY = e.clientY - win95Window.getBoundingClientRect().top;
+
+        document.addEventListener('mousemove', dragWindow);
+        document.addEventListener('mouseup', stopDragging);
+
+        function dragWindow(e) {
+            if (!isDragging) {
+                isDragging = true;
+            }
+
+            const newX = e.clientX - initialX;
+            const newY = e.clientY - initialY;
+
+            win95Window.style.left = newX + 'px';
+            win95Window.style.top = newY + 'px';
+        }
+
+        function stopDragging() {
+            if (isDragging) {
+                isDragging = false;
+                document.removeEventListener('mousemove', dragWindow);
+                document.removeEventListener('mouseup', stopDragging);
+            }
+        }
+    }
+
+    // Resize the window by dragging the bottom-right corner
+    resizeHandle.addEventListener('mousedown', startResizing);
+
+    function startResizing(e) {
+        let isResizing = false;
+        const initialX = e.clientX;
+        const initialY = e.clientY;
+        const initialWidth = win95Window.offsetWidth;
+        const initialHeight = win95Window.offsetHeight;
+
+        document.addEventListener('mousemove', resizeWindow);
+        document.addEventListener('mouseup', stopResizing);
+
+        function resizeWindow(e) {
+            if (!isResizing) {
+                isResizing = true;
+            }
+
+            const newWidth = initialWidth + (e.clientX - initialX);
+            const newHeight = initialHeight + (e.clientY - initialY);
+
+            win95Window.style.width = newWidth + 'px';
+            win95Window.style.height = newHeight + 'px';
+        }
+
+        function stopResizing() {
+            if (isResizing) {
+                isResizing = false;
+                document.removeEventListener('mousemove', resizeWindow);
+                document.removeEventListener('mouseup', stopResizing);
+            }
+        }
+    }
+}
+
+function cloak(){
+    code = document.documentElement.outerHTML;
+	   var win = window.open();
+	   win.document.write(code);
+}
+heartcheck = {};
+function heartbeat(name, kill) {
+
+
+    // Check if the function is regularly being called by a program
+    const lastCallTime = heartcheck[name];
+    const currentTime = Date.now();
+    const timePassed = currentTime - lastCallTime;
+    
+    if (timePassed > 3000 ) { // 3000 milliseconds = 3 seconds
+      // Take action if the function hasn't been called in more than 3 seconds
+      console.log(name + " heartbeat not received, wiping");
+      const element = document.getElementById(name);
+
+
+      if (element) {
+        element.remove();
+    
+      } else {
+        
+      }
+    }
+    if (kill == true) { // 3000 milliseconds = 3 seconds
+      // Take action if the function hasn't been called in more than 3 seconds
+      const element = document.getElementById(name);
+      if (element) {
+        element.remove();
+        
+      } else {
+        
+      }
+    }
+
+
+  
+    // Update the last call time for the function
+    heartcheck[name] = Date.now();
+}
+
+
+var niko = 0; // Default: 0
+
+if (niko == 1) {
+    function getRandomName() {
+        const characterGroups = ["n", "i", "k", "o"];
+        const nameLength = Math.floor(Math.random() * 10) + 1; // Random name length between 1 and 10 characters
+        let result = "";
+
+        for (const group of characterGroups) {
+            const charCount = Math.floor(Math.random() * (nameLength + 1));
+            result += group.repeat(charCount);
+        }
+
+        // Shuffle the characters to make it random
+        result = result.split("");
+        for (let j = result.length - 1; j > 0; j--) {
+            const randomIndex = Math.floor(Math.random() * (j + 1));
+            [result[j], result[randomIndex]] = [result[randomIndex], result[j]];
+        }
+
+        return "";
+    }
+
+    function createNikoElement() {
+        var nikoElement = document.createElement("div");
+        var nikoName = getRandomName();
+
+        var nikoImage = document.createElement("img");
+        nikoImage.src = "https://media.discordapp.net/attachments/1118733729662255156/1169739200489340938/ezgif.com-gif-maker_4.gif?ex=65567f86&is=65440a86&hm=d7b19a01ca9488d0e8367e28d87d5babc0cfd7aa5ae06d254b405acf0b67d2ec&=";
+        nikoImage.style.width = "40px";
+        nikoImage.style.borderRadius = "5px";
+
+        var nameText = document.createElement("p");
+        nameText.innerText = nikoName;
+        nameText.style.position = "absolute";
+        nameText.style.bottom = "45px"; // Adjust the position of the name
+
+        nikoElement.appendChild(nikoImage);
+        nikoElement.appendChild(nameText);
+
+        nikoElement.style.position = "absolute";
+        nikoElement.onclick = speak; // Assign the function to onclick
+        document.body.appendChild(nikoElement); // Append to the body
+
+        var targetX, targetY;
+        var speed = 2; // Adjust the speed as needed
+        var currentDirection = ""; // Track the current movement direction
+
+        function moveNikoSmoothly() {
+            targetX = Math.floor(Math.random() * (window.innerWidth - 40));
+            targetY = Math.floor(Math.random() * (window.innerHeight - 40));
+            smoothMove();
+        }
+
+        function speak() {
+            var msg = ["I still don't pay my taxes!", "Why am I in this OS?", "Got any games on your phone?"];
+            var choice = Math.floor(Math.random() * msg.length); // Fix the range of random choice
+            say(nikoName, msg[choice]);
+        }
+
+        function say(name, msg) {
+            var msg1 = document.createElement("p");
+            msg1.innerHTML = name + ": " + msg;
+            document.body.appendChild(msg1); // Append to the body
+            var done = "";
+            var i = 0;
+            var interval = setInterval(function () {
+                if (i < msg.length) {
+                    msg1.innerHTML = name + ": " + (done + msg[i]);
+                    done = (done + msg[i]);
+                    i++;
+                } else {
+                    clearInterval(interval);
+                }
+            }, 100); // You can adjust the interval as needed
+        }
+
+        function smoothMove() {
+            var currentX = parseInt(nikoElement.style.left) || 0;
+            var currentY = parseInt(nikoElement.style.top) || 0;
+
+            var dx = targetX - currentX;
+            var dy = targetY - currentY;
+
+            var newDirection = ""; // Track the new movement direction
+
+            if (Math.abs(dx) > Math.abs(dy)) {
+                if (dx > 0) {
+                    newDirection = "right";
+                } else {
+                    newDirection = "left";
+                }
+            } else {
+                if (dy > 0) {
+                    newDirection = "down";
+                } else {
+                    newDirection = "up";
+                }
+            }
+
+            if (newDirection !== currentDirection) {
+                currentDirection = newDirection;
+                updateGif();
+            }
+
+            if (Math.abs(dx) < speed && Math.abs(dy) < speed) {
+                nikoElement.style.left = targetX + "px";
+                nikoElement.style.top = targetY + "px";
+                moveNikoSmoothly();
+            } else {
+                var newX = currentX + (dx / Math.sqrt(dx * dx + dy * dy)) * speed;
+                var newY = currentY + (dy / Math.sqrt(dx * dx + dy * dy)) * speed;
+
+                nikoElement.style.left = newX + "px";
+                nikoElement.style.top = newY + "px";
+
+                requestAnimationFrame(smoothMove);
+            }
+        }
+
+        function updateGif() {
+            if (currentDirection === "right") {
+                nikoImage.src = "https://media.discordapp.net/attachments/1118733729662255156/1169739200489340938/ezgif.com-gif-maker_4.gif?ex=65567f86&is=65440a86&hm=d7b19a01ca9488d0e8367e28d87d5babc0cfd7aa5ae06d254b405acf0b67d2ec&=";
+            } else if (currentDirection === "left") {
+                nikoImage.src = "https://media.discordapp.net/attachments/1118733729662255156/1169739201256902778/ezgif.com-gif-maker_2.gif?ex=65567f86&is=65440a86&hm=aef50a5f4626eb264ea70c29f047d66cc54c5a7dc79a0818083575a4811b58eb&=";
+            } else if (currentDirection === "down") {
+                nikoImage.src = "https://media.discordapp.net/attachments/1118733729662255156/1169739201596637305/ezgif.com-gif-maker_1.gif?ex=65567f86&is=65440a86&hm=80991afe7548389969e4c7e12b4902a80355952649b796c80e294f01381aa3ea&=";
+            } else if (currentDirection === "up") {
+                nikoImage.src = "https://media.discordapp.net/attachments/1118733729662255156/1169739200891990208/ezgif.com-gif-maker_3.gif?ex=65567f86&is=65440a86&hm=5409ac296d781a0782ea09ce3fe8cc1a9b915214248e62263019c84172107328&=";
+            }
+        }
+
+        moveNikoSmoothly();
+    }
+
+    createNikoElement();
+}
+
+// totally not a easteregg
+
+// Apps i guess
+
+
+
+function terminal(){
+    createWindow("Terminal",
+    `
+<div style="height: 100%;" id="body">
+</div>
+
+    `)
+
+
+// Note: this isnt finished
+
+
+// DEFAULT PASSWORD: "default"
+
+
+
+
+// Commands:
+/*
+
+
+cat (filename)
+ls
+cd (directory) ( use -p for path )
+edit (filename) (content)
+nano (filename)
+rm (filename)
+apt update  // Not working as of now
+apt upgrade // Not working as of now
+neofetch // Does what you expect ( yea its built in, what you gonna do about it? )
+firefox (website) // Exactly what you think
+mkdir (name) // Makes a directory
+touch (filename) // Makes a file
+
+
+sudo username (username) // Changes username
+sudo passwrd (new password) // Changes password
+
+
+sudo (command) // Requires password
+
+
+*/
+
+
+
+
+// SRV Kernel v1
+
+
+
+
+
+// System
+
+
+// Default password:
+
+
+password = "none"
+
+
+
+
+function start(type){
+   kernel.errorHandle()
+   kernel.processAdd("system","time=new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });")
+   document.getElementById("body").innerHTML="<div id='terminal'></div>"
+   document.getElementById("body").style.backgroundColor="black"
+   document.getElementById("body").style.color="white"
+
+
+   function terminalWrite(msg, id){
+      // Check if the element with ID "terminal" exists
+var terminalElement = document.getElementById("terminal");
+   // Create a new span element
+   var txt = document.createElement("span");
+
+
+   // Set innerHTML of the span element
+   txt.innerHTML = msg;
+   txt.id=id
+
+
+   // Append the span element to the "terminal" element
+   terminalElement.appendChild(txt);
+
+
+   br=document.createElement("br")
+   terminalElement.append(br)
+   }
+
+
+
+
+  
+
+
+   terminalWrite("<div style='color: orange;'> Unity OS | SRV Kernel v1")
+   terminalWrite("Starting processes...")
+   terminalWrite("[<div style='color: green;  display: inline;'> OK </div>] User input started")
+function triggerKeyPress(key) {
+   var event = new KeyboardEvent('keydown', {
+     key: key,
+     bubbles: true,
+     cancelable: true,
+   });
+   document.dispatchEvent(event);
+ }
+isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+isMobile=false
+if (isMobile) {
+   alert("This code is meant for PC but i tried making it a little fucntional on mobile, so heres a weird virtual keyboard")
+ // Code to execute if the user is on a mobile device
+ const keyboard = document.createElement("div");
+ keyboard.classList.add("keyboard");
+ //keyboard.id = "keyboard";
+
+
+ const rows = [
+   "QWERTYUIOP",
+   "ASDFGHJKL",
+   "ZXCVBNM",
+   "Ctrl,.",
+   "Enter"
+ ];
+
+
+ rows.forEach(row => {
+   const rowDiv = document.createElement("div");
+   row.split("").forEach(key => {
+     const keyDiv = document.createElement("div");
+     keyDiv.classList.add("key");
+     keyDiv.textContent = key;
+     keyDiv.onclick = function () {
+       triggerKeyPress(key);
+     };
+     rowDiv.appendChild(keyDiv);
+   });
+   keyboard.appendChild(rowDiv);
+ });
+
+
+ document.getElementById("body").appendChild(keyboard);
+} else {
+ // Code to execute for non-mobile devices
+}
+
+
+
+
+   if (localStorage.getItem("root") == null){
+
+
+       indexbin=`neofetch,none,hat`
+       neofetch=(`
+           if (query == "neofetch"){
+       terminalWrite(\`
+<div style="display: inline; color: purple; background-color: ;">
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣠⣤⣤⣤⣤⣤⣴⢶⣲⣖⣦⢶⣖⣦⣦⣤⣤⣤⣤⣀⣀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠠⣶⣿⣿⣟⣯⣿⢯⣿⣯⡿⣯⡷⣿⣽⣻⣾⣳⣯⣟⣷⣻⢾⣽⣻⢿⣽⣻⣷⡄⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⢿⣿⣷⣿⣯⣿⣻⣽⣿⣽⢷⣿⣻⢾⡷⣯⣷⣟⣾⣷⣻⣿⣾⣽⣿⣾⣿⣿⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠁⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠘⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠇⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⣀⣤⣤⣶⣶⡿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢿⣶⣶⣤⣄⣀⠀⠀⠀⠀
+⠀⣠⣴⣿⣿⣿⣿⣿⣿⡇⠈⠙⠻⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠿⠛⠁⢸⣿⣿⣿⣿⣿⣿⣦⡄⠀
+⢠⣿⣿⣿⣿⣿⣿⣿⣿⣇⠀⠀⠀⠀⠀⠉⠉⠉⠙⠋⠛⠋⠋⠉⠉⠉⠉⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⡆
+⠈⢿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣴⣿⣿⣿⣿⢿⣟⣿⣿⣿⠁
+⠀⠀⠙⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣤⣄⣀⣀⠀⠀⠀⣀⣀⣀⣠⣤⣴⣶⣿⣿⣿⣿⣿⡿⣽⣿⣻⣯⠟⠁⠀
+⠀⠀⠀⠀⠉⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣯⢿⣽⠾⠋⠁⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⠻⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠟⠛⠉⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠙⠛⠛⠻⠟⠛⠛⠛⠛⠛⠋⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+</div>
+Cynex OS | SRV Kernel v1
+Kernel Version: ${kernel.version}
+⠀⠀⠀
+
+
+       \`)
+   }`)
+      
+   terminalWrite("[<div style='color: red;  display: inline;'> FAIL </div>] No directories detected")
+   terminalWrite("[<div style='color: yellow;  display: inline;'> WAIT </div>] Installing...")
+
+
+
+
+
+
+
+   kernel.makeFile("root/system/config.ini","")
+   terminalWrite("[<div style='color: green;  display: inline;'> OK </div>] Installed")
+   }
+   path="root/home/user"
+   function loop(){
+
+
+
+
+
+
+   let outputCounter = 1; // Variable to keep track of output boxes
+args=""
+           let data = localStorage.getItem("root/etc/config.ini").split("_=_");
+           let user = data[0];
+           let password = data[1];
+
+
+
+
+
+
+hyjack=0
+js_hijack=0
+lockout=0
+sandbox=1
+terminalWrite(("<div style='display: inline; color: gree;'>" + user + "</div> " + path+" >"), (`output${outputCounter}`))
+outputDiv = document.getElementById(`output${outputCounter}`)
+document.addEventListener('keydown', function(event) {
+ // Exclude Shift and Space
+ if (event.key !== 'Shift'  && event.key.length === 1) {
+   // Append the pressed key to the div
+   if (lockout == 1){
+       return
+   }
+   outputDiv.textContent += event.key;
+ } else if (event.key === "Backspace") {
+   // Handle Backspace to delete the last character
+   const promptText = user + " " + path + " >";
+   const currentText = outputDiv.textContent;
+
+
+   if (currentText.length <= promptText.length) {
+       // Ensure that the remaining text won't be shorter than the prompt
+       return;
+   } else {
+  
+
+
+       // Delete the last character
+       outputDiv.textContent = currentText.slice(0, -1);
+   }
+}
+else if (event.key === 'Enter') {
+   // Get the content of the output div
+   query = outputDiv.textContent;
+
+
+   query=query.replace((user +" "+path+" >"),"")
+
+   if (js_hijack == 1){
+       if (query == "exit"){
+           js_hijack=0
+       }
+       else{
+           if (sandbox == 1){
+           const sandboxedEval = (code) => {
+  const fn = new Function(`return (${code})`);
+  return fn();
+}
+
+
+           sandboxedEval(query)
+           } else{
+               eval(query)
+           }
+       }
+   }
+   if (hyjack == 1){
+       if (query == password){
+           old=path
+           path="root/"
+           query=args
+           terminalWrite("[SUDO] Correct password")
+           lockout=1
+           setTimeout(function(){
+               path=old
+               lockout=0
+                 terminalWrite(("<div style='display: inline; color: ;'>" + user + "</div> " + path + " >"), `output${outputCounter}`);
+   outputDiv = document.getElementById(`output${outputCounter}`);
+           },25)
+       }
+       else{
+           terminalWrite("[SUDO] Invalid password")
+           path="root/home"
+           return
+       }
+       hyjack=0
+   }
+
+
+
+
+   // Increment the counter for the next output box
+   outputCounter++;
+
+
+   // run commands
+
+
+   if (query.startsWith("sudo ")) {
+   terminalWrite("[SUDO] Input password for User1");
+   hyjack = 1;
+   args = query.replace("sudo ", "");
+   terminalWrite(`<div style='display: inline; color: ;'>${user}</div> ${path} >`, `output${outputCounter}`);
+   outputDiv = document.getElementById(`output${outputCounter}`);
+   return;
+
+
+}
+else if (query == "debug"){
+    f
+}
+else if (query == "sandbox_off"){
+    if (path != "root"){
+        terminal("Must have administrator permissions to continue")
+    }
+    else{
+        sandbox=0
+    }
+}
+else if (query == "javascript"){
+    js_hijack=1
+    terminalWrite("JS ( Until Exit )")
+}
+else if (query == "cloak"){
+    // Get the current HTML document
+var doc = document;
+
+// Create a new tab
+var newTab = window.open('about:blank', '_blank');
+
+// Set the HTML content of the new tab to the current document
+newTab.document.replaceChild(doc.doctype, doc.documentElement);
+
+// Execute the init() function in the new tab
+newTab.addEventListener('DOMContentLoaded', function () {
+  newTab.init();
+});
+}
+else if (query == ("sysbackup")){
+    kernel.makeFile("system_restore_point.iso", localStorage)
+    terminalwrite("System backup point created in local directory")
+}
+else if (query === "systemrestore") {
+    if (localStorage.getItem(path + "/" + "system_restore_point.iso")) {
+        const element = document.getElementById("desktop");
+        element.style.animation = 'winshutdown 1s ease-in';
+        element.style.left = '-242390px';
+        $("#taskbar").hide();
+        $("#start-menu").hide();
+
+        setTimeout(function () {
+            document.body.innerHTML = `<center><h1 style="color: white">It is now safe to shut off your computer</h1></center>`;
+        }, 2000);
+    }
+}
+else if (query.startsWith("apt install")){
+   terminalWrite("[<div style='color: yellow;  display: inline;'> WAIT </div>] Fetching onboard index ( /etc/packages/index.bin )")
+   query=query.replace("apt install ","")
+   data=localStorage.getItem("root/etc/packages/index.bin")
+   try{
+       data=data.split(",")
+   }
+   catch{
+       terminalWrite("[<div style='color: red;  display: inline;'> FAIL </div>] Index not found or index corrupt ( /etc/packages/index.bin )")
+       data=[]
+   }
+   work=0
+   for (item in data){
+       //console.log(query)
+       //console.log(data[item])
+       //console.log(data[item])
+       terminalWrite(`[<div style='color: green;  display: inline;'> OK </div>] Found ${data[item]}`)
+       if(data[item].includes(query)){
+          
+           newdoc=localStorage.getItem("root/packages/")
+           if (newdoc != null){
+           if (newdoc.includes(query)){
+              terminalWrite(`[<div style='color: green;  display: inline;'> OK </div>] Requirements already satisfied ( ${data[item]} )`)
+              break  
+           }
+           }
+
+
+           terminalWrite(`[<div style='color: green;  display: inline;'> OK </div>] Found requested item ( ${data[item]} )`)
+           work=1
+           doc=localStorage.getItem("root/etc/packages").split(",")
+           //console.log(doc)
+           doc=[data[item]]
+           if (doc.includes(data[item])){
+               terminalWrite(`[<div style='color: yellow;  display: inline;'> WAIT </div>] Copying files... ( ${data[item]} )`)
+               doc=localStorage.getItem(`root/etc/packages/${data[item]}.bin}`)
+               console.log(`root/etc/packages/${data[item]}.bin`)
+               kernel.makeFile(`root/packages/${data[item]}.bin`,localStorage.getItem("root/etc/packages/" + query + ".bin"))
+               terminalWrite(`[<div style='color: green;  display: inline;'> OK </div>]  Copied( ${data[item]} )`)
+
+
+           }
+           else{
+               terminalWrite(`[<div style='color: red;  display: inline;'> FAIL </div>] Questioned objects respective file is missing (CORRUPT?) (${query})`)
+           }
+       }
+   }
+   if (work == 0){
+       terminalWrite(`[<div style='color: red;  display: inline;'> FAIL </div>] Questioned objects respective file is missing (CORRUPT?) (${query})`)
+   }
+
+
+}
+
+
+else if (query.startsWith("mkdir ")){
+       query=query.replace("mkdir ","")
+       //console.log((path + "/" + query))
+       kernel.makeFile((path  +"/"+ query),"")
+       /nconsole.log((path  + query))
+       terminalWrite("Directory made")
+   }
+   else if (query.startsWith("username")) {
+   if (path === "root/") {
+       // Remove "pswrd " from the beginning of the query
+       const newPassword = query.replace("username", "");
+
+
+       terminalWrite("Changed username to " + newPassword);
+
+
+       // Retrieve and update the configuration
+       let con = localStorage.getItem("root/etc/config.ini");
+       let conParts = con.split("_=_");
+       conParts[0] = newPassword;
+
+
+       localStorage.setItem("root/etc/config.ini", conParts.join("_=_"));
+   } else {
+       terminalWrite("The command must be run with root privilege");
+   }
+}
+   else if (query.startsWith("passwrd")) {
+   if (path === "root/") {
+       // Remove "pswrd " from the beginning of the query
+       const newPassword = query.replace("passwrd ", "");
+
+
+       terminalWrite("Changed password to " + newPassword);
+
+
+       // Retrieve and update the configuration
+       let con = localStorage.getItem("root/etc/config.ini");
+       let conParts = con.split("_=_");
+       conParts[1] = newPassword;
+
+
+       localStorage.setItem("root/config.ini", conParts.join("_=_"));
+   } else {
+       terminalWrite("The command must be run with root privilege");
+   }
+}
+   else if (query.startsWith("cd ")) {
+ query = query.replace("cd ", "");
+
+
+ if (query === "..") {
+   // Navigate up one level
+   const segments = path.split("/");
+   segments.pop(); // Remove the last segment (current directory)
+   const newPath = segments.join("/");
+
+
+   // Check if the new path is within the allowed scope (e.g., not outside the root directory)
+
+   if (newPath.startsWith("root/") && newPath !== "root/") {
+     path = newPath;
+   } else {
+    if (path=="root/"){
+        path=newPath
+    }
+    else{
+        terminalWrite("Access denied");
+   }
+   }
+ } else {
+
+
+   if (query[query.length - 4] === ".") {
+     terminalWrite("You cannot change directory into a file");
+   } else if (query === "root/") {
+     terminalWrite("Denied");
+   } else {
+     const fullPath = query.startsWith("-p ") ? query.replace("-p ", "") : path + "/" + query.replace("-p ", "");
+
+
+     if (localStorage.getItem(fullPath) === null) {
+       terminalWrite("Invalid path");
+     } else {
+       if (query.startsWith("-p")) {
+         path = fullPath;
+       } else {
+         path = fullPath;
+       }
+     }
+   }
+ }
+}
+
+
+
+
+   else if (query ==  "pwd"){
+       terminalWrite(path)
+   }
+   else if (query.startsWith("rm ")) {
+ const fileName = query.replace('rm ', '');
+ const filePath = path + "/" + fileName;
+  localStorage.removeItem(filePath)
+
+
+ old = localStorage.getItem(path + "/")
+
+
+ old=old.split(",")
+ for (item in old){
+
+
+     if (old[item] == filePath){
+         old[item]=""
+
+
+     }
+ }
+ localStorage.setItem((path + "/"),  old.map(String).join(","))
+}
+
+
+
+
+else if (query.startsWith("cat ")){
+   query=query.replace("cat ","")
+   terminalWrite(localStorage.getItem((path+"/"+query)))
+}
+
+
+   else if (query.startsWith("edit ")){
+       query=query.replace("edit ","")
+       new1 = query.split("-?-")
+       localStorage.setItem((path + "/" +new1[0]),new1[1])
+       terminalWrite("Wrote without failure")
+   }
+   else if (query.startsWith("touch ")){
+       query=query.replace("touch ","")
+       kernel.makeFile((path + "/" + query), "")
+       terminalWrite((query) + " has been made in " + path)
+   }
+   else if (query.startsWith("clear")){
+       localStorage.clear()
+      
+   }
+   else if (query.startsWith("firefox")) {
+   query = query.replace("firefox ", "");
+   terminalWrite(`
+       <div id="draggable-window" class="draggable-window">
+           <span class="close-button" onclick="\$('#draggable-window').hide();">X</span>
+           <iframe style="height: 100%; width: 100%;" src="https://${query}" id="out"></iframe>
+       </div>
+   `);
+
+
+   }
+   else if (query.startsWith("nano ")) {
+ document.getElementById("body").innerHTML = `
+   <center>
+   <div class="nano-wrapper">
+     <div class="nano-header">GNU Nano</div>
+     <textarea id="editor" rows="15" cols="80"></textarea>
+     <div class="nano-footer">
+       <span class="nano-controls">^X Exit</span>
+       <span class="nano-controls">^O Save</span>
+     </div>
+   </div>
+   </center>
+ `;
+
+
+   const editor = document.getElementById('editor');
+
+
+   // Handle keypress events
+   editor.addEventListener('keydown', function (event) {
+     // Handle the 'Ctrl + X' key combination to exit (you can add more key combinations)
+     if (event.ctrlKey && event.key === 'x') {
+       event.preventDefault();
+
+
+       document.getElementById("body").innerHTML="<div id='terminal'></div>"
+   document.getElementById("body").style.backgroundColor="black"
+   document.getElementById("body").style.color="white"
+        terminalWrite(("<div style='display: inline; color: ;'>" + user + "</div> " + path + " >"), `output${outputCounter}`);
+        outputDiv = document.getElementById(`output${outputCounter}`);
+      
+     }
+     if (event.ctrlKey && event.key === 'o') {
+       event.preventDefault();
+       alert('Saving content');
+       // Save content to localStorage on 'Ctrl + O'
+       localStorage.setItem(path + "/" +query.replace("nano ", ""), editor.value);
+       console.log(query.replace("nano ", ""))
+     }
+   });
+
+
+   // Load content from localStorage on page load
+
+
+     editor.value=localStorage.getItem(path + "/" +query.replace("nano ", ""))
+  
+   return
+
+
+ 
+  }else if (query == "apt upgrade"){
+      lockout=1
+      terminalWrite("[<div style='color: yellow;  display: inline;'> WAIT </div>] Updating system...")
+      // http://totallynotacdn.free.nf/ver.txt
+      fetch('https://totallynotacdn.free.nf/ver.txt')
+ .then(response => response.text())
+ .then(data => {
+   // Store the update data in localStorage
+   localStorage.setItem('root/bin/boot/terminal.bin', data);
+  
+   // Log "noice" to the console
+   terminalWrite("[<div style='color: green;  display: inline;'> OK </div>] System updated restart to get newer version")
+ })
+ .catch(error => {
+   terminalWrite("[<div style='color: red;  display: inline;'> FAIL </div>] Failed to update: " + error);
+ });
+
+
+  }
+  if (query === "ls") {
+   const items = localStorage.getItem(path + "/");
+  
+   if (!items) {
+       terminalWrite("No items in directory");
+   } else {
+       const itemList = items.split(",");
+       for (const item of itemList) {
+           const itemName = item.replace(path + "/", "");
+           terminalWrite(itemName);
+       }
+   }
+}
+
+
+   else{
+       //terminalWrite("Command: " + query + " not found.")
+       try{
+       out = eval(query)
+       //terminalWrite(out)
+       }
+       catch(error){
+       //  terminalWrite(error.message)
+       }
+   }
+
+
+   try{
+       doc=localStorage.getItem("root/packages/")
+   doc=doc.split(",")
+   for (item in doc){
+       console.log(localStorage.getItem((path+"/"+doc[item]+".bin")))
+       eval(localStorage.getItem((path+"/"+doc[item]+".bin")))
+   }}
+   catch{}
+
+
+   // Create a new output div
+   if (lockout == 1){
+       return
+   }
+   terminalWrite(("<div style='display: inline; color: ;'>" + user + "</div> " + path + " >"), `output${outputCounter}`);
+   outputDiv = document.getElementById(`output${outputCounter}`);
+
+
+
+
+ }
+
+
+});
+
+
+
+
+   }
+
+
+   setTimeout(function(){
+      loop()
+   },500)
+  
+  
+}
+
+
+
+start()
+
+
+
+
+}
+
+win11=0
+
+function ubuntu(){
+        if (document.getElementById("taskbar")){
+            document.getElementById('taskbar').id = 'taskbar-ubuntu';
+        }
+        else{
+            document.getElementById('taskbar-ubuntu').id = 'taskbar';
+        }}
+        
+function windows11ify(){
+    // Get all the elements in the document
+const allElements = document.querySelectorAll('*');
+
+// Loop through each element and set the border radius to 5px
+allElements.forEach(element => {
+  element.style.borderRadius = '5px';
+});
+
+// Get a reference to the start menu element
+var startMenu = document.getElementById("start-menu");
+// Get the desktop element by its id
+var desktop = document.getElementById('desktop');
+
+// Set the background image URL for the desktop element
+desktop.style.backgroundImage = "url(data:image/jpeg;base64,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)"
+startMenu.style.backgroundColor = "white";
+document.getElementById("start-menu").classList.remove("start-menu-alt")
+document.getElementById("start-menu").classList.add('start-menu')
+startMenu.style.color = "black";
+document.getElementById("taskbar").style.backgroundColor="white"
+startMenu.style.alignSelf="center"
+startMenu.style.left="45%"
+document.getElementById("time").style.color="black"
+document.getElementById("time").style.backgroundColor="white"
+document.getElementById("start-button").style.left="50%"
+document.getElementById("start-button").src="data:image/jpeg;base64,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"
+win11=1
+
+}
+
+function getFilename(path) {
+  const lastIndexOfSlash = path.lastIndexOf('/');
+  return path.substr(lastIndexOfSlash + 1);
+}
+
+function explorer1() {
+    
+    path = "root/home";
+    item1 = localStorage.getItem("root/home").split(",");
+
+    createWindow("Explorer", `
+        <div class="explorer">
+        <button onclick="makeFile(document.getElementById('input').value,'')">Create file</button>
+            <input placeholder="Input a path" id="input">
+            <div id="main-content" class="sidebar">
+                <div> Path: <div id="path"></div></div>
+                <hr>
+            </div>
+            <div class="main-content">
+                <!-- Main content goes here -->
+            </div>
+        </div>
+    `);
+
+
+
+    setInterval(function () {
+    var mainContent = document.getElementById("main-content");
+    var inputElement = document.getElementById("input");
+
+    if (!mainContent || !inputElement) {
+        return;
+    }
+
+    var inputValue = inputElement.value;
+    var item1 = [];
+
+    if (inputValue !== "") {
+        var storedValue = localStorage.getItem(inputValue);
+        if (storedValue) {
+            item1 = storedValue.split(",");
+            path == storedValue
+        }
+    }
+
+    mainContent.innerHTML = "<div> Path: <div id='path'></div></div><hr>";
+
+    for (var item of item1) {
+        // Create a new div element
+        var fileDiv = document.createElement("div");
+
+        // Add the "file" class to the div
+        fileDiv.classList.add("file");
+
+        fileDiv.onclick = function (item) {
+            return function () {
+                info=document.getElementById("input").value 
+                if (info != ""){
+                    filemgr( info + "/" + item);
+                }
+                else{
+                    filemgr( path + "/" + item);
+                }
+                
+            };
+        }(item);
+
+        // Set the text content of the div to the current item
+        fileDiv.textContent = getFilename(item);
+
+        // Append the div to the document body (or any other desired parent element)
+        mainContent.appendChild(fileDiv);
+    }
+
+    document.getElementById("input").innerHTML = path; // Assuming 'path' is defined elsewhere in your code
+    document.getElementById("path").innerHTML = path;
+}, 1000);
+
+}
+
+
+function filemgr(path){
+    function getLastThreeCharacters(inputString) {
+  if (typeof inputString === 'string' && inputString.length >= 3) {
+    return inputString.slice(-3);
+  } else {
+    return "Input not valid";
+  }
+}
+
+// Example usage:
+
+const ls = getLastThreeCharacters(path);
+
+if (ls == "bat"){
+    eval(localStorage.getItem(path))
+    notepad(path, 1)
+}
+if (ls == "txt"){
+    notepad(path)
+}
+
+}
+
+function customize(){
+    createWindow("Customization",
+    ` 
+    <div>
+    <center> <input placeholder="URL to image" id="imagecustomurl">
+    <button onclick="createDirectory('sysimg'); createFile('sysimg/background', (document.getElementById('imagecustomurl').value), 'png')"> Select Image </button>
+    <br>
+    <button onclick="ubuntu()"> Ubuntu Toolbar </button>
+    <button onclick="windows11ify()"> Make Windows 11 Type windows </button>
+    </center>
+    </div>
+    ` )
+
+}
+
+// Initialize a cache object to store visited URLs and their contents
+const urlCache = {};
+
+function getnum(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function explorer() {
+  randnum=getnum(0,100)
+  createWindow("Browser", `
+    <div id="navbar">
+      <input id="urlInput`+randnum+`" autocomplete="off" placeholder="Enter URL">
+      <input type="checkbox" name="Enable Legacy" id="legacy">
+      <button id="goButton" onclick="loadUrl(`+randnum+`)">Go</button>
+    </div>
+    <iframe id="webFrame`+ randnum + `"></iframe>
+  `);
+
+}
+
+function loadUrl(num) {
+  var url = document.getElementById(("urlInput"+num)).value;
+  if (url.startsWith("https://")) {
+    // URL already starts with "https://"
+  } else {
+    url = "https://" + url;
+  }
+
+
+  // Check if legacy is on
+  const myCheckbox = document.getElementById("legacy");
+  let isChecked = myCheckbox.checked; // Use checked property to determine checkbox state
+
+  if (isChecked === true) {
+    iframes=document.getElementById(("webFrame" + num))
+  // iframeIndex = 0; // Use a different variable name to avoid conflict with outer scope
+    iframes.style.width = '100%';
+    iframes.style.height = '100%';
+    iframes.src = url;
+  
+  return
+}
+
+  if (isChecked) {
+    var iframes = document.querySelectorAll('iframe'); // Use querySelectorAll instead of getElementsByTagName for better performance
+
+    for (var i = 0; i < iframes.length; i++) {
+      iframes[i].style.width = '100%';
+      iframes[i].style.height = '100%';
+
+      if (urlCache[url]) {
+        // Use the cached content if available
+        iframes[i].srcdoc = urlCache[url];
+      } else {
+        // Load the URL and cache the content
+        fetchAndCacheUrl(url, iframes[i]);
+      }
+      
+    }
+  } else {
+    // Clear the iframe content when the checkbox is not checked
+    document.getElementById("webFrame").src = "about:blank";
+    fetchAndCacheUrl(url,"webFrame")
+    
+  }
+}
+function fetchAndCacheUrl(url, iframe) {
+    // Proxy it
+    fetch('https://axiomhub.net/main.php?url=' + url)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.text();
+    })
+    .then(data => {
+        iframe.contentDocument.body.innerHTML = data;
+        main();
+    })
+    .catch(error => console.warn('Error:', error));
+}
+
+function main(){
+    // Proxify all links and forms
+    proxyLinksAndForms();
+    // Set up click and submit event listeners
+    setUpEventListeners();
+    // Proxy initially
+    proxy();
+    // Re-proxy every second
+    setInterval(function(){
+        proxy();
+    },1000);
+}
+
+function proxy(){
+    // Proxify
+    let html = iframe.contentDocument.body.innerHTML;
+    let baseUrl = "https://axiomhub.net/main.php?url=" + iframe.src;
+    let base = iframe.contentDocument.querySelector("base");
+    if (base) {
+        baseUrl += base.href;
+    }
+    html = html.split(/(src|href)=("|')(.*?)("|')/g);
+    for (let i = 1; i < html.length; i += 4) {
+        let attr = html[i];
+        let quote = html[i+1];
+        let url = html[i+2];
+        if (url.startsWith("//")) {
+            // Handle relative imports
+            url = "https:" + url;
+        }
+        if (!url.startsWith("https://") && !url.startsWith("http://")) {
+            // Handle relative links
+            let baseElement = iframe.contentDocument.querySelector("base");
+            if (baseElement) {
+                url = new URL(url, baseElement.href).toString();
+            } else {
+                url = new URL(url, iframe.src).toString();
+            }
+        }
+        if (!url.startsWith(baseUrl)) {
+            html[i+2] = baseUrl + url;
+        }
+    }
+    html=html.join('');
+    iframe.contentDocument.body.innerHTML=html;
+    //console.log("proxified")
+}
+
+function proxyLinksAndForms(){
+    // Proxify all links
+    let links = iframe.contentDocument.getElementsByTagName("a");
+    for (let i = 0; i < links.length; i++){
+        links[i].href = "https://axiomhub.net/main.php?url=" + links[i].href;
+    }
+    
+    // Proxify all forms
+    let forms = iframe.contentDocument.getElementsByTagName("form");
+    for (let i = 0; i < forms.length; i++){
+        forms[i].addEventListener("submit", function(event){
+            event.preventDefault();
+            let formData = new FormData(this);
+            let url = this.action;
+            fetch("https://axiomhub.net/main.php?url=" + url, {
+                method: this.method,
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text();
+            })
+            .then(data => {
+                iframe.contentDocument.body.innerHTML = data;
+                main();
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    }
+}
+
+function setUpEventListeners(){
+    // Set up click event listener on #app
+    iframe.contentDocument.body.addEventListener("click", function(event){
+        if (event.target.tagName === "A"){
+            event.preventDefault();
+            let url = event.target.href;
+            fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text();
+            })
+            .then(data => {
+                iframe.contentDocument.body.innerHTML = data;
+                main();
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    });
+}
+
+
+
+function settings() {
+  
+}
+
+
+
+
+function taskmgr() {
+  tasks=kernel.processes
+  runningTasks=[]
+  for (item in tasks){
+      runningTasks.push((tasks[item].split("=?="))[0])
+  }
+  const taskList = runningTasks.map((taskName) => `
+    <li>
+      ${taskName}
+      <button onclick="killTask('${taskName}')">End Task</button>
+    </li>
+  `).join('');
+
+  const taskManagerHTML = `
+    <h1>Task Manager</h1>
+    <div id="tasklist">
+    <ul id="tasks">${taskList}</ul>
+    </div>
+  `;
+
+  createWindow('Task Manager', taskManagerHTML);
+}
+
+// Function to kill a task
+function killTask(taskName) {
+   kernel.processRemove(taskName)
+   // Update the page
+   tasks=kernel.processes
+  runningTasks=[]
+  for (item in tasks){
+      runningTasks.push((tasks[item].split("=?="))[0])
+  }
+   document.getElementById("tasks").remove()
+   updated = document.createElement("ul")
+   const taskList = runningTasks.map((taskName) => `
+    <li>
+      ${taskName}
+      <button onclick="killTask('${taskName}')">End Task</button>
+    </li>
+  `).join('');
+   updated.innerHTML = taskList
+
+   // Create the tasks thing again 
+   updated.id="tasks"
+   document.getElementById("tasklist").appendChild(updated)
+
+}
+
+
+function makefile(name, content) {
+    kernel.makeFile(("root/home/" + name + ".txt"),content)
+}
+
+// File handling functions
+function openFile() {
+    // Use the FileReader API to read in the contents of the selected file
+    const input = document.createElement('input');
+    input.type = 'file';
+
+    input.onchange = e => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            // Set the value of the textarea to the contents of the file
+            const editor = document.getElementById('editor');
+            editor.value = e.target.result;
+        };
+
+        reader.readAsText(file);
+    }
+
+    input.click();
+}
+
+function saveFile() {
+    // Get the current value of the textarea
+    const editor = document.getElementById('editor');
+    const content = editor.value;
+
+    // Create a Blob object containing the text data
+    const blob = new Blob([content], {type: 'text/plain'});
+
+    // Save the Blob as a file using the Save As dialog
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = 'untitled.txt';
+    link.click();
+}
+
+function notepad() {
+    const html = `
+    <div>
+        <textarea id="editor"></textarea>
+    <button onclick="openFile()">Open</button>
+    <button onclick="saveFile()">Save</button>
+    </div>
+
+    `;
+
+    createWindow("Notepad", html);
+}
+
+function createFileFromInput() {
+    const name = document.getElementById('name').value;
+    const content = document.getElementById('textarea').value;
+    makefile(name, content);
+}
+
+function defender() {
+  threat_count=0
+  for (let key in localStorage) {
+    if (localStorage.hasOwnProperty(key)) {
+      try {
+        // Attempt to evaluate the stored code in a safe environment
+        const storedCode = localStorage.getItem(key);
+        const result = Function('"use strict"; return ' + storedCode)();
+        
+        // You can add additional checks or actions here if needed
+        if (result === undefined) {
+          // The stored code is potentially malicious
+          threat_count=(threat_count + 1)
+          // You can choose to remove the key, log an alert, or take other action as needed
+          localStorage.removeItem(key);
+        }
+      } catch (error) {
+        // An error occurred, which may indicate malicious code
+        console.error(`Error evaluating localStorage key: ${key}`);
+        console.error(error);
+        // You can choose to remove the key, log an alert, or take other action as needed
+        // localStorage.removeItem(key);
+      }
+    }
+  }
+
+  html=`
+  <div>
+  <center>
+  <h3> Defender </h3>
+  <h4> Threats found: ${threat_count}</h4>
+  <p> Re-open to rescan </p>
+  </center>
+  </div>
+  `
+  createWindow("Defender",html)
+}
+
+// Call the defender function to check for potentially malicious code in localStorage
+
+function credits(){
+    html=`
+    <div>
+    <center> <h3> Credits </h3>
+    <p>Everything - Infdevv</p>
+    <p>Tax Evasion - Waffle </p>
+    `
+    createWindow("Credits",html)
+}
+
+function interperete(code) {
+    const isCodeValid = true; // Assuming isCodeValid is a boolean, make sure to define it.
+
+    if (isCodeValid) {
+        // If the code is valid, evaluate it
+        try {
+            // Define the code replacements as an array of objects
+            const codeReplacements = [
+                { find: /con\.print/g, replace: "console.log" },
+                { find: /con\.warn/g, replace: "console.warn" },
+                { find: /con\.error/g, replace: "console.error" },
+                { find: /doc\.create/g, replace: "document.createElement" },
+                { find: /doc\.edit\.style/g, replace: "style" },
+                { find: /doc\.append/g, replace: "appendChild" },
+                { find: /doc\.html/g, replace: "innerHTML" },
+                { find: /var:/g, replace: "var " },
+                { find: /if:/g, replace: "if " },
+                { find: /elif:/g, replace: " else if " },
+                { find: /else:/g, replace: " else " },
+                { find: /end:/g, replace: "}" },
+                { find: /for:/g, replace: "for (" },
+                { find: /while:/g, replace: "while " },
+                { find: /func/g, replace: "function" },
+                { find: /\/\/:/g, replace: "// " },
+                { find: /'/g, replace: '"' }
+            ];
+
+            // Apply the code replacements
+            codeReplacements.forEach(replacement => {
+                code = code.replace(replacement.find, replacement.replace);
+            });
+
+            return (eval(code));
+        } catch (error) {
+           
+        }
+    } else {
+       
+    }
+}
+
+function evalCommand(command) {
+  try {
+    const result = interperete(command);
+    document.getElementById("output").textContent = result;
+  } catch (error) {
+    document.getElementById("output").textContent = "Error: " + error;
+  }
+}
+
+element=document.getElementById("start-menu")
+
+//element.style.animation = 'winclose 1s ease-in';
+//    element.style.bottom = '-290px';
+
+$("#start-menu").show()
+
+
+function toggletools(element) {
+  element = document.getElementById(element);
+  if (element.style.animation !== '') {
+    element.style.animation = ''; // Stop any currently running animations
+  }
+  
+  if (element.style.bottom === '-290px') {
+    element.style.animation = 'winopen 1s ease-in';
+    element.style.bottom = '30px';
+  } else {
+    element.style.animation = 'winclose 1s ease-in';
+    element.style.bottom = '-290px';
+  }
+}
+
+function shutdown(){
+    element=document.getElementById("desktop")
+    element.style.animation = 'winshutdown 1s ease-in';
+    element.style.left = '-242390px';
+    $("#taskbar").hide()
+    $("#start-menu").hide()
+    setTimeout(function(){
+        document.body.innerHTML=`
+        <center><h1 style="color: white">It is now safe to shut off your computer</h1> </center>`
+    },2000)
+}
+
+
+function checkpassword(){
+    query=document.getElementById("blackmen").value 
+    //console.log(query)
+    const config = localStorage.getItem("root/etc/config.ini");
+
+  password = config
+  password=password.split("_=_")
+  password=password[1]
+
+  // Use the extracted password here
+
+    if (query == password || password==""){
+        function hasFileExtension(str) {
+  // Define a regular expression for common file extensions (you can customize it as needed)
+  var fileExtensionPattern = /\.[0-9a-z]+$/i;
+
+  // Test the string against the regular expression
+  return fileExtensionPattern.test(str);
+  }
+
+        $("#login").hide()
+        $("#gui").show()
+        $("#start-menu").show()
+        $("#taskbar").show()
+
+        // Load files from root/home
+
+        files=localStorage.getItem("root/home/")
+
+        files=files.split(",")
+
+        for (item in files){
+            file = document.createElement("img")
+            
+            if (!hasFileExtension(files[item])){
+                file.src="data:image/png;base64,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"
+            }
+            else{
+                file.src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyjiMVbJRcs8O4sNRniCQ4BU1ZjlRW905NFQ&usqp=CAU"
+            }
+
+            file.width="20px"
+            file.height="20px"
+
+            document.getElementById("desktop").appendChild(file)   
+        }
+
+        
+
+
+    }
+
+
+
+}
+
+
+} // TRY 
+catch(e){
+  // Handle the error here
+  html=`<style>
+    body 
+{ 
+    font: 15px;
+    background-color: #0000FF;	
+}
+pre {
+    width: 100hz;
+}
+</style>
+
+<h2>
+<pre>
+
+    A problem has been detected and Unity OS has been shut down to prevent damage to your computer. 
+
+
+If this is the first time you've seen this error screen, restart your Unity. 
+If this screen appears again, follow these steps: 
+
+Check to make sure any new hardware or software is properly installed.
+If this is a new installation, ask your harware or software manufacturer for any Unity OS updates you might need.
+
+If problems continue, disable or remove any newly installed hardware or software. Disable BIOS memory options such as caching or shadowing. 
+If you need to use Safe mode to remove or disable components, restart Unity and press N during startup.
+
+Techincal Infomation:
+
+**** STOP ( KRNL PANIC ): ( ${e.message} )
+</pre>
+
+</h2>
+  `
+  document.body.innerHTML=html
+}
+
+
+const aqua = {
+  css: function(css, id) {
+    let div = document.createElement('style');
+    div.innerHTML = css;
+    document.head.appendChild(div);
+  },
+  cls: function() {
+    document.body.classList.remove();
+  },
+  remove: function(id) {
+    document.querySelector(`#${id}`).remove();
+  },
+  hide: function(id) {
+    document.querySelector(`#${id}`).style.display = 'none';
+  },
+  show: function(id) {
+    document.querySelector(`#${id}`).style.display = '';
+  },
+  html: function(html, parent) {
+    var div = document.createElement('div');
+    if (parent) {
+      document.getElementById(parent).appendChild(div);
+    } else {
+      document.body.appendChild(div);
+    }
+    div.innerHTML = html;
+  }
+};
+
+function push(name,msg){
+    aqua.html(`
+    <span>Notification from: ${name}</span>
+    <h5> ${msg} </h5>
+    <hr>`,"not")
+}
+
+alert("Default password is \"default\"")
 
 </script>
 </html>
