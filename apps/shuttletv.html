@@ -1,6 +1,14 @@
 
 
-<script src="script.js">
+<script src="script.js"></script>
+
+<!-- register service worker -->
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+            navigator.serviceWorker.register('sw.js')
+        })
+    }
 
 </script>
 <body>
