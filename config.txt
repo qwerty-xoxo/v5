@@ -2,3 +2,5 @@ key="none"
 authorized_users=["1"]
 
 password="none" 
+
+type="dynamic" // "dynamic" or "static"

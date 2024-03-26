@@ -76,13 +76,13 @@ document.addEventListener("DOMContentLoaded", function() {
     homeButton.onclick = function() {
         window.location.href = "../settings.html";
     };
-    document.body.appendChild(homeButton);
+    //document.body.appendChild(homeButton);
 
     // Auto hide them 
 
     $("#option").hide();
     $("#option1").hide();
-    $("#option2").hide();
+    //$("#option2").hide();
 });
 
 
