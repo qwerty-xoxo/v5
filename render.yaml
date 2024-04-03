@@ -1,6 +1,0 @@
-services:
-  - type: web
-    name: glitch
-    env: none
-    plan: free
-    startCommand: cd MiniViolet && npm start
