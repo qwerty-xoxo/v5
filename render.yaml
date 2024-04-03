@@ -3,4 +3,4 @@ services:
     name: glitch
     env: none
     plan: free
-    startCommand: npm start
+    startCommand: cd MiniViolet && npm start
