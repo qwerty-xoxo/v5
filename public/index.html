@@ -35,7 +35,8 @@
     }
 }
 
-            
+
+
         </style>
     </head>
     <body>
@@ -46,8 +47,10 @@
 
 
         <center style="user-select: none;">
-            <h1 class="glow">Glitch</h1>
-            <h3>v4 beta. not stable nor finished</h3>
+            <h1 style="font-size: 90px;">
+                <p id="glitch" class="glow">
+                  > Glitch
+
             <h3 id="funfact"></h3>  
             <script>
                 fun_facts=[
@@ -72,6 +75,13 @@
                     "dont wake me up im literally trying to contact steve jobs rn"
                 ]
                 document.getElementById("funfact").innerHTML = fun_facts[Math.floor(Math.random() * fun_facts.length)];
+
+                setInterval(function() {
+                    document.getElementById("funfact").innerHTML = fun_facts[Math.floor(Math.random() * fun_facts.length)];
+                }, 9000);
+
+
+
             </script>
         </center>
         <br>
