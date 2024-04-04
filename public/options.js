@@ -3,84 +3,48 @@ document.addEventListener("DOMContentLoaded", function() {
     jquery.src = "https://code.jquery.com/jquery-3.6.0.min.js";
     document.body.appendChild(jquery);
 
-    homeButton = document.createElement("button");
-    homeButton.innerHTML = "Options";
-    homeButton.style.position = "fixed";
-    homeButton.style.bottom = "40px";
-    homeButton.style.right = "20px";
-    homeButton.style.zIndex = "28523923";
-    homeButton.style.backgroundColor = "grey";
-    homeButton.style.color = "white";
-    homeButton.style.padding = "10px 20px";
-    homeButton.style.border = "none";
-    homeButton.style.opacity = "0.5";
-    homeButton.onclick = function() {
-       $("#option").toggle();
-       $("#option1").toggle(); 
-       $("#option2").toggle(); 
+
+    function createButton(text, iconSrc, onClickHandler) {
+        const button = document.createElement("button");
+        button.innerHTML = `<img src='${iconSrc}' style='vertical-align: middle; margin-right: 5px;'/>${text}`;
+        button.style.position = "fixed";
+        button.style.top = `${20 + 50 * buttonCount}px`;
+        button.style.left = "20px";
+        button.style.zIndex = "28523923";
+        button.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+        button.style.color = "white";
+        button.style.padding = "10px";
+        button.style.border = "none";
+        button.style.opacity = "0.5";
+        button.style.borderRadius = "5px";
+        button.style.cursor = "pointer";
+        button.onclick = onClickHandler;
+        document.body.appendChild(button);
+        buttonCount++;
+        return button;
     }
-    homeButton.style.borderRadius = "5px";
-    homeButton.style.cursor = "pointer";
 
-    document.body.appendChild(homeButton);
+    let buttonCount = 0;
 
-    homeButton = document.createElement("button");
-    homeButton.innerHTML = "Home";
-    homeButton.style.position = "fixed";
-    homeButton.style.bottom = "100px";
-    homeButton.style.right = "20px";
-    homeButton.style.zIndex = "28523923";
-    homeButton.id="option"
-    homeButton.style.backgroundColor = "grey";
-    homeButton.style.color = "white";
-    homeButton.style.padding = "10px 20px";
-    homeButton.style.border = "none";
-    homeButton.style.borderRadius = "5px";
-    homeButton.style.cursor = "pointer";
-    homeButton.onclick = function() {
+    const homeButton = createButton("", "https://img.icons8.com/material-sharp/24/000000/gear.png", function() {
+        $("#option").toggle();
+        $("#option1").toggle(); 
+        $("#option2").toggle(); 
+    });
+
+    createButton("", "https://img.icons8.com/material-sharp/24/000000/home--v2.png", function() {
         window.location.href = "./index.html";
-    };
-    document.body.appendChild(homeButton);
+    });
 
-    homeButton = document.createElement("button");
-    homeButton.innerHTML = "Apps";
-    homeButton.style.position = "fixed";
-    homeButton.style.bottom = "180px";
-    homeButton.style.right = "20px";
-    homeButton.id="option1"
-    homeButton.style.zIndex = "28523923";
-    homeButton.style.backgroundColor = "grey";
-    homeButton.style.color = "white";
-    homeButton.style.padding = "10px 20px";
-    homeButton.style.border = "none";
-    homeButton.style.borderRadius = "5px";
-    homeButton.style.cursor = "pointer";
-    homeButton.onclick = function() {
+    createButton("", "https://img.icons8.com/material-sharp/24/000000/grid.png", function() {
         window.location.href = "./apps.html";
-    };
-    document.body.appendChild(homeButton);
+    });
 
-    homeButton = document.createElement("button");
-    homeButton.innerHTML = "Refresh";
-    homeButton.style.position = "fixed";
-    homeButton.style.bottom = "140px";
-    homeButton.style.right = "20px";
-    homeButton.id="option2"
-    homeButton.style.zIndex = "28523923";
-    homeButton.style.backgroundColor = "grey";
-    homeButton.style.color = "white";
-    homeButton.style.padding = "10px 20px";
-    homeButton.style.border = "none";
-    homeButton.style.borderRadius = "5px";
-    homeButton.style.cursor = "pointer";
-    homeButton.onclick = function() {
-        // refresh
+    createButton("", "https://img.icons8.com/material-sharp/24/000000/refresh.png", function() {
         window.location.reload();
-    };
-    document.body.appendChild(homeButton);
+    });
 
     // Auto hide them 
-
     $("#option").hide();
     $("#option1").hide();
     $("#option2").hide();
@@ -88,11 +52,10 @@ document.addEventListener("DOMContentLoaded", function() {
     setInterval(function() {
         // if buttons are hidden, shrink "options" to "<"
         if ($("#option").is(":hidden") && $("#option1").is(":hidden") && $("#option2").is(":hidden")) {
-            homeButton.innerHTML = "<";
+            homeButton.innerHTML = "<img src='https://img.icons8.com/material-sharp/24/000000/gear.png'/>";
         }
         else {
-            homeButton.innerHTML = "Options";
+            homeButton.innerHTML = "<img src='https://img.icons8.com/material-sharp/24/000000/gear.png'/>";
         }
     }, 100);
 });
-
