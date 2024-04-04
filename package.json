@@ -1,14 +1,14 @@
 {
-  "name": "uv-app",
+  "name": "glitch",
   "version": "1.0.0",
-  "description": "Ultraviolet instance",
+  "description": "Glitch || UV ",
   "type": "module",
   "engines": {
     "npm": ">=7.0.0",
     "node": ">=16.0.0"
   },
   "scripts": {
-    "start": "node src/index.js"
+    "start": "node --experimental-specifier-resolution=node index.js"
   },
   "keywords": [
     "proxy"
@@ -19,9 +19,10 @@
     "@mercuryworkshop/bare-mux": "^1.0.5",
     "@mercuryworkshop/epoxy-transport": "^1.1.0",
     "@titaniumnetwork-dev/ultraviolet": "^3.0.0",
+    "@rollup/plugin-node-resolve": "^13.0.6",
     "express": "^4.18.2",
     "ultraviolet-static": "github:titaniumnetwork-dev/Ultraviolet-Static",
-    "wisp-server-node": "^1.0.1",
+    "wisp-server-node": "^1.0.0",
     "ws": "^8.16.0"
   },
   "devDependencies": {

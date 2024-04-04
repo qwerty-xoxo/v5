@@ -1,14 +1,15 @@
 import express from "express";
-import { createServer } from "node:http";
+import { createServer } from "http"; // Note: Using http instead of node:http
 import { uvPath } from "@titaniumnetwork-dev/ultraviolet";
 import { epoxyPath } from "@mercuryworkshop/epoxy-transport";
 import { baremuxPath } from "@mercuryworkshop/bare-mux";
-import { join } from "node:path";
-import { hostname } from "node:os";
-import wisp from "wisp-server-node"
+import { join } from "path"; // Note: Using path instead of node:path
+import { hostname } from "os";
+import wisp from "wisp-server-node";
 
 const app = express();
-const publicPath = "..//public/"
+const publicPath = "./public/"; // Note: Fixed the path syntax
+
 // Load our publicPath first and prioritize it over UV.
 app.use(express.static(publicPath));
 // Load vendor files last.
@@ -31,27 +32,21 @@ server.on("request", (req, res) => {
   app(req, res);
 });
 server.on("upgrade", (req, socket, head) => {
-  if (req.url.endsWith("/wisp/"))
-    wisp.routeRequest(req, socket, head);
-  else
-    socket.end();
+  if (req.url.endsWith("/wisp/")) wisp.routeRequest(req, socket, head);
+  else socket.end();
 });
 
-let port = parseInt(process.env.PORT || "");
-
-if (isNaN(port)) port = 8080;
+// Port 80
+const port = 80;
 
 server.on("listening", () => {
   const address = server.address();
 
-  // by default we are listening on 0.0.0.0 (every interface)
-  // we just need to list a few
   console.log("Listening on:");
   console.log(`\thttp://localhost:${address.port}`);
   console.log(`\thttp://${hostname()}:${address.port}`);
   console.log(
-    `\thttp://${address.family === "IPv6" ? `[${address.address}]` : address.address
-    }:${address.port}`
+    `\thttp://${address.family === "IPv6" ? `[${address.address}]` : address.address}:${address.port}`
   );
 });
 
@@ -65,6 +60,4 @@ function shutdown() {
   process.exit(0);
 }
 
-server.listen({
-  port,
-});
+server.listen(port);
