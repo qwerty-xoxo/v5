@@ -1,5 +1,6 @@
 services:
   - type: web
     name: glitch
-    env: docker
+    env: none
     plan: free
+    startCommand: npm start
