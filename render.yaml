@@ -1,5 +1,11 @@
 services:
   - type: web
     name: Glitch
-    env: docker
-    plan: frees
+    env: node
+    buildCommand: npm install
+    startCommand: npm start
+    plan: starter
+    envVars:
+      - key: NODE_ENV
+        value: production
+    region: oregon
