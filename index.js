@@ -38,7 +38,7 @@ server.on("upgrade", (req, socket, head) => {
   else socket.end();
 });
 
-const port = 80;
+const port = "0.0.0.0"; // 0 0 0 0
 
 server.on("listening", () => {
   const address = server.address();
