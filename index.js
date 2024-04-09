@@ -1,17 +1,18 @@
 import express from "express";
-import { createServer } from "http"; // Note: Using http instead of node:http
+import { createServer } from "http";
 import { uvPath } from "@titaniumnetwork-dev/ultraviolet";
 import { epoxyPath } from "@mercuryworkshop/epoxy-transport";
 import { baremuxPath } from "@mercuryworkshop/bare-mux";
-import { join } from "path"; // Note: Using path instead of node:path
+import { join } from "path";
 import { hostname } from "os";
 import wisp from "wisp-server-node";
 
 const app = express();
-const publicPath = "./public/"; // Note: Fixed the path syntax
+const publicPath = "./public/";
 
 // Load our publicPath first and prioritize it over UV.
 app.use(express.static(publicPath));
+
 // Load vendor files last.
 // The vendor's uv.config.js won't conflict with our uv.config.js inside the publicPath directory.
 app.use("/uv/", express.static(uvPath));
@@ -31,17 +32,16 @@ server.on("request", (req, res) => {
   res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
   app(req, res);
 });
+
 server.on("upgrade", (req, socket, head) => {
   if (req.url.endsWith("/wisp/")) wisp.routeRequest(req, socket, head);
   else socket.end();
 });
 
-// Port 80
 const port = 80;
 
 server.on("listening", () => {
   const address = server.address();
-
   console.log("Listening on:");
   console.log(`\thttp://localhost:${address.port}`);
   console.log(`\thttp://${hostname()}:${address.port}`);
@@ -60,4 +60,7 @@ function shutdown() {
   process.exit(0);
 }
 
-server.listen(port);
+// Listen on all interfaces
+server.listen(port, '0.0.0.0', () => {
+  console.log(`Server running and listening on all interfaces on port ${port}`);
+});
