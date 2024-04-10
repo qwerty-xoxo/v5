@@ -25,13 +25,7 @@ app.use((req, res) => {
   res.sendFile(join(publicPath, "404.html"));
 });
 
-const server = createServer();
-
-server.on("request", (req, res) => {
-  res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
-  res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
-  app(req, res);
-});
+const server = createServer(app);
 
 server.on("upgrade", (req, socket, head) => {
   if (req.url.endsWith("/wisp/")) wisp.routeRequest(req, socket, head);
@@ -62,8 +56,7 @@ function shutdown() {
 }
 
 // Listen on all interfaces
-server.listen(port, '0.0.0.0', () => {
+server.listen(port, () => {
   console.log(`Server running and listening on all interfaces on port ${port}`);
 });
 
-  
