@@ -38,6 +38,7 @@ server.on("upgrade", (req, socket, head) => {
   else socket.end();
 });
 
+try {
 const port = "0.0.0.0"; // 0 0 0 0
 
 server.on("listening", () => {
@@ -64,3 +65,33 @@ function shutdown() {
 server.listen(port, '0.0.0.0', () => {
   console.log(`Server running and listening on all interfaces on port ${port}`);
 });
+
+  } catch (err) {
+    const port = "80" // port 80 in case of error
+
+server.on("listening", () => {
+  const address = server.address();
+  console.log("Listening on:");
+  console.log(`\thttp://localhost:${address.port}`);
+  console.log(`\thttp://${hostname()}:${address.port}`);
+  console.log(
+    `\thttp://${address.family === "IPv6" ? `[${address.address}]` : address.address}:${address.port}`
+  );
+});
+
+// https://expressjs.com/en/advanced/healthcheck-graceful-shutdown.html
+process.on("SIGINT", shutdown);
+process.on("SIGTERM", shutdown);
+
+function shutdown() {
+  console.log("SIGTERM signal received: closing HTTP server");
+  server.close();
+  process.exit(0);
+}
+
+// Listen on all interfaces
+server.listen(port, '0.0.0.0', () => {
+  console.log(`Server running and listening on all interfaces on port ${port}`);
+});
+    
+  }
