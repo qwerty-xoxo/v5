@@ -1,5 +1,12 @@
 services:
-  - type: web
-    name: glitch
-    env: node
-    plan: free
+- type: web
+  name: v4
+  runtime: node
+  repo: https://github.com/Glitch-Network/v4
+  branch: main
+  plan: free
+  region: oregon
+  buildCommand: yarn
+  startCommand: npm run start
+  rootDir: ./
+version: "1"
