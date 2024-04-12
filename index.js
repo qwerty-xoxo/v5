@@ -41,7 +41,7 @@ server.on("upgrade", (req, socket, head) => {
 const port = "0.0.0.0"; // 0 0 0 0
 
 server.on("listening", () => {
-  const address = server.address();
+  const address = server.address(); 
   console.log("Listening on:");
   console.log(`\thttp://localhost:${address.port}`);
   console.log(`\thttp://${hostname()}:${address.port}`);
