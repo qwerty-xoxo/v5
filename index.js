@@ -12,6 +12,7 @@ const publicPath = "./public/"; // Note: Fixed the path syntax
 
 // Load our publicPath first and prioritize it over UV.
 app.use(express.static(publicPath));
+
 // Load vendor files last.
 // The vendor's uv.config.js won't conflict with our uv.config.js inside the publicPath directory.
 app.use("/uv/", express.static(uvPath));
@@ -31,12 +32,13 @@ server.on("request", (req, res) => {
   res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
   app(req, res);
 });
+
 server.on("upgrade", (req, socket, head) => {
   if (req.url.endsWith("/wisp/")) wisp.routeRequest(req, socket, head);
   else socket.end();
 });
 
-// Port 0.0.0.0 means listen on all interfaces
+// Port 0 0 0 0 
 const port = "0.0.0.0";
 
 server.on("listening", () => {
