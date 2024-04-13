@@ -28,8 +28,12 @@ app.use((req, res) => {
 const server = createServer();
 
 server.on("request", (req, res) => {
+  // Set headers to allow all domains to iframe this content
+  res.setHeader("Content-Security-Policy", "frame-ancestors *;");
+  res.setHeader("X-Frame-Options", "ALLOWALL");
   res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
   res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
+
   app(req, res);
 });
 
@@ -38,7 +42,7 @@ server.on("upgrade", (req, socket, head) => {
   else socket.end();
 });
 
-const port = "0.0.0.0"; // 0 0 0 0
+const port = 3000; // Correct port number assigned
 
 server.on("listening", () => {
   const address = server.address(); 

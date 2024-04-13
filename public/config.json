@@ -1,4 +1,8 @@
 {
+    "THESE ARE PREMIUM SETTINGS ONLY":"",
+
+
+
     "premium-key": "",
     "auto-host": "True",
     "themes": "True",
@@ -6,4 +10,6 @@
     "new_discord_inv_url": "",
     "resolver_default": "True",
     "ai_teacher_detection": "True"
+
+    
 }
