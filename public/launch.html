@@ -8,8 +8,6 @@
     />
     <title>Glitch</title>
 
-    <script src="ai.js"></script> <!-- Enable AI -->
-
     <meta name="googlebot" content="index, follow, snippet" />
     <link rel="shortcut icon" content="favicon.ico" />
     <link rel="stylesheet" href="index.css" />
@@ -38,5 +36,28 @@
     
     <iframe style="display: none; height: 100vh; width: 100vw" id="uv-frame"></iframe>
   </body>
-   
+    <script>
+
+
+
+  // Function to parse URL parameters
+  function getURLParameter(name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    var results = regex.exec(location.search);
+    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+  }
+
+  // Automatically load the URL parameter into the input field
+  document.addEventListener('DOMContentLoaded', function() {
+   // check url parameter
+   var url = getURLParameter('refresh');
+   if (url) {
+     // do nothing
+   }
+   else {
+     window.location.href = window.location.href + '?refresh=1';
+   }
+  });
+  </script>
 </html>

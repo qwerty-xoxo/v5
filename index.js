@@ -42,7 +42,7 @@ server.on("upgrade", (req, socket, head) => {
   else socket.end();
 });
 
-const port = 3000; // Correct port number assigned
+const port = 3000;
 
 server.on("listening", () => {
   const address = server.address(); 
