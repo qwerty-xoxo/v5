@@ -227,8 +227,65 @@ footer > nav > div > img {
     var newWindow = window.open("about:blank", "_blank");
     newWindow.document.open();
     newWindow.document.write(code);
-    // window.location.href="https://www.drive.google.com"
+    window.location.href="https://www.drive.google.com"
+
 }
+
+// load config.json
+var config = {};
+var xhr = new XMLHttpRequest();
+xhr.open("GET", "config.json", true);
+xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+        config = JSON.parse(xhr.responseText);
+    }
+};
+xhr.send();
+
+if (config["premium-key"] =="xy12gsbl"||config["premium-key"] =="sdfhg3w3"||config["premium-key"] =="sdjh32s" || config["premium-key"] == "13dsadg32r") {
+localStorage.setItem("theme", "dark");
+localStorage.setItem("premium", "true");
+// load config 
+
+if (config["auto-host"] == "True") {
+    document.getElementById("auto-host").checked = true;
+}
+else {
+    document.getElementById("auto-host").checked = false;
+}
+
+if (config["ai_teacher_detection"] == "True") {
+    document.getElementById("ai_teacher_detection").checked = true;
+}
+else {
+    document.getElementById("ai_teacher_detection").checked = false;
+}
+
+if (config["themes"] == "True") {
+    document.getElementById("themes").checked = true;
+}
+else {
+    document.getElementById("themes").checked = false;
+}
+
+if (config["resolver_default"] == "True") {
+    document.getElementById("resolver_default").checked = true;
+}
+else {
+    document.getElementById("resolver_default").checked = false;
+}
+
+if (config["change_discord_inv_url"] == "True") {
+    document.getElementById("change_discord_inv_url").checked = true;
+    document.getElementById("new_discord_inv_url").value = config["new_discord_inv_url"];
+}
+else {
+    document.getElementById("change_discord_inv_url").checked = false;
+}
+
+} else{localStorage.setItem("premium", "false");}
+
+
 
 
   </script>
