@@ -18,8 +18,8 @@ fetch('info.json')
 
             // continue
 
-            // actually, il implement this later
-
+            api = ''
+            //TODO: implement this and solver
 
         }
     })
