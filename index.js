@@ -27,8 +27,9 @@ app.use((req, res) => {
 const server = createServer();
 
 server.on("request", (req, res) => {
-  res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
-  res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+  // Long live resource sharing
   app(req, res);
 });
 server.on("upgrade", (req, socket, head) => {
