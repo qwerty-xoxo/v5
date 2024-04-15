@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <title>Settings</title>
         <script src="theme.js"></script>
+        <link rel="stylesheet" href="gbl.css"/>
         <link rel="stylesheet" href="stars.css">
     </head>
     <style>
@@ -39,14 +40,14 @@
             <div>
                <div>Settings</div>
                <hr color="white" width="50%">
-               <button id="enable_resolve">Toggle Glitch's Resolver</button>
+               <button id="enable_resolve" id="enable_resolve">Toggle Glitch's Resolver</button>
                <hr color="white" width="50%">
                <button id="theme" style="display: none;">Cycle through themes</button>
                <hr color="white" width="50%" id="theme_div" style="display: none;">
                <button id="ai" style="display: none;">Toggle Anti-Url Steal/Anti Teacher A.I</button>
                <hr color="white" width="50%" id="ai_div" style="display: none;">
                <p>Debug info:<br> <span id="debug"></span></p>
-               <h3><a href="main.html"> Return To Main Page</a></h3>
+               <h3><a href="./main.html"> Return To Main Page</a></h3>
             </div>
         </center>
     </body>
@@ -55,6 +56,9 @@
         debug.innerHTML =+ "Host:" + location.host + "<br>" + "Protocol:" + location.protocol + "Version: " + 4.5 + "<br>" + "Connecting from: " + navigator.connection.effectiveType + " internet" + "<br> Platform: " + navigator.platform;
 
         document.addEventListener("DOMContentLoaded", function() {
+            if (localStorage.getItem("resolver_default") == "false") {
+                document.getElementById("enable_resolve").style.display = "none";
+            }
             if (localStorage.getItem("themes") == "true") {
                 document.getElementById("theme").style.display = "block";
                 document.getElementById("theme_div").style.display = "block";
