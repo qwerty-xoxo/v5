@@ -52,5 +52,17 @@
     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
   }
 
+  // Automatically load the URL parameter into the input field
+  document.addEventListener('DOMContentLoaded', function() {
+   // check url parameter
+   var url = getURLParameter('refresh');
+   if (url) {
+     // do nothing
+   }
+   else {
+     window.location.href = window.location.href + '?refresh=1';
+   }
+  });
+
   </script>
 </html>
