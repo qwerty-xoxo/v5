@@ -12,7 +12,8 @@ document.addEventListener("DOMContentLoaded", function() {
         button.style.color = "white";
         button.style.padding = "10px";
         button.style.border = "none";
-        button.style.opacity = "0.5";;
+        button.style.opacity = "0.5";
+        button.style.filter = "invert(1)";
         button.style.borderRadius = "5px";
         button.style.cursor = "pointer";
         button.onclick = onClickHandler;
