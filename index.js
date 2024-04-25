@@ -18,6 +18,7 @@ app.use("/uv/", express.static(uvPath));
 app.use("/epoxy/", express.static(epoxyPath));
 app.use("/baremux/", express.static(baremuxPath));
 
+
 // Error for everything else
 app.use((req, res) => {
   res.status(404);
