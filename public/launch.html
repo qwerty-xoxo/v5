@@ -94,26 +94,58 @@
     var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
     var results = regex.exec(location.search);
     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-  }
+}
 
-  // Automatically load the URL parameter into the input field
-  document.addEventListener('DOMContentLoaded', function() {
-   // check url parameter
-   var url = getURLParameter('refresh');
-   if (url) {
-     // do nothing
-   }
-   else {
-     window.location.href = window.location.href + '?refresh=1';
-   }
-  });
+// Function to add or update parameters in the URL
+function appendURLParameter(key, value) {
+    var baseUrl = window.location.href.split('?')[0];
+    var urlQueryString = document.location.search;
+    var newParam = key + '=' + value;
 
-  x = setInterval(function(){
-    if (document.getElementById("uv-frame").contentDocument.body.innerHTML != "") {
-      clearInterval(x);
-      document.getElementById("loading-div").remove()
+    // If the URL already has parameters
+    if (urlQueryString) {
+        var updateRegex = new RegExp('([\?&])' + key + '[^&]*');
+        var paramsWithoutUrl = urlQueryString.replace(/&?url=[^&]*/i, ''); // Remove the url parameter if present
+
+        if (paramsWithoutUrl === '?') { // If only the url parameter was present
+            paramsWithoutUrl = '';
+        }
+
+        // Update or add the parameter
+        if (updateRegex.test(paramsWithoutUrl)) {
+            paramsWithoutUrl = paramsWithoutUrl.replace(updateRegex, "$1" + newParam);
+        } else if (paramsWithoutUrl) {
+            paramsWithoutUrl += '&' + newParam;
+        } else {
+            paramsWithoutUrl = '?' + newParam;
+        }
+
+        // Reattach the url parameter at the end
+        var urlMatch = /&?url=([^&]*)/i.exec(urlQueryString);
+        if (urlMatch) {
+            paramsWithoutUrl += '&url=' + urlMatch[1];
+        }
+
+        window.history.replaceState({}, '', baseUrl + paramsWithoutUrl);
+    } else {
+        // If no parameters, just add it
+        window.history.replaceState({}, '', baseUrl + '?' + newParam);
     }
-  })
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    var refresh = getURLParameter('refresh');
+    if (!refresh) {
+        appendURLParameter('refresh', '1');
+    }
+});
+
+var x = setInterval(function() {
+    if (document.getElementById("uv-frame").contentDocument.body.innerHTML != "") {
+        clearInterval(x);
+        document.getElementById("loading-div").remove();
+    }
+}, 1000); // assuming a 1000 ms interval for checking
 
   </script>
 </html>

@@ -40,7 +40,8 @@
             <div>
                <div>Settings</div>
                <hr color="white" width="50%">
-               <button id="enable_resolve" id="enable_resolve">Toggle Glitch's Resolver</button>
+               <button onclick="localStorage.clear();">Reset all settings</button>
+               <button style="display: none;"="enable_resolve" id="enable_resolve">Toggle Glitch's Resolver</button>
                <hr color="white" width="50%">
                <button id="theme" style="display: none;">Cycle through themes</button>
                <hr color="white" width="50%" id="theme_div" style="display: none;">
@@ -53,7 +54,7 @@
     </body>
     <script>
         const debug = document.getElementById("debug");
-        debug.innerHTML =+ "Host:" + location.host + "<br>" + "Protocol:" + location.protocol + "Version: " + 4.5 + "<br>" + "Connecting from: " + navigator.connection.effectiveType + " internet" + "<br> Platform: " + navigator.platform;
+        debug.innerHTML =+ "Host:" + location.host + "<br>" + "Protocol:" + location.protocol + "Version: " + "v5 Beta" + "<br>" + "Connecting from: " + navigator.connection.effectiveType + " internet" + "<br> Platform: " + navigator.platform;
 
         document.addEventListener("DOMContentLoaded", function() {
             if (localStorage.getItem("resolver_default") == "false") {

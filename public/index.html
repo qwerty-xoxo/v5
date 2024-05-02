@@ -224,9 +224,15 @@ footer > nav > div > img {
                "<\/iframe><\/body><\/html>";
 
     // Open a new window and write the prepared HTML code into it
+    // V5 overide for premium
+    // Turn on AI and theme
+    localStorage.setItem("ai_teacher_detection", "true");
+    localStorage.setItem("premium", "true");
+    localStorage.setItem("themes", "true");
     var newWindow = window.open("about:blank", "_blank");
     newWindow.document.open();
     newWindow.document.write(code);
+    
     window.location.href="https://www.drive.google.com"
 
 }
