@@ -76,6 +76,13 @@ if (theme != "dark"){
         }
     }catch{}
 }
+else{
+    if (!document.getElementById("main")){
+        main = document.createElement('div')
+        main.id = "main"
+        document.body.appendChild(main)
+    }
+}
 
 
 })
