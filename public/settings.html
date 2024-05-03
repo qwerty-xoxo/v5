@@ -65,7 +65,14 @@
                <hr color="white" width="50%">
                <button style="display: none;"="enable_resolve" id="enable_resolve">Toggle Glitch's Resolver</button>
                <hr color="white" width="50%">
-               <button id="theme" style="display: none;">Cycle through themes</button>
+               <select id="theme">
+                  <option value="dark">Dark</option>
+                  <option value="light">Light</option>
+                  <option value="forest">Forest</option>
+                  <option value="ocean">Ocean</option>
+                  <option value="sunset">Sunset</option>
+                  <option value="rain">Rain</option>
+               </select>
                <hr color="white" width="50%" id="theme_div" style="display: none;">
                <button id="ai" style="display: none;">Toggle Anti-Url Steal/Anti Teacher A.I</button>
                <hr color="white" width="50%" id="ai_div" style="display: none;">
@@ -81,6 +88,9 @@
     <script>
 
         document.addEventListener("DOMContentLoaded", function() {
+            if (localStorage.getItem("themes") != null) {
+                document.getElementById("theme").value = localStorage.getItem("themes");
+            }
             if (localStorage.getItem("search_engine") != null) {
                 document.getElementById("engine").value = localStorage.getItem("search_engine");    
             }
@@ -125,33 +135,57 @@ const themes = [
     { id: "forest", backgroundColor: "#013220", color: "white", class: "forest" },
     { id: "sunset", backgroundColor: "orange", color: "white", class: "" },
 ];
+document.addEventListener("DOMContentLoaded", function() {
+    const themeSelect = document.getElementById("theme");
+    const engineSelect = document.getElementById("engine");
+    const debug = document.getElementById("debug");
+    const enableResolveButton = document.getElementById("enable_resolve");
+    const aiToggle = document.getElementById("ai");
 
-// Initial theme index
-let currentThemeIndex = 0;
+    // Update debug information
+    debug.innerHTML = "Host:" + location.host + "<br>Protocol:" + location.protocol + " Version: " + "v5 Beta" + "<br>Connecting from: " + navigator.connection.effectiveType + " internet" + "<br> Platform: " + navigator.platform;
 
-document.getElementById("theme").addEventListener("click", function() {
-    if (localStorage.getItem("themes") == "false" || localStorage.getItem("themes") == null) {
-        return // Disabled   
+    // Load initial theme
+    updateTheme();
+
+    // Load initial search engine
+    if (localStorage.getItem("search_engine")) {
+        engineSelect.value = localStorage.getItem("search_engine");
     }
-    // Update the current theme index
-    currentThemeIndex = (currentThemeIndex + 1) % themes.length;
 
-    // Get the new theme
-    const theme = themes[currentThemeIndex];
+    // Set search engine on change
+    engineSelect.addEventListener("change", function() {
+        localStorage.setItem("search_engine", this.value);
+    });
 
-    // Update local storage
-    localStorage.setItem("theme", theme.id);
+    // Theme change handling
+    themeSelect.addEventListener("change", function() {
+        localStorage.setItem("theme", this.value);
+        updateTheme();
+    });
 
-    // Apply the new theme styles
-    document.body.style.backgroundColor = theme.backgroundColor;
-    document.body.style.color = theme.color;
-
-    // Manage additional classes
-    const mainDiv = document.getElementsByClassName("main")[0];
-    if (mainDiv) {
-        mainDiv.className = "main " + theme.class; // Ensure that 'main' class is always there along with the theme-specific class
+    function updateTheme() {
+        const currentTheme = themes.find(t => t.id === localStorage.getItem("theme")) || themes[0];
+        document.body.style.backgroundColor = currentTheme.backgroundColor;
+        document.body.style.color = currentTheme.color;
+        const mainDiv = document.querySelector(".main");
+        if (mainDiv) {
+            mainDiv.className = "main " + currentTheme.class;
+        }
+        // Set the select element to show the current theme
+        themeSelect.value = currentTheme.id;
     }
+
+    // Conditional display of elements based on local storage
+    enableResolveButton.style.display = localStorage.getItem("resolver_default") === "false" ? "none" : "block";
+    aiToggle.style.display = localStorage.getItem("ai_teacher_detection") ? "block" : "none";
+
+    enableResolveButton.addEventListener("click", function() {
+        let currentState = localStorage.getItem("enable_resolve") === "true";
+        localStorage.setItem("enable_resolve", !currentState);
+    });
 });
+
 
 // Initial theme setup
 document.addEventListener("DOMContentLoaded", function() {
