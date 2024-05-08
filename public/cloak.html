@@ -1,0 +1,305 @@
+<nav>
+    <div>
+      <a href="https://about.google/" target="_blank">About</a>
+      <a href="#">Store</a>
+    </div>
+    <div>
+      <a href="#">Gmail</a>
+      <a href="#">Images</a>
+      <button>Sign in</button>
+    </div>
+  </nav>
+  
+  <main>
+    <img alt="Google logo" src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_light_color_272x92dp.png" width="272" height="92">
+    <form>
+      <input type="text" name="q" id="search">
+      <button onclick="cloak()">Google Search</button>
+      <button  onclick="cloak()">I'm Feeling Lucky</button>
+    </form>
+    <div>
+   
+      <span>Glitch!</span> Search to cloak!
+    </div>
+  </main>
+  
+  <footer>
+    <div>
+      Glitch Network
+    </div>
+    <nav>
+      <div>
+        <a href="#">Advertising</a>
+        <a href="#">Business</a>
+        <a href="#">How Search works</a>
+      </div>
+      <div>
+        <img alt="Leaf" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAYCAMAAAAiV0Z6AAAAPFBMVEVLoEN0wU6CzFKCzFKCzFKCzFKCzFJSo0MSczNDmkCCzFJPoUMTczNdr0gmgziCzFITczMTczMTczMTczPh00jOAAAAFHRSTlPF/+bIsms8Ad///hX+//5/tXw7aMEAx10AAACaSURBVHgBbc4HDoRQCATQ33tbvf9dF9QxaCT9UQaltLHOh/golXKhMs5Xqa0xU1lyoa2fXFyQOsDG38qsLy4TaV+sFislovyhPzLJJrBu6eQOtpW0LjbJkzTuTDLRVNKa3uxJI+VdiRqXSeu6GW+Qxi29eLIi8H7EsYrT42BD+mQtNO5JMjRuC4lSY8V4hsLX0egGijvUSEP9AbylEsOkeCgWAAAAAElFTkSuQmCC" width="14px" height="14px">
+        Carbon neutral since 2007
+      </div>
+      <div>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Settings</a>
+      </div>
+    </nav>
+  </footer>
+  <style>
+    /* 
+** Whole page styles 
+*/
+
+html, body {
+  height: 100%;
+  font-size: 14px;
+  background-color: #303134;
+}
+
+body {
+  margin: 0;
+  background-color: #202124;
+  color: #bdc1c6;
+  font-family: Arial, sans-serif;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/*
+** Navbar styles
+*/
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+nav a, nav button {
+  margin: 0 10px;
+}
+
+nav a {
+  color: #bdc1c6;
+}
+
+nav button {
+  background-color: #8ab4f8;
+  color: black;
+}
+
+nav button:hover {
+  background-color: #93baf9;
+}
+
+/*
+** Main section styles
+*/
+
+main {
+  margin: 100px 20px;
+  text-align: center;
+}
+
+main > form > input {
+  display: block;
+  height: 40px;
+  width: 584px;
+  max-width: 80%;
+  margin: 20px auto;
+  padding: 0 20px;
+  border: 1px solid #5f6368;
+  border-radius: 20px;
+  background-color: #202124;
+  color: white;
+}
+
+main > form > input:hover,
+main > form > input:focus {
+  border-color: #303134;
+  background-color: #303134;
+  box-shadow: 0 2px 10px #171717;
+}
+
+main > form > input:focus {
+  outline: none;
+}
+
+main > form > button {
+  margin: 5px;
+  border: 1px solid transparent;
+  background-color: #303134;
+  color: white;
+}
+
+main > form > button:hover {
+  border-color: #5f6368;
+}
+
+main > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
+}
+
+main > div > * {
+  margin: 0 5px;
+}
+
+main > div > span {
+  color: red;
+}
+
+main > div > a {
+  color: #8ab4f8;
+}
+
+/*
+** Footer styles
+*/
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #171717;
+}
+
+footer > div {
+  padding: 10px 20px;
+  border-bottom: 1px solid #212327;
+}
+
+footer > nav > div:first-child,
+footer > nav > div:last-child {
+  width: 37.5%;
+}
+
+footer > nav > div:last-child {
+  text-align: right;
+}
+
+footer > nav > div > img {
+  margin-right: 5px;
+}
+
+  </style>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        //document.getElementById("search").focus();
+        document.getElementById("search").addEventListener("keyup", function(event) {
+            
+            if (event.keyCode === 13) { // Enter key   
+                cloak()
+            }
+        })
+    })
+
+    function cloak() {
+    // Extract the base URL without parameters
+    var baseUrl = window.location.href.split("?")[0];
+
+    // Prepare the HTML code to write into the new window
+    var code = "<"+"html>"+"<"+"head>" +
+               '<link rel="icon" type="image/png" href="assets/favicon.png" />' +
+               "<title>Google Drive</title>" +
+               "<style>body { background-color: black; overflow: hidden; }<\/style>" +
+               "<\/head>"+"<"+"body>" +
+               "<"+"script src='" + baseUrl + "scripts/global.js'><\/script>" +
+               "<"+"iframe src='" + baseUrl + "main.html' frameborder='0' " +
+               "style='border: none; position: fixed; left: 0; top: 0; " +
+               "width: 100%; height: 100%; background-color: black;'>" +
+               "<\/iframe><\/body><\/html>";
+
+    // Open a new window and write the prepared HTML code into it
+    // V5 overide for premium
+    // Turn on AI and theme
+    localStorage.setItem("ai_teacher_detection", "true");
+    localStorage.setItem("premium", "true");
+    localStorage.setItem("themes", "true");
+    var newWindow = window.open("about:blank", "_blank");
+    newWindow.document.open();
+    newWindow.document.write(code);
+    
+    window.location.href="https://www.drive.google.com"
+
+}
+
+
+
+// load config.json
+var config = {};
+var xhr = new XMLHttpRequest();
+xhr.open("GET", "config.json", true);
+xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+        config = JSON.parse(xhr.responseText);
+    }
+};
+xhr.send();
+
+if (config["premium-key"] =="xy12gsbl"||config["premium-key"] =="sdfhg3w3"||config["premium-key"] =="sdjh32s" || config["premium-key"] == "13dsadg32r") {
+localStorage.setItem("theme", "dark");
+localStorage.setItem("premium", "true");
+// load config 
+
+if (config["auto-host"] == "True") {
+    document.getElementById("auto-host").checked = true;
+}
+else {
+    document.getElementById("auto-host").checked = false;
+}
+
+if (config["ai_teacher_detection"] == "True") {
+    document.getElementById("ai_teacher_detection").checked = true;
+}
+else {
+    document.getElementById("ai_teacher_detection").checked = false;
+}
+
+if (config["themes"] == "True") {
+    document.getElementById("themes").checked = true;
+}
+else {
+    document.getElementById("themes").checked = false;
+}
+
+if (config["resolver_default"] == "True") {
+    document.getElementById("resolver_default").checked = true;
+}
+else {
+    document.getElementById("resolver_default").checked = false;
+}
+
+if (config["change_discord_inv_url"] == "True") {
+    document.getElementById("change_discord_inv_url").checked = true;
+    document.getElementById("new_discord_inv_url").value = config["new_discord_inv_url"];
+}
+else {
+    document.getElementById("change_discord_inv_url").checked = false;
+}
+
+} else{localStorage.setItem("premium", "false");}
+
+
+
+
+  </script>
+  <br>
+  
+</body>
+</html>

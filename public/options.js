@@ -9,13 +9,11 @@ document.addEventListener("DOMContentLoaded", function() {
         button.style.top = `${20 + 50 * buttonCount}px`;
         button.style.left = "20px";
         button.style.zIndex = "285239232423";
-        button.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
-        button.style.color = "white";
         button.style.padding = "10px";
         button.style.border = "none";
-        button.style.opacity = "0.5";
+        
         /* Make it the opisite color from its background */
-        button.style.filter = "invert(1)";
+
         button.style.borderRadius = "5px";
         button.style.cursor = "pointer";
         button.onclick = onClickHandler;

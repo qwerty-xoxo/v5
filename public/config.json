@@ -9,7 +9,7 @@
     "change_discord_inv_url": "False",
     "new_discord_inv_url": "",
     "resolver_default": "True",
-    "ai_teacher_detection": "True"
-
+    "ai_teacher_detection": "True",
+    "force_cloak": "True"
     
 }
