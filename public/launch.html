@@ -11,6 +11,13 @@
     <meta name="googlebot" content="index, follow, snippet" />
     <link rel="shortcut icon" content="favicon.ico" />
     <link rel="stylesheet" href="index.css" />
+    <script src="baremux/bare.cjs" defer></script>
+    <script src="epoxy/index.js" defer></script>
+    <script src="uv/uv.bundle.js" defer></script>
+    <script src="uv/uv.config.js" defer></script>
+    <script src="register-sw.js" defer></script>
+    <script src="search.js" defer></script>
+    <script src="index.js" defer></script>
     <!-- favicon.png -->
     <link rel="icon" type="image/png" href="assets/favicon.png" />
     <link rel="stylesheet" href="gbl.css"/>
@@ -90,9 +97,7 @@
     var results = regex.exec(location.search);
     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
 }
-
-document.getElementById("uv-frame").src = "./claunch.html?url=" + getURLParameter('url');
-
+ 
 
 document.addEventListener('DOMContentLoaded', function() {
     var refresh = getURLParameter('refresh');
