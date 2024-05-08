@@ -12,7 +12,7 @@ theme_background.style.width = '100%'
 
 
 if (theme =="dark") {
-    document.body.style.backgroundColor = "#005493";
+    document.body.style.backgroundColor = "black";
     document.body.style.color = "white";
 }
 

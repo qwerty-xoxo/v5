@@ -105,7 +105,8 @@
      // do nothing
    }
    else {
-     window.location.href = window.location.href + '?refresh=1';
+    // Wait, we dont need to do this. I already fixed it from the source 
+    // window.location.href = window.location.href + '&refresh=1'; // Fix that damn url getting the ?refresh instead of the launch bug
    }
   });
 
