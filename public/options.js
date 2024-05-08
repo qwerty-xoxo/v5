@@ -6,8 +6,8 @@ document.addEventListener("DOMContentLoaded", function() {
         const button = document.createElement("button");
         button.innerHTML = `<img src='${iconSrc}' style='height: 20px; vertical-align: middle; margin-right: 5px;'/>${text}`;
         button.style.position = "fixed";
-        button.style.top = `${20 + 50 * buttonCount}px`;
-        button.style.left = "20px";
+        button.style.bottom = `${20 + 50 * buttonCount}px`;
+        button.style.right = "20px";
         button.style.zIndex = "285239232423";
         button.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
         button.style.color = "white";
