@@ -14,8 +14,11 @@ xhr.onreadystatechange = function() {
 };
 xhr.send();
 
-localStorage.setItem("theme", "dark");
+if (localStorage.getItem("theme") == null) {
 
+localStorage.setItem("theme", "dark");
+    
+}
 if (config["premium-key"] =="xy12gsbl"||config["premium-key"] =="sdfhg3w3"||config["premium-key"] =="sdjh32s" || config["premium-key"] == "13dsadg32r") {
 localStorage.setItem("theme", "dark");
 localStorage.setItem("premium", "true");
