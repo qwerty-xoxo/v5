@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", function() {
         button.style.color = "white";
         button.style.padding = "10px";
         button.style.border = "none";
+        button.style.opacity = "1";
         /* Make it the opisite color from its background */
         button.style.filter = "invert(1)";
         button.style.borderRadius = "5px";
