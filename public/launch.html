@@ -91,7 +91,7 @@
     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
 }
 
-document.getElementById("uv-frame").src = "./claunch.html?" + getURLParameter('url');
+document.getElementById("uv-frame").src = "./claunch.html?url=" + getURLParameter('url');
 
 
 document.addEventListener('DOMContentLoaded', function() {
