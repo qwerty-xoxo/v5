@@ -60,20 +60,19 @@
      66%  {inset:-8px;transform: rotate(180deg)}
      100% {inset:0   ;transform: rotate(180deg)}
   }
+  #loading-div {
+    position: fixed;
+    top: -1px;
+    left: -1px;
+  }
   </style>
 
   <div id="root" style="position: fixed; left: 5px; background-color: white; opacity: 0.5; top: 15px;">
 
   </div>
   <div id="loading-div">
-      <center style="display: flex; justify-content: center; bottom: 60%; position: absolute; left: calc(50% - 40px);"> 
-          <h3 id="loading" style="color: white; font-family: Arial, Helvetica, sans-serif;">Loading...</h3>
-      </center>
-      <center style="display: flex; justify-content: center; bottom: 50%; position: absolute; left: calc(50% - 20px);"> 
-          
-          <div class="loader"></div>
-      </center>
-      
+      <iframe style="height: calc(100vh + 1px); width: calc(100vw + 1px );" src="loading.html"></iframe>
+      <h2 style="z-index: 15; color: white; position: fixed; left: calc(50% - 10px); background-color: black; padding: 20px; top: 50%; font-family: Arial, Helvetica, sans-serif; font-size: 30px;">Loading...</h2>
     </div>
     
 
@@ -110,7 +109,7 @@
    }
   });
 
-  x = setInterval(function(){
+ x = setInterval(function(){
     if (document.getElementById("uv-frame").contentDocument.body.innerHTML != "") {
       clearInterval(x);
       document.getElementById("loading-div").remove()
