@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+    />
+    <title>Glitch</title>
+
+    <meta name="googlebot" content="index, follow, snippet" />
+    <link rel="shortcut icon" content="favicon.ico" />
+    <link rel="stylesheet" href="index.css" />
+    <link rel="icon" type="image/png" href="assets/favicon.png" />
+    <script src="baremux/bare.cjs" defer></script>
+    <script src="epoxy/index.js" defer></script>
+    <script src="uv/uv.bundle.js" defer></script>
+    <script src="uv/uv.config.js" defer></script>
+    <script src="register-sw.js" defer></script>
+    <script src="search.js" defer></script>
+    <script src="index.js" defer></script>
+    <link rel="stylesheet" href="gbl.css"/>
+    <style>
+      body {
+        overflow: hidden
+
+      }
+    </style>
+    
+    <script src="options.js"></script>
+  </head>
+
+  <body>
+    <style>
+      body {
+          background-color: black;
+      }
+      /* HTML: <div class="loader"></div> */
+  .loader {
+    width: 40px;
+    aspect-ratio: 1;
+    position: relative;
+  }
+  .loader:before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    --c:#0000, #f03355 1deg 120deg,#0000 121deg;
+    background:
+      conic-gradient(from 0deg,  var(--c)) top right,
+      conic-gradient(from 120deg,var(--c)) bottom,
+      conic-gradient(from 240deg,var(--c)) top left;
+    background-size: 40px 40px;
+    background-repeat: no-repeat;
+    animation: l25 2s infinite cubic-bezier(0.3,1,0,1);
+  }
+  @keyframes l25 {
+     33%  {inset:-8px;transform: rotate(0deg)}
+     66%  {inset:-8px;transform: rotate(180deg)}
+     100% {inset:0   ;transform: rotate(180deg)}
+  }
+  #loading-div {
+    position: fixed;
+    top: -1px;
+    left: -1px;
+  }
+  </style>
+
+  <div id="root" style="position: fixed; left: 5px; background-color: white; opacity: 0.5; top: 15px;">
+
+  </div>
+  <div id="loading-div">
+      <iframe style="height: calc(100vh + 1px) ;width: calc(100vw + 1px );" src="loading.html"></iframe>
+      <h2 style="z-index: 15; color: white; position: fixed; left: calc(50% - 10px); background-color: black; padding: 20px; top: 50%; font-family: Arial, Helvetica, sans-serif; font-size: 30px;">Loading...</h2>
+    </div>
+    
+
+    <form id="uv-form" class="flex-center">
+      <input
+        id="uv-search-engine"
+        value="https://www.google.com/search?q=%s"
+        type="hidden"
+      />
+      <input style="display: none;" id="uv-address" type="text" placeholder="Search the web freely" />
+    </form>
+    
+    <iframe style="border: none; height: 100vh; width: 100vw" id="uv-frame"></iframe>
+  </body>
+    <script>
+  // Function to parse URL parameters
+  function getURLParameter(name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    var results = regex.exec(location.search);
+    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+  }
+
+  // Automatically load the URL parameter into the input field
+  document.addEventListener('DOMContentLoaded', function() {
+   // check url parameter
+   var url = getURLParameter('refresh');
+   if (url) {
+     // do nothing
+   }
+   else {
+    // Wait, we dont need to do this. I already fixed it from the source 
+    // window.location.href = window.location.href + '&refresh=1'; // Fix that damn url getting the ?refresh instead of the launch bug
+   }
+  });
+
+ x = setInterval(function(){
+    if (document.getElementById("uv-frame").contentDocument.body.innerHTML != "") {
+      clearInterval(x);
+      document.getElementById("loading-div").remove()
+    }
+  })
+
+  </script>
+</html>

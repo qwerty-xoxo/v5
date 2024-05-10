@@ -46,7 +46,7 @@
     </style>
     <body>
         <div class="main"></div> <!-- Stars effect -->
-
+        
         <center>
             <div>
                <div>Settings</div>
@@ -73,6 +73,8 @@
                   <option value="sunset">Sunset</option>
                   <option value="rain">Rain</option>
                </select>
+    
+
                <hr color="white" width="50%" id="theme_div" style="display: none;">
                <button id="ai" style="display: none;">Toggle Anti-Url Steal/Anti Teacher A.I</button>
                <hr color="white" width="50%" id="ai_div" style="display: none;">
@@ -258,6 +260,12 @@ function handleFileSelect(event) {
 }
 
 
+function setTheme() {
+    const color = document.getElementById("color").value;
+    localStorage.setItem("theme", "custom-color");
+    localStorage.setItem("custom-color", color);
+    updateTheme();
+}
 
 
 

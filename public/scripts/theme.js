@@ -45,6 +45,14 @@ if (theme == "sunset") {
     document.body.appendChild(theme_background);
 }
 
+if (theme == "custom-color") {
+    document.body.style.backgroundColor = localStorage.getItem("custom-color");
+    theme_background.src = "assets/bg.png"
+    theme_background.style.objectFit = "cover";
+    document.body.appendChild(theme_background);
+
+}
+
 if (theme == "rain") {
     document.body.style.backgroundColor = "black";
     document.body.style.color = "white";
