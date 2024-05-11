@@ -80,28 +80,45 @@ body {
   <script>
 
     // Function to parse URL parameters
-    function getURLParameter(name) {
-      name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-      var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-      var results = regex.exec(location.search);
-      return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-
-    document.getElementById("frame").src = "./llaunch.html?url=" + getURLParameter("url");
-
-    document.getElementById("search").value = getURLParameter("url");
-    try{
-    document.getElementById("frame").src = "./llaunch.html?url=" + document.getElementById("input").value;
-}catch(e){
-    console.log(e)
+// Utility function to extract URL parameters
+// Utility function to extract URL parameters
+// Utility function to extract URL parameters
+function getURLParameter(name) {
+  var regex = new RegExp('[\\?&]' + name.replace(/[\[\]]/g, '\\$&') + '=([^&#]*)');
+  var results = regex.exec(window.location.search);
+  return results ? decodeURIComponent(results[1].replace(/\+/g, ' ')) : '';
 }
-    document.getElementById("srch").addEventListener("click", function() {
-      document.getElementById("frame").src = "./llaunch.html?url=" + document.getElementById("input").value;
-    });
 
+document.addEventListener('DOMContentLoaded', function() {
+  const urlParameter = getURLParameter("url");
+
+  // Set URL from local storage or URL parameter
+  if (urlParameter) {
+    localStorage.setItem("url", urlParameter);
+    window.location.href = "./llaunch.html?url=" + urlParameter; // Redirect to llaunch.html with URL parameter
+  } else {
+    const storedUrl = localStorage.getItem("url");
+    if (storedUrl) {
+      document.getElementById("frame").src = `./llaunch.html?url=${storedUrl}`;
+      document.getElementById("search").value = storedUrl;
+    }
+  }
+
+  // Search button click handler
+  document.getElementById("srch").addEventListener("click", function() {
+    const searchValue = document.getElementById("search").value;
+    window.location.href = `./llaunch.html?url=${searchValue}`;
+  });
+
+  // Enter key functionality for search
+  document.getElementById("search").addEventListener("keyup", function(event) {
+    if (event.keyCode === 13) { // Enter key is keyCode 13
+      document.getElementById("srch").click();
+    }
+  });
 });
+
+
 
 
 

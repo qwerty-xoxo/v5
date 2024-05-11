@@ -89,6 +89,10 @@
     </body>
     <script>
 
+        if (localStorage.getItem("premium") != "true") {
+            window.location.href = "./main.html";
+        }
+
         document.addEventListener("DOMContentLoaded", function() {
             if (localStorage.getItem("themes") != null) {
                 document.getElementById("theme").value = localStorage.getItem("themes");
