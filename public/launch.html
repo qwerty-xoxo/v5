@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Set URL from local storage or URL parameter
   if (urlParameter) {
     localStorage.setItem("url", urlParameter);
-    window.location.href = "./llaunch.html?url=" + urlParameter; // Redirect to llaunch.html with URL parameter
+    window.location.href = "./launch.html=" 
   } else {
     const storedUrl = localStorage.getItem("url");
     if (storedUrl) {
@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Search button click handler
   document.getElementById("srch").addEventListener("click", function() {
     const searchValue = document.getElementById("search").value;
-    window.location.href = `./llaunch.html?url=${searchValue}`;
+    window.location.href = `./launch.html?url=${searchValue}`;
   });
 
   // Enter key functionality for search
