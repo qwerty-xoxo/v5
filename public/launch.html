@@ -18,13 +18,12 @@ body {
 
 #searchbar {
     background-color: #131313;
-    width: 90%; /* Full width adjusted by padding */
-    padding: 10px;
+    width: calc(100% + 1px); /* Full width adjusted by padding */
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 20%; /* Specify height as a percentage of the viewport height */
-    border-radius: 15px;
+    height: 25%; /* Specify height as a percentage of the viewport height */
+    padding: 15px;
     box-sizing: border-box; /* Ensures padding doesn't affect the total width */
 }
 
@@ -95,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Set URL from local storage or URL parameter
   if (urlParameter) {
     localStorage.setItem("url", urlParameter);
-    window.location.href = "./launch.html=" 
+    window.location.href = "./launch.html" 
   } else {
     const storedUrl = localStorage.getItem("url");
     if (storedUrl) {
@@ -103,12 +102,29 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById("search").value = storedUrl;
     }
   }
+// Search button click handler
+document.getElementById("srch").addEventListener("click", function() {
+  let searchValue = document.getElementById("search").value.trim();
+  let searchEngine = localStorage.getItem("search_engine");
 
-  // Search button click handler
-  document.getElementById("srch").addEventListener("click", function() {
-    const searchValue = document.getElementById("search").value;
-    window.location.href = `./launch.html?url=${searchValue}`;
-  });
+  // Check if a search engine is set in localStorage and it starts with http or https
+  if (searchEngine === null || (!searchEngine.startsWith("http://") && !searchEngine.startsWith("https://"))) {
+    searchEngine = "https://google.com/search?q=";
+  }
+
+  // Ensure the search engine URL ends with an appropriate delimiter for appending the query
+  if (!searchEngine.includes("?q=") && !searchEngine.endsWith("?") && !searchEngine.endsWith("&")) {
+    searchEngine += "?q=";
+  }
+
+  // Create the full search URL with the search term
+  searchValue = searchEngine + encodeURIComponent(searchValue);
+  console.log("Generated search URL: " + searchValue);
+
+  // Navigate to the specified URL
+  window.location.href = `./launch.html?url=${encodeURIComponent(searchValue)}`;
+});
+
 
   // Enter key functionality for search
   document.getElementById("search").addEventListener("keyup", function(event) {

@@ -11,7 +11,10 @@
     "start": "node --experimental-specifier-resolution=node index.js"
   },
   "keywords": [
-    "proxy"
+    "proxy",
+    "glitch",
+    "unblocked",
+    "games"
   ],
   "author": "",
   "license": "GPL-3.0-or-later",
