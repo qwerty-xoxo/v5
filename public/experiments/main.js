@@ -15,5 +15,7 @@ function generateToken(length, type) {
     return "cyn" + token + "_tkn";
 }
 
-const token = generateToken(18, "beta");
+for (let i=0;i<50;i++){
+const token = generateToken(18, "premium");
 console.log("Generated token:", token);
+}
